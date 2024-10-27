@@ -2,5 +2,6 @@
 #define Fork_H
 
 #include <iostream>
+#include <Spegetti.h>
 
 #endif
