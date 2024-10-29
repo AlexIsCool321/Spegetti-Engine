@@ -4,10 +4,28 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 #include <glm/glm.hpp>
 
 #include <iostream>
+/*
+enum Graphics_Drivers
+{
+	OpenGL2,//not supported
+	OpenGL3,//not supported
+	OpenGL4,//supported
 
+	Vulkan,//not supported
+
+	Metal//not supported
+
+};
+
+Graphics_Drivers Driver = Graphics_Drivers::OpenGL4;
+*/
 namespace Spegetti
 {
 
@@ -25,31 +43,6 @@ namespace Spegetti
 			Transform(float value);
 
 			glm::vec3 Position, Rotation, Scale;
-
-		};
-
-	}
-
-	namespace Engine
-	{
-
-		class Map
-		{
-
-		public:
-
-			Map();
-			~Map();
-
-		};
-
-		class Entity
-		{
-
-		public:
-
-			Entity();
-			~Entity();
 
 		};
 

@@ -3,22 +3,12 @@
 include_directories(${PROJECT_NAME} PUBLIC "/")
 include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 
-project(Spegetti)
+project(Spegetti_Sauce)
 
 set(Sources
-
-"Headers/imgui/imgui.cpp"
-"Headers/imgui/imgui_draw.cpp"
-"Headers/imgui/imgui_widgets.cpp"
-"Headers/imgui/imgui_demo.cpp"
-
-"Sources/Spegetti.cpp"
-"Headers/Spegetti.h"
-
-"Sources/Glad/glad.c"
-
-) 
-
+"Sources/Spegetti_Sauce.cpp"
+"Headers/Spegetti_Sauce.h"
+)
 add_library(${PROJECT_NAME} ${Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -28,4 +18,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 link_directories("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE "Libraries/glfw3")
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti")

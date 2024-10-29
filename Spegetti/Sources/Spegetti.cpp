@@ -97,7 +97,31 @@ namespace Spegetti
 
 				}
 				glViewport(0, 0, (int)size.x, (int)size.y);
-
+				
+				IMGUI_CHECKVERSION();
+				//ImGui::CreateContext();
+				//ImGuiIO& io = ImGui::GetIO(); (void)io;
+				//ImGui::StyleColorsDark();
+				//ImGui_ImplGlfw_InitForOpenGL(this->window, true);
+				//ImGui_ImplOpenGL3_Init("#version 330");
+				/*
+				if (Driver == Graphics_Drivers::OpenGL2)
+				{
+					ImGui_ImplGlfw_InitForOpenGL(this->window, true);
+					ImGui_ImplOpenGL3_Init("#version 110");
+				}
+				if (Driver == Graphics_Drivers::OpenGL3)
+				{
+					ImGui_ImplGlfw_InitForOpenGL(this->window, true);
+					ImGui_ImplOpenGL3_Init("#version 130");
+				} 
+				if (Driver == Graphics_Drivers::OpenGL4)
+				{
+					ImGui_ImplGlfw_InitForOpenGL(this->window, true);
+					ImGui_ImplOpenGL3_Init("#version 400");
+				}
+				*/
+				
 			}
 
 		Window::~Window()

@@ -18,6 +18,38 @@ project(Entity_System)
 
 add_subdirectory("Entity_System")
 
+project(Map_System)
+
+add_subdirectory("Map_System")
+
+project(Spegetti_Noodle)
+
+add_subdirectory("Spegetti_Noodle")
+
+project(Spegetti_Animation)
+
+add_subdirectory("Spegetti_Animation")
+
+project(Spegetti_Film_Maker)
+
+add_subdirectory("Spegetti_Film_Maker")
+
+project(Spegetti_Animation_Controller)
+
+add_subdirectory("Spegetti_Animation_Controller")
+
+project(Spegetti_Sauce)
+
+add_subdirectory("Spegetti_Sauce")
+
+project(Spegetti_Material_Editor)
+
+add_subdirectory("Spegetti_Material_Editor")
+
+project(Spegetti_Launcher)
+
+add_subdirectory("Spegetti_Launcher")
+
 project(Spegetti)
 
 add_subdirectory("Spegetti")
