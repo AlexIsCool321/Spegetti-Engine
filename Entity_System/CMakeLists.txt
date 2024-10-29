@@ -5,11 +5,11 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 
 project(Entity_System)
 
-set(Sources
+set(SOURCES
 "Sources/Entity_System.cpp"
 "Headers/Entity_System.h"
 )
-add_library(${PROJECT_NAME} ${Sources})
+add_library(${PROJECT_NAME} ${SOURCES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"

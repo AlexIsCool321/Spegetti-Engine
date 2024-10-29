@@ -4,14 +4,14 @@ include_directories(${PROJECT_NAME} PUBLIC "/")
 
 project(Fork)
 
-set(Sources
+set(Fork_Sources
 
 "Sources/Fork.cpp"
 "Headers/Fork.h"
 
 )
 
-add_executable(${PROJECT_NAME} ${Sources})
+add_executable(${PROJECT_NAME} ${Fork_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"

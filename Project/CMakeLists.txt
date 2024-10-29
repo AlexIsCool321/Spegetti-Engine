@@ -4,12 +4,12 @@ include_directories(${PROJECT_NAME} PUBLIC "/")
 
 project(Project)
 
-set(Sources
+set(Project_Sources
 "Sources/Project.cpp"
 "Headers/Project.h"
 )
 
-add_executable(${PROJECT_NAME} ${Sources})
+add_executable(${PROJECT_NAME} ${Project_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game"

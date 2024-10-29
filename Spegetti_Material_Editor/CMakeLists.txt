@@ -5,11 +5,11 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 
 project(Spegetti_Material_Editor)
 
-set(Sources
+set(Spegetti_Material_Editor_Sources
 "Sources/Spegetti_Material_Editor.cpp"
 "Headers/Spegetti_Material_Editor.h"
 )
-add_library(${PROJECT_NAME} ${Sources})
+add_library(${PROJECT_NAME} ${Spegetti_Material_Editor_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"
@@ -18,4 +18,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 link_directories("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti")
+target_link_libraries(${PROJECT_NAME} "Spegetti")

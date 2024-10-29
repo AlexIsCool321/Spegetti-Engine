@@ -50,6 +50,10 @@ project(Spegetti_Launcher)
 
 add_subdirectory("Spegetti_Launcher")
 
+project(Spegetti_GUI)
+
+add_subdirectory("Spegetti_GUI")
+
 project(Spegetti)
 
 add_subdirectory("Spegetti")

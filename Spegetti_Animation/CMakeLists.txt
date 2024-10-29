@@ -5,11 +5,11 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 
 project(Spegetti_Animation)
 
-set(Sources
+set(Spegetti_Animation_Sources
 "Sources/Spegetti_Animation.cpp"
 "Headers/Spegetti_Animation.h"
 )
-add_library(${PROJECT_NAME} ${Sources})
+add_library(${PROJECT_NAME} ${Spegetti_Animation_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"
@@ -18,4 +18,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 link_directories("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti")
+target_link_libraries(${PROJECT_NAME} "Spegetti")

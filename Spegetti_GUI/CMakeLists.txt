@@ -3,18 +3,13 @@
 include_directories(${PROJECT_NAME} PUBLIC "/")
 include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 
-project(Spegetti)
+project(Spegetti_GUI)
 
-set(Spegetti_Sources
-
-"Sources/Spegetti.cpp"
-"Headers/Spegetti.h"
-
-"Sources/Glad/glad.c"
-
-) 
-
-add_library(${PROJECT_NAME} ${Spegetti_Sources})
+set(Spegetti_GUI_Sources
+"Sources/Spegetti_GUI.cpp"
+"Headers/Spegetti_GUI.h"
+)
+add_library(${PROJECT_NAME} ${Spegetti_GUI_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"
@@ -23,4 +18,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 link_directories("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
-target_link_libraries(${PROJECT_NAME} "Libraries/glfw3")
+target_link_libraries(${PROJECT_NAME} "Spegetti")

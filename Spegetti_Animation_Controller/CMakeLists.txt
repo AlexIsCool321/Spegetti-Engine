@@ -4,14 +4,14 @@ include_directories(${PROJECT_NAME} PUBLIC "/")
 
 project(Spegetti_Animation_Controller)
 
-set(Sources
+set(Spegetti_Animation_Controller_Sources
 
 "Sources/Spegetti_Animation_Controller.cpp"
 "Headers/Spegetti_Animation_Controller.h"
 
 )
 
-add_executable(${PROJECT_NAME} ${Sources})
+add_executable(${PROJECT_NAME} ${Spegetti_Animation_Controller_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"

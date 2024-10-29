@@ -4,14 +4,14 @@ include_directories(${PROJECT_NAME} PUBLIC "/")
 
 project(Spegetti_Film_Maker)
 
-set(Sources
+set(Spegetti_Film_Maker_Sources
 
 "Sources/Spegetti_Film_Maker.cpp"
 "Headers/Spegetti_Film_Maker.h"
 
 )
 
-add_executable(${PROJECT_NAME} ${Sources})
+add_executable(${PROJECT_NAME} ${Spegetti_Film_Maker_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"

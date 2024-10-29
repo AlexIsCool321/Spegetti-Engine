@@ -1,11 +1,10 @@
-﻿#include <glad/glad.h>
-#include <Headers/Spegetti_Animation_Controller.h>
+﻿#include <Headers/Spegetti_Animation_Controller.h>
 
-using namespace Spegetti;
+//using namespace Spegetti;
 
 int main()
 {
-	
+	/*
 	Init();
 	
 	OS::Window window = OS::Window(glm::vec2(640, 380), "Fork");
@@ -18,6 +17,6 @@ int main()
 	}
 	
 	window.~Window();
-	
+	*/
 	return 0;
 }

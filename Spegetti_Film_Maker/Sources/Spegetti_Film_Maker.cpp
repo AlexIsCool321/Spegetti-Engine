@@ -1,11 +1,10 @@
-﻿#include <glad/glad.h>
-#include <Headers/Spegetti_Film_Maker.h>
+﻿#include <Headers/Spegetti_Film_Maker.h>
 
 using namespace Spegetti;
 
 int main()
 {
-	
+
 	Init();
 	
 	OS::Window window = OS::Window(glm::vec2(640, 380), "Fork");
