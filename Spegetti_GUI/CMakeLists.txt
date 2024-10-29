@@ -1,13 +1,15 @@
 ﻿cmake_minimum_required (VERSION 3.5)
 
 include_directories(${PROJECT_NAME} PUBLIC "/")
-include_directories(${PROJECT_NAME} PUBLIC "/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/Spegetti_GUI/Headers")
 
 project(Spegetti_GUI)
 
 set(Spegetti_GUI_Sources
+
 "Sources/Spegetti_GUI.cpp"
 "Headers/Spegetti_GUI.h"
+
 )
 add_library(${PROJECT_NAME} ${Spegetti_GUI_Sources})
 

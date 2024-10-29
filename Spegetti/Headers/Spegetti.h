@@ -5,8 +5,11 @@
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
+#include <fstream>
 
 namespace Spegetti
 {
@@ -18,13 +21,24 @@ namespace Spegetti
 	namespace Math
 	{
 
-		struct Transform
+		struct Transform3
 		{
 
-			Transform(glm::vec3 Position, glm::vec3 Rotation, glm::vec3 Scale);
-			Transform(float value);
+			Transform3(glm::vec3 Position, glm::vec3 Rotation, glm::vec3 Scale);
+			Transform3(float value);
 
 			glm::vec3 Position, Rotation, Scale;
+
+		};
+
+		struct Transform2
+		{
+
+			Transform2(glm::vec2 Position, float Rotation, glm::vec2 Scale);
+			Transform2(float value);
+
+			glm::vec2 Position, Scale;
+			float Rotation;
 
 		};
 
@@ -38,7 +52,7 @@ namespace Spegetti
 
 		public:
 
-			Math::Transform Transform;
+			Math::Transform3 Transform;
 
 			Camera();
 			~Camera();
@@ -50,7 +64,7 @@ namespace Spegetti
 
 		public:
 
-			Math::Transform Transform;
+			Math::Transform3 Transform;
 
 			Mesh();
 			~Mesh();
@@ -75,6 +89,8 @@ namespace Spegetti
 
 	namespace OS
 	{
+
+		char* ReadFile(const std::string& filePath);
 
 		class Window
 		{

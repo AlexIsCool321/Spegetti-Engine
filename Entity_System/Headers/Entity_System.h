@@ -14,7 +14,7 @@ namespace Entity_System
 
 	public:
 
-		Math::Transform Transfrom = Math::Transform(0);
+		Math::Transform2 Transfrom = Math::Transform2(0);
 
 		Entity();
 		~Entity();

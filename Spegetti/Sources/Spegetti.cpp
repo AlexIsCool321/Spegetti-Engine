@@ -46,7 +46,7 @@ namespace Spegetti
 	namespace Math
 	{
 
-		Transform::Transform(glm::vec3 Position, glm::vec3 Rotation, glm::vec3 Scale)
+		Transform3::Transform3(glm::vec3 Position, glm::vec3 Rotation, glm::vec3 Scale)
 		{
 
 			this->Position = Position;
@@ -55,7 +55,7 @@ namespace Spegetti
 
 		}
 
-		Transform::Transform(float value)
+		Transform3::Transform3(float value)
 		{
 
 			this->Position = glm::vec3(value);
@@ -64,10 +64,68 @@ namespace Spegetti
 
 		}
 
+		Transform2::Transform2(glm::vec2 Position, float Rotation, glm::vec2 Scale)
+		{
+
+			this->Position = Position;
+			this->Rotation = Rotation;
+			this->Scale = Scale;
+
+		}
+
+		Transform2::Transform2(float value)
+		{
+
+			this->Position = glm::vec2(value);
+			this->Rotation = value;
+			this->Scale = glm::vec2(value);
+
+		}
+
 	}
 
 	namespace OS
 	{
+
+		char* ReadFile(const std::string& filePath) {
+
+			if (!Spegetti::TestInit()) return NULL;
+
+
+			std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
+
+			if (!file)
+			{
+
+				std::cerr << "ERROR : FAILED TO READ FILE!!! {" << filePath << "}" << std::endl;
+				return nullptr;
+
+			}
+
+			std::streamsize size = file.tellg();
+			file.seekg(0, std::ios::beg);
+
+			char* buffer = new char[size + 1];
+
+			if (file.read(buffer, size))
+			{
+
+				buffer[size] = '\0';
+
+			}
+			else
+			{
+
+				std::cerr << "ERROR : FAILED TO READ FILE!!! {" << filePath << "}" << std::endl;
+				delete[] buffer;
+				buffer = nullptr;
+
+			}
+
+			file.close();
+			return buffer;
+
+		}
 
 		Window::Window(glm::vec2 size, const char* title)
 			{
