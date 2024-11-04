@@ -45,3 +45,5 @@ CMakeCache.txt
 /Spegetti_Sauce/Spegetti_Sauce.dir
 /Spegetti_GUI/Spegetti_GUI.dir
 /Spegetti_GUI/CMakeFiles
+/.vscode
+/build
