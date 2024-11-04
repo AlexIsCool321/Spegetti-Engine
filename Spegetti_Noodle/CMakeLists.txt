@@ -6,8 +6,8 @@ project(Spegetti_Noodle)
 
 set(Spegetti_Noodle_Sources
 
-"Sources/Spegetti_Noodle.cpp"
-"Headers/Spegetti_Noodle.h"
+    "Sources/Spegetti_Noodle.cpp"
+    "Headers/Spegetti_Noodle.h"
 
 )
 

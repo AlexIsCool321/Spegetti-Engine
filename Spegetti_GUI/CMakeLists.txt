@@ -1,17 +1,22 @@
 ﻿cmake_minimum_required (VERSION 3.5)
 
+project(Spegetti_GUI)
+
 include_directories(${PROJECT_NAME} PUBLIC "/")
 include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/Spegetti_GUI/Headers")
 
-project(Spegetti_GUI)
-
 set(Spegetti_GUI_Sources
 
-"Sources/Spegetti_GUI.cpp"
-"Headers/Spegetti_GUI.h"
+    "Sources/Spegetti_GUI.cpp"
+    "Headers/Spegetti_GUI.h"
 
 )
+
 add_library(${PROJECT_NAME} ${Spegetti_GUI_Sources})
+
+message("==============================================================================================================")
+message("${CMAKE_SOURCE_DIR}/Spegetti_GUI/Headers")
+message("==============================================================================================================")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/OUT/game/bin"

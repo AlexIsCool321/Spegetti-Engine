@@ -6,8 +6,10 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 project(Entity_System)
 
 set(SOURCES
-"Sources/Entity_System.cpp"
-"Headers/Entity_System.h"
+
+    "Sources/Entity_System.cpp"
+    "Headers/Entity_System.h"
+
 )
 add_library(${PROJECT_NAME} ${SOURCES})
 

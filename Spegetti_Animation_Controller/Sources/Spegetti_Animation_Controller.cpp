@@ -1,13 +1,13 @@
 ﻿#include <Headers/Spegetti_Animation_Controller.h>
 
-//using namespace Spegetti;
+using namespace Spegetti;
 
 int main()
 {
-	/*
+	
 	Init();
 	
-	OS::Window window = OS::Window(glm::vec2(640, 380), "Fork");
+	OS::Window window = OS::Window(glm::vec2(640, 380), "Spegetti Animation Controller");
 
 	while (!glfwWindowShouldClose(window.Get_Window()))
 	{
@@ -17,6 +17,6 @@ int main()
 	}
 	
 	window.~Window();
-	*/
+	
 	return 0;
 }

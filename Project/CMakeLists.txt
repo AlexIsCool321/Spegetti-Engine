@@ -6,8 +6,8 @@ project(Project)
 
 set(Project_Sources
 
-"Sources/Project.cpp"
-"Headers/Project.h"
+    "Sources/Project.cpp"
+    "Headers/Project.h"
 
 )
 

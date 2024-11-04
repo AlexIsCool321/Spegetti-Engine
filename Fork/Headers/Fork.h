@@ -3,5 +3,6 @@
 
 #include <iostream>
 #include <Spegetti.h>
+#include <Spegetti_GUI.h>
 
 #endif

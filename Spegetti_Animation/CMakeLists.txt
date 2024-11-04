@@ -6,8 +6,10 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 project(Spegetti_Animation)
 
 set(Spegetti_Animation_Sources
-"Sources/Spegetti_Animation.cpp"
-"Headers/Spegetti_Animation.h"
+
+    "Sources/Spegetti_Animation.cpp"
+    "Headers/Spegetti_Animation.h"
+
 )
 add_library(${PROJECT_NAME} ${Spegetti_Animation_Sources})
 

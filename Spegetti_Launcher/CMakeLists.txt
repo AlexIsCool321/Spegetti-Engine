@@ -6,8 +6,10 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 project(Spegetti_Launcher)
 
 set(Spegetti_Launcher_Sources
-"Sources/Spegetti_Launcher.cpp"
-"Headers/Spegetti_Launcher.h"
+
+    "Sources/Spegetti_Launcher.cpp"
+    "Headers/Spegetti_Launcher.h"
+
 )
 add_library(${PROJECT_NAME} ${Spegetti_Launcher_Sources})
 

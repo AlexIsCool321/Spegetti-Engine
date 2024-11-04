@@ -6,8 +6,10 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 project(Spegetti_Sauce)
 
 set(Spegetti_Sauce_Sources
-"Sources/Spegetti_Sauce.cpp"
-"Headers/Spegetti_Sauce.h"
+    
+    "Sources/Spegetti_Sauce.cpp"
+    "Headers/Spegetti_Sauce.h"
+
 )
 add_library(${PROJECT_NAME} ${Spegetti_Sauce_Sources})
 

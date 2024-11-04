@@ -1,16 +1,16 @@
 ﻿cmake_minimum_required (VERSION 3.5)
 
+project(Spegetti)
+
 include_directories(${PROJECT_NAME} PUBLIC "/")
 include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/Spegetti/Headers")
 
-project(Spegetti)
-
 set(Spegetti_Sources
 
-"Sources/Spegetti.cpp"
-"Headers/Spegetti.h"
+    "Sources/Spegetti.cpp"
+    "Headers/Spegetti.h"
 
-"Sources/Glad/glad.c"
+    "Sources/Glad/glad.c"
 
 ) 
 

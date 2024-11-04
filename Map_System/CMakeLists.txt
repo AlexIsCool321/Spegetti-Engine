@@ -6,8 +6,10 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 project(Map_System)
 
 set(Map_System_Sources
-"Sources/Map_System.cpp"
-"Headers/Map_System.h"
+
+    "Sources/Map_System.cpp"
+    "Headers/Map_System.h"
+
 )
 add_library(${PROJECT_NAME} ${Map_System_Sources})
 

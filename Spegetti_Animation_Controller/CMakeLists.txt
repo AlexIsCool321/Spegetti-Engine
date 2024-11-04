@@ -6,8 +6,8 @@ project(Spegetti_Animation_Controller)
 
 set(Spegetti_Animation_Controller_Sources
 
-"Sources/Spegetti_Animation_Controller.cpp"
-"Headers/Spegetti_Animation_Controller.h"
+    "Sources/Spegetti_Animation_Controller.cpp"
+    "Headers/Spegetti_Animation_Controller.h"
 
 )
 

@@ -1,6 +1,7 @@
 ﻿cmake_minimum_required (VERSION 3.5)
 
 include_directories(${PROJECT_NAME} PUBLIC "Spegetti/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Spegetti_GUI/Headers")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/OUT/game/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/OUT/game/bin")

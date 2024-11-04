@@ -6,8 +6,8 @@ project(Spegetti_Film_Maker)
 
 set(Spegetti_Film_Maker_Sources
 
-"Sources/Spegetti_Film_Maker.cpp"
-"Headers/Spegetti_Film_Maker.h"
+    "Sources/Spegetti_Film_Maker.cpp"
+    "Headers/Spegetti_Film_Maker.h"
 
 )
 

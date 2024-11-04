@@ -7,7 +7,7 @@ int main()
 	
 	Init();
 	
-	OS::Window window = OS::Window(glm::vec2(640, 380), "Fork");
+	OS::Window window = OS::Window(glm::vec2(640, 380), "Spegetti Noodle");
 
 	while (!glfwWindowShouldClose(window.Get_Window()))
 	{

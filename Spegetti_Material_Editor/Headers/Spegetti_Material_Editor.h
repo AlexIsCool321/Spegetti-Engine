@@ -4,13 +4,4 @@
 #include <iostream>
 #include <Spegetti.h>
 
-using namespace Spegetti;
-
-namespace Spegetti_Material_Editor
-{
-
-
-
-}
-
 #endif

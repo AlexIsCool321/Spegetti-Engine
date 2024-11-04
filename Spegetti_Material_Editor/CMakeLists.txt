@@ -6,8 +6,10 @@ include_directories(${PROJECT_NAME} PUBLIC "/Headers")
 project(Spegetti_Material_Editor)
 
 set(Spegetti_Material_Editor_Sources
-"Sources/Spegetti_Material_Editor.cpp"
-"Headers/Spegetti_Material_Editor.h"
+
+    "Sources/Spegetti_Material_Editor.cpp"
+    "Headers/Spegetti_Material_Editor.h"
+
 )
 add_library(${PROJECT_NAME} ${Spegetti_Material_Editor_Sources})
 

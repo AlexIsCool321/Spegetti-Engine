@@ -9,6 +9,18 @@ using namespace Spegetti;
 namespace Spegetti_GUI
 {
 
+	class GUI
+	{
+
+	public:
+
+		void Update();
+
+		GUI();
+		~GUI();
+
+	};
+
 	class Theme
 	{
 
@@ -88,6 +100,40 @@ namespace Spegetti_GUI
 
 		Menu();
 		~Menu();
+
+	};
+
+	class Slider
+	{
+
+	public:
+
+		Math::Transform2 Transform;
+
+		Slider();
+		~Slider();
+
+	};
+
+	class Toggle
+	{
+
+	public:
+
+		Math::Transform2 Transform;
+
+		Toggle();
+		~Toggle();
+
+	};
+
+	class Slider
+	{
+
+	public:
+
+		Slider();
+		~Slider();
 
 	};
 
