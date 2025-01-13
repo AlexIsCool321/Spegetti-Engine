@@ -1,0 +1,5 @@
+shader:"shaders/pbr"
+
+texture:"albedo":"textures/crowbar/albedo"
+boolen:"a":true
+float:"ImAFloat":2.00332

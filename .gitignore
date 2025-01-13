@@ -1,0 +1,5 @@
+
+/build
+/game/bin
+*.exe
+*.pdb
