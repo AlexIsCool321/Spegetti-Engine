@@ -19,15 +19,20 @@ endif()
 link_directories("${CMAKE_SOURCE_DIR}/Third Party")
 
 include_directories(${PROJECT_NAME} PUBLIC "Third Party/GLM")
+include_directories(${PROJECT_NAME} PUBLIC "Third Party/IMGUI")
 
-include_directories(${PROJECT_NAME} PUBLIC "Spegetti_Renderer/Headers")
-include_directories(${PROJECT_NAME} PUBLIC "Spegetti_Console/Headers")
-include_directories(${PROJECT_NAME} PUBLIC "Spegetti_Files/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Engine/Spegetti_Project_Launcher/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Engine/Spegetti_Renderer/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Engine/Spegetti_Files/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Engine/Spegetti_Logic/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Engine/Spegetti_Console/Headers")
 
-add_subdirectory("Spegetti_Project_Launcher")
+add_subdirectory("Engine/Spegetti_Project_Launcher")
 
-add_subdirectory("Spegetti_Renderer")
+add_subdirectory("Engine/Spegetti_Renderer")
 
-add_subdirectory("Spegetti_Files")
+add_subdirectory("Engine/Spegetti_Files")
 
-add_subdirectory("Spegetti_Console")
+add_subdirectory("Engine/Spegetti_Console")
+
+add_subdirectory("Engine/Spegetti_Logic")

@@ -5,7 +5,7 @@ project(Spegetti_Renderer)
 include_directories(${PROJECT_NAME} PUBLIC "/")
 
 set(Spegetti_Renderer_Sources
-"Sources/glad.c"
+	"Sources/glad.c"
 	
 	"Sources/Window.cpp"
 	"Sources/Camera.cpp"
@@ -15,9 +15,6 @@ set(Spegetti_Renderer_Sources
 
 	"Sources/Vertex.cpp"
 	"Sources/Mesh.cpp"
-
-	"Headers/FreeCam.h"
-	"Sources/FreeCam.cpp"
 	
 	"Sources/Spegetti_Renderer.cpp"
 	"Headers/Spegetti_Renderer.h"

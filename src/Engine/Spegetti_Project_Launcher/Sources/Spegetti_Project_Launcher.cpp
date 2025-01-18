@@ -1,21 +1,4 @@
-﻿#include <Spegetti_Renderer.h>
-#include <Spegetti_Console.h>
-#include <Spegetti_Files.h>
-
-#include <iostream>
-#include <vector>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-using namespace Spegetti_Renderer;
-using namespace Graphics;
-using namespace OS;
-
-using namespace Spegetti_Console;
-
-using namespace Spegetti_Files;
+﻿#include <Spegetti_Project_Launcher.h>
 
 int main()
 {
@@ -23,9 +6,11 @@ int main()
 
 	Window window = Window("Game", 1200, 800);
 	
-	Shader* shader = &Shader("engine/shaders/pbr.vs", "engine/shaders/pbr.fs");
-	Material material = Material(shader, 1);
-
+	Shader shader = Shader("engine/shaders/pbr.vs", "engine/shaders/pbr.fs");
+	Material material = Material(shader);
+	
+	Camera* camera = &Camera();
+	
 	std::vector<Vertex> vertices =
 	{
 		Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), 1, glm::vec3(0, 0, 1), glm::vec2(0, 0)), // Bottom Left
@@ -46,22 +31,30 @@ int main()
 	};
 
 	Mesh mesh = Mesh(vertices, indices, materials);
+	
+	float x = 0;
+
+	bool forward = false;
+	bool backward = false;
+
+	material.SetTexture("albedo", "engine/textures/crowbar/albedo.png");
 
 	while (!glfwWindowShouldClose(window.GetWindow()))
 	{
+		std::cout << GetFPS() << std::endl;
 		window.PushContext();
+		glClearColor(0, 0, 0, 1);
+		glClear(GL_COLOR_BUFFER_BIT);
 		// Render Code
 
-		glm::mat4 transform = glm::mat4(1.0f);
+		FreeCam(camera);
+		
+		mesh.model = glm::rotate(mesh.model, (float)glfwGetTime() * GetDelta(), glm::vec3(0, 0, 1));
 
-		//glm::translate(transform, glm::vec3(5, 0, 0));
-		glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0, 1, 0));
-
-		mesh.Draw(transform);
-
+		camera->Draw(&mesh);
 		window.Update();
 	}
-
+	
 	window.~Window();
 	return 0;
 }

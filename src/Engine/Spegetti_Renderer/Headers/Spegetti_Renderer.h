@@ -35,13 +35,21 @@ namespace Spegetti_Renderer
 			glm::vec2 UV_Coords;
 		};
 
-		class Shader
+		struct Shader
+		{
+			std::string vertex_shader;
+			std::string fragment_shader;
+
+			Shader(std::string vertex_path, std::string fragment_path);
+		};
+
+		class Material
 		{
 		private:
 			unsigned int shaderProgram;
 
 		public:
-			Shader(const char* vertex_path, const char* fragment_path);
+			Material(Shader shader);
 
 			void Use();
 
@@ -62,31 +70,6 @@ namespace Spegetti_Renderer
 			void SetTexture(const std::string& name, const char* texture_path);
 		};
 
-		struct Material
-		{
-			Shader* shader;
-
-			int Vertex_Group;
-
-			Material(Shader* shader, int Vertex_Group);
-
-			void Use();
-
-			void SetTexture(const std::string& name, const char* texture_path);
-
-			void SetBool(const std::string& name, bool value);
-			void SetInt(const std::string& name, int value);
-			void SetFloat(const std::string& name, float value);
-
-			void SetVector2(const std::string& name, glm::vec2 value);
-			void SetVector3(const std::string& name, glm::vec3 value);
-			void SetVector4(const std::string& name, glm::vec4 value);
-
-			void SetMat2(const std::string& name, glm::mat2 value);
-			void SetMat3(const std::string& name, glm::mat3 value);
-			void SetMat4(const std::string& name, glm::mat4 value);
-		};
-
 		class Mesh
 		{
 		private:
@@ -99,7 +82,7 @@ namespace Spegetti_Renderer
 
 		public:
 
-			glm::mat4 transform;
+			glm::mat4 model;
 
 			Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Material> materials);
 			~Mesh();

@@ -9,7 +9,7 @@ namespace Spegetti_Renderer
 			this->vertices = vertices;
 			this->materials = materials;
 			this->indices = indices;
-			this->transform = glm::mat4(0);
+			this->model = glm::mat4(1);
 
 			glGenVertexArrays(1, &this->VAO);
 			glGenBuffers(1, &this->VBO);
@@ -49,7 +49,9 @@ namespace Spegetti_Renderer
 
 		void Mesh::Draw(glm::mat4 view_transform)
 		{
-			materials[0].SetVector3("a", glm::vec3(10, 2, 0));
+			glm::mat4 transfrom = view_transform;
+			
+			materials[0].SetMat4("transform", view_transform);
 			this->materials[0].Use();
 
 

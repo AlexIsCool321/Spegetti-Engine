@@ -9,11 +9,11 @@ namespace Spegetti_Renderer
 {
 	namespace Graphics
 	{
-		Shader::Shader(const char* vertex_path, const char* fragment_path)
+		Material::Material(Shader shader)
 		{
 			// Get Shader Sources
-			std::string vertexSource = ReadFile("engine/shaders/pbr.vs");
-			std::string fragmentSource = ReadFile("engine/shaders/pbr.fs");
+			std::string vertexSource = ReadFile(shader.vertex_shader);
+			std::string fragmentSource = ReadFile(shader.fragment_shader);
 
 			const char* vertexShaderSource = vertexSource.c_str();
 			const char* fragmentShaderSource = fragmentSource.c_str();
@@ -39,7 +39,7 @@ namespace Spegetti_Renderer
 
 			glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 			if (!success)
-			{
+			{	
 				glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
 				std::cout << "ERROR : FAILED TO COPMILE THE FRAGMENT SHADER : [ " << infoLog << " ]" << std::endl;
 			}
@@ -62,75 +62,68 @@ namespace Spegetti_Renderer
 		}
 
 
-		void Shader::Use()
+		void Material::Use()
 		{
-			glUseProgram(this->shaderProgram);
+			int ID = this->shaderProgram;
+			glUseProgram(ID);
 		}
 
-		bool Shader::Has_Uniform(const std::string& name)
+		bool Material::Has_Uniform(const std::string& name)
 		{
-			if (glGetUniformLocation(this->shaderProgram, name.c_str()) != -1)
-			{
-				Log(name + " |  true");
-				return true;
-			}
-			else
-			{
-				Log(name + " |  false");
-				return false;
-			}
+			std::cout << this->shaderProgram << std::endl;
+			return (glGetUniformLocation(this->shaderProgram, name.c_str()) != -1);
 		}
 
 
-		void Shader::SetBool(const std::string& name, bool value) const
+		void Material::SetBool(const std::string& name, bool value) const
 		{
 			glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), (int)value);
 		}
 
-		void Shader::SetInt(const std::string& name, int value) const
+		void Material::SetInt(const std::string& name, int value) const
 		{
 			glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), value);
 		}
 
-		void Shader::SetFloat(const std::string& name, float value) const
+		void Material::SetFloat(const std::string& name, float value) const
 		{
 			glUniform1f(glGetUniformLocation(this->shaderProgram, name.c_str()), value);
 		}
 
 
-		void Shader::SetVector2(const std::string& name, glm::vec2 value) const
+		void Material::SetVector2(const std::string& name, glm::vec2 value) const
 		{
 			glUniform2f(glGetUniformLocation(this->shaderProgram, name.c_str()), value.x, value.y);
 		}
 
-		void Shader::SetVector3(const std::string& name, glm::vec3 value) const
+		void Material::SetVector3(const std::string& name, glm::vec3 value) const
 		{
 			glUniform3f(glGetUniformLocation(this->shaderProgram, name.c_str()), value.x, value.y, value.z);
 		}
 
-		void Shader::SetVector4(const std::string& name, glm::vec4 value) const
+		void Material::SetVector4(const std::string& name, glm::vec4 value) const
 		{
 			glUniform4f(glGetUniformLocation(this->shaderProgram, name.c_str()), value.x, value.y, value.z, value.w);
 		}
 
 
-		void Shader::SetMat2(const std::string& name, glm::mat2 value) const
+		void Material::SetMat2(const std::string& name, glm::mat2 value) const
 		{
 			glUniformMatrix2fv(glGetUniformLocation(this->shaderProgram, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 		}
 
-		void Shader::SetMat3(const std::string& name, glm::mat3 value) const
+		void Material::SetMat3(const std::string& name, glm::mat3 value) const
 		{
 			glUniformMatrix3fv(glGetUniformLocation(this->shaderProgram, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 		}
 
-		void Shader::SetMat4(const std::string& name, glm::mat4 value) const
+		void Material::SetMat4(const std::string& name, glm::mat4 value) const
 		{
 			glUniformMatrix4fv(glGetUniformLocation(this->shaderProgram, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 		}
 
 
-		void Shader::SetTexture(const std::string& name, const char* texture_path)
+		void Material::SetTexture(const std::string& name, const char* texture_path)
 		{
 			GLint texLocation = glGetUniformLocation(this->shaderProgram, name.c_str());
 			
@@ -167,7 +160,7 @@ namespace Spegetti_Renderer
 	
 					glUniform1i(texLocation, texture_count);
 					texture_count++;
-				}
+			}
 		}
 	}
 }

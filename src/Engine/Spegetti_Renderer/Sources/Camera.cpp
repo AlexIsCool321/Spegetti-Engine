@@ -17,9 +17,8 @@ namespace Spegetti_Renderer
 		{
 			if (this->active)
 			{
-				//mesh->Draw(this->projection * this->view * mesh->transform);
-				std::cout << glm::value_ptr(this->view) << std::endl;
-				mesh->Draw(this->view);
+				//mesh->Draw(this->projection * this->view * mesh->model);
+				mesh->Draw(this->view * mesh->model);
 			}
 		}
 	}

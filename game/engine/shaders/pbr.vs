@@ -6,10 +6,10 @@ layout (location = 3) in vec2 aUV;
 
 out vec2 UV;
 
-uniform vec3 a;
+uniform mat4 transform;
 
 void main()
 {
-	gl_Position = vec4(a, 1.0) + vec4(aPos, 1.0);
+	gl_Position = transform * vec4(aPos, 1.0);
 	UV = vec2(aUV.x, aUV.y);
 }

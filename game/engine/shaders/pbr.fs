@@ -10,5 +10,5 @@ uniform sampler2D normal;
 
 void main()
 {
-	FragColor = vec4(UV, 0.0f, 1.0f);
+	FragColor = texture(albedo, UV);
 }
