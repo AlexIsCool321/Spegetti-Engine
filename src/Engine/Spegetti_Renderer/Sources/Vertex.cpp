@@ -4,12 +4,24 @@ namespace Spegetti_Renderer
 {
 	namespace Graphics
 	{
-		Vertex::Vertex(glm::vec3 Position, int Vertex_Group, glm::vec3 Normal, glm::vec2 UV_Coords)
+		Vertex::Vertex()
 		{
-			this->Position = Position;
-			this->Vertex_Group = Vertex_Group;
-			this->Normal = Normal;
-			this->UV_Coords = UV_Coords;
+			this->Vertex_Group = 0;
+
+			this->Position	= glm::vec3(0.0f);
+			this->Normal	= glm::vec3(0.0f, 1.0f, 0.0f);
+			
+			this->UV_Coords	= glm::vec2(0.0f);
+		}
+
+		Vertex::Vertex(glm::vec3 position, int vertex_group, glm::vec3 normal, glm::vec2 uv_coords)
+		{
+			this->Vertex_Group	= vertex_group;
+
+			this->Position		= position;
+			this->Normal		= normal;
+
+			this->UV_Coords		= uv_coords;
 		}
 	}
 }

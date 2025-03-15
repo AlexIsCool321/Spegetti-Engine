@@ -1,14 +1,25 @@
 #version 330 core
+
 out vec4 FragColor;
 
-in vec2 UV;
 
-// texture samplers
+in vec2 UV;
+in vec3 Normal;
+in vec3 FragPosition;
+
+
 uniform sampler2D albedo;
-uniform sampler2D roughness;
-uniform sampler2D normal;
+uniform sampler2D rougness;
+
 
 void main()
 {
-	FragColor = texture(albedo, UV);
+	if (false)
+	{
+		FragColor = texture(rougness, UV);
+	}
+	else
+	{
+		FragColor = vec4(UV, 0.0f, 1.0f);
+	}
 }

@@ -1,42 +1,41 @@
 #include <Spegetti_Renderer.h>
 
+using namespace Spegetti_Renderer::Graphics;
+
 namespace Spegetti_Renderer
 {
 	namespace Graphics
 	{
-		Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Material> materials)
+		Mesh::Mesh()
 		{
-			this->vertices = vertices;
-			this->materials = materials;
-			this->indices = indices;
-			this->model = glm::mat4(1);
+			this->Vertices	= std::vector<Vertex>();
+			this->material	= Material();
+			this->Indices	= std::vector<unsigned int>();
+			this->Model		= glm::mat4(1.0f);
 
-			glGenVertexArrays(1, &this->VAO);
-			glGenBuffers(1, &this->VBO);
-			glGenBuffers(1, &this->EBO);
+			this->Set_Up_Mesh();
+		}
 
-			glBindVertexArray(this->VAO);
-			glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+		Mesh::Mesh(const Mesh& other)
+		{
+			this->Vertices	= other.Vertices;
+			this->Indices	= other.Indices;
+			this->material	= other.material;
 
-			glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+			this->Model = other.Model;
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+			this->Set_Up_Mesh();
+		}
 
-			// Vertices' Positions
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
-			// Vertices' Groups
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex_Group));
-			// Vertices' Normals
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
-			// Vertices' UV Coords
-			glEnableVertexAttribArray(3);
-			glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, UV_Coords));
+		Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material material)
+		{
+			this->Vertices	= vertices;
+			this->material	= material;
+			this->Indices	= indices;
 
-			glBindVertexArray(0);
+			this->Model		= glm::mat4(1.0f);
+
+			this->Set_Up_Mesh();
 		}
 
 		Mesh::~Mesh()
@@ -47,16 +46,66 @@ namespace Spegetti_Renderer
 		}
 
 
-		void Mesh::Draw(glm::mat4 view_transform)
+		Mesh Mesh::operator=(const Mesh& other) const
 		{
-			glm::mat4 transfrom = view_transform;
-			
-			materials[0].SetMat4("transform", view_transform);
-			this->materials[0].Use();
+			if (this != &other)
+			{
+				return Mesh(other.Vertices, other.Indices, other.material);
+			}
+			return *this;
+		}
+		
 
+		void Mesh::Set_Up_Mesh()
+		{
+			glGenVertexArrays(1, &this->VAO);
+			glGenBuffers(1, &this->VBO);
+			glGenBuffers(1, &this->EBO);
 
 			glBindVertexArray(this->VAO);
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+			
+			glBufferData(GL_ARRAY_BUFFER, this->Vertices.size() * sizeof(Vertex), &this->Vertices[0], GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->Indices.size() * sizeof(unsigned int), &this->Indices[0], GL_STATIC_DRAW);
+
+			// Vertices' Positions
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
+			// Vertices' Groups
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 1, GL_INT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex_Group));
+			// Vertices' Normals
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+			// Vertices' UV Coords
+			glEnableVertexAttribArray(3);
+			glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, UV_Coords));
+
+			glBindVertexArray(0);
+		}
+
+
+		void Mesh::Set_View_Direction(glm::mat4 view)
+		{
+			this->material.Set_Mat4("view", view);
+		}
+
+		void Mesh::Set_Projection(glm::mat4 projection)
+		{
+			this->material.Set_Mat4("projection", projection);
+		}
+
+
+		void Mesh::Draw()
+		{
+			this->material.Set_Mat4("model", this->Model);
+			this->material.Use();
+
+			glBindVertexArray(this->VAO);
+			glDrawElements(GL_TRIANGLES, this->Indices.size(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
 		}
 	}
 }

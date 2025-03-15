@@ -13,6 +13,6 @@ set(Spegetti_Logic_Sources
 add_library(${PROJECT_NAME} ${Spegetti_Logic_Sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-	ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/../game/bin"
-	ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/../game/bin"
+	ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/../build/shared"
+	ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/../build/shared"
 )

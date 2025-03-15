@@ -1,20 +1,111 @@
 #include <Spegetti_Renderer.h>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
-int texture_count = 0;
-
 namespace Spegetti_Renderer
 {
 	namespace Graphics
 	{
-		Material::Material(Shader shader)
+		Material::Material()
 		{
-			// Get Shader Sources
-			std::string vertexSource = ReadFile(shader.vertex_shader);
-			std::string fragmentSource = ReadFile(shader.fragment_shader);
+			this->ID = 0;
+			Shader shader = Shader("engine/shaders/pbr.vs", "engine/shaders/pbr.fs");
+			this->Load_Shader(&shader);
+		}
 
+		Material::Material(Shader* shader)
+		{
+			this->Load_Shader(shader);
+		}
+
+		Material::Material(const char* material_path)
+		{
+			this->Load_Material(*material_path);
+		}
+
+		void Material::Load_Material(const char& path)
+		{
+			std::string file;
+			std::ifstream stream(&path, std::ios::in);
+
+			if (stream.is_open())
+			{
+				std::string line = "";
+
+				while (std::getline(stream, line))
+				{
+					if (First_Token(line) == "shader")
+					{
+						if (!(Split(line, 1, ' ') == "" || Split(line, 2, ' ') == ""))
+						{
+							Shader shader = Shader(Split(line, 1, ' '), Split(line, 2, ' '));
+							this->Load_Shader(&shader);
+						}
+					}
+
+					if (First_Token(line) == "texture")
+					{
+						Texture texture = Texture(Split(line, 2, ' ').c_str());
+						this->Set_Texture(Split(line, 1, ' ').c_str(), &texture);
+					}
+
+					if (First_Token(line) == "bool")
+					{
+						this->Set_Bool(Split(line, 1, ' ').c_str(), std::stoi(Split(line, 2, ' ')));
+					}
+
+					if (First_Token(line) == "float")
+					{
+						this->Set_Float(Split(line, 1, ' ').c_str(), std::stof(Split(line, 2, ' ')));
+					}
+
+					if (First_Token(line) == "int")
+					{
+						this->Set_Int(Split(line, 1, ' ').c_str(), std::stoi(Split(line, 2, ' ')));
+					}
+
+					if (First_Token(line) == "vec2")
+					{
+						glm::vec2 vector = glm::vec2(std::stof(Split(line, 2, ' ')), std::stof(Split(line, 3, ' ')));
+						this->Set_Vector2(Split(line, 1, ' ').c_str(), vector);
+					}
+
+					if (First_Token(line) == "vec3")
+					{
+						glm::vec3 vector = glm::vec3(std::stof(Split(line, 2, ' ')), std::stof(Split(line, 3, ' ')), std::stof(Split(line, 4, ' ')));
+						this->Set_Vector3(Split(line, 1, ' ').c_str(), vector);
+					}
+
+					if (First_Token(line) == "vec4")
+					{
+						glm::vec4 vector = glm::vec4(std::stof(Split(line, 2, ' ')), std::stof(Split(line, 3, ' ')), std::stof(Split(line, 4, ' ')), std::stof(Split(line, 5, ' ')));
+						this->Set_Vector4(Split(line, 1, ' ').c_str(), vector);
+					}
+				}
+			}
+			else
+			{
+				Error("FAILED TO LOAD MAERIAL : [ " + (std::string)&path + " ]");
+			}
+
+			stream.close();
+
+			this->Use();
+		}
+
+
+		void Material::Use()
+		{
+			glUseProgram(this->ID);
+		}
+
+
+		void Material::Load_Shader(Shader* shader)
+		{
+			if (shader == nullptr) return;
+
+			// Get Shader Sources
+			std::string vertexSource	= Read_File(shader->Vertex_Shader);
+			std::string fragmentSource	= Read_File(shader->Fragment_Shader);
+			
 			const char* vertexShaderSource = vertexSource.c_str();
 			const char* fragmentShaderSource = fragmentSource.c_str();
 
@@ -22,14 +113,15 @@ namespace Spegetti_Renderer
 			unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 			glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 			glCompileShader(vertexShader);
-
+			
 			int success;
-			char infoLog[512];
+			char reason[512];
 			glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 			if (!success)
 			{
-				glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-				std::cout << "ERROR : FAILED TO COMPILE VERTEX SHADER! : [ " << infoLog << " ]" << std::endl;
+				glGetShaderInfoLog(vertexShader, 512, NULL, reason);
+				std::string reason_string = reason;
+				Error("FAILED TO COMPILE VERTEX SHADER : [ " + reason_string + " ]");
 			}
 
 			// Fragement Shader
@@ -39,128 +131,91 @@ namespace Spegetti_Renderer
 
 			glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 			if (!success)
-			{	
-				glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-				std::cout << "ERROR : FAILED TO COPMILE THE FRAGMENT SHADER : [ " << infoLog << " ]" << std::endl;
+			{
+				glGetShaderInfoLog(fragmentShader, 512, NULL, reason);
+				std::string reason_string = reason;
+				Error("FAILED TO COMPILE FRAGMENT SHADER : [ " + reason_string + " ]");
 			}
 
 			// Shader Program
-			this->shaderProgram = glCreateProgram();
-			glAttachShader(this->shaderProgram, vertexShader);
-			glAttachShader(this->shaderProgram, fragmentShader);
-			glLinkProgram(this->shaderProgram);
+			this->ID = glCreateProgram();
+			glAttachShader(this->ID, vertexShader);
+			glAttachShader(this->ID, fragmentShader);
+			glLinkProgram(this->ID);
 
-			glGetProgramiv(this->shaderProgram, GL_LINK_STATUS, &success);
+			glGetProgramiv(this->ID, GL_LINK_STATUS, &success);
 			if (!success) {
-				glGetProgramInfoLog(this->shaderProgram, 512, NULL, infoLog);
-				std::cout << "ERROR : FAILED TO LINK SHADES! : [ " << infoLog << " ]" << std::endl;
+				glGetProgramInfoLog(this->ID, 512, NULL, reason);
+				std::string reason_string = reason;
+				Error("FAILED TO LINK SHADERS : [ " + reason_string + " ]");
 			}
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
 
-			glUseProgram(this->shaderProgram);
+			glUseProgram(this->ID);
 		}
 
 
-		void Material::Use()
+		bool Material::Has_Uniform(const char* name)
 		{
-			int ID = this->shaderProgram;
-			glUseProgram(ID);
-		}
-
-		bool Material::Has_Uniform(const std::string& name)
-		{
-			std::cout << this->shaderProgram << std::endl;
-			return (glGetUniformLocation(this->shaderProgram, name.c_str()) != -1);
+			return (glGetUniformLocation(this->ID, name) != -1);
 		}
 
 
-		void Material::SetBool(const std::string& name, bool value) const
+		void Material::Set_Bool(const char* name, bool value) const
 		{
-			glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), (int)value);
+			glUniform1i(glGetUniformLocation(this->ID, name), (int)value);
 		}
 
-		void Material::SetInt(const std::string& name, int value) const
+		void Material::Set_Int(const char* name, int value) const
 		{
-			glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), value);
+			glUniform1i(glGetUniformLocation(this->ID, name), value);
 		}
 
-		void Material::SetFloat(const std::string& name, float value) const
+		void Material::Set_Float(const char* name, float value) const
 		{
-			glUniform1f(glGetUniformLocation(this->shaderProgram, name.c_str()), value);
-		}
-
-
-		void Material::SetVector2(const std::string& name, glm::vec2 value) const
-		{
-			glUniform2f(glGetUniformLocation(this->shaderProgram, name.c_str()), value.x, value.y);
-		}
-
-		void Material::SetVector3(const std::string& name, glm::vec3 value) const
-		{
-			glUniform3f(glGetUniformLocation(this->shaderProgram, name.c_str()), value.x, value.y, value.z);
-		}
-
-		void Material::SetVector4(const std::string& name, glm::vec4 value) const
-		{
-			glUniform4f(glGetUniformLocation(this->shaderProgram, name.c_str()), value.x, value.y, value.z, value.w);
+			glUniform1f(glGetUniformLocation(this->ID, name), value);
 		}
 
 
-		void Material::SetMat2(const std::string& name, glm::mat2 value) const
+		void Material::Set_Vector2(const char* name, glm::vec2 value) const
 		{
-			glUniformMatrix2fv(glGetUniformLocation(this->shaderProgram, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+			glUniform2f(glGetUniformLocation(this->ID, name), value.x, value.y);
 		}
 
-		void Material::SetMat3(const std::string& name, glm::mat3 value) const
+		void Material::Set_Vector3(const char* name, glm::vec3 value) const
 		{
-			glUniformMatrix3fv(glGetUniformLocation(this->shaderProgram, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+			glUniform3f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z);
 		}
 
-		void Material::SetMat4(const std::string& name, glm::mat4 value) const
+		void Material::Set_Vector4(const char* name, glm::vec4 value) const
 		{
-			glUniformMatrix4fv(glGetUniformLocation(this->shaderProgram, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+			glUniform4f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z, value.w);
 		}
 
 
-		void Material::SetTexture(const std::string& name, const char* texture_path)
+		void Material::Set_Mat2(const char* name, glm::mat2 value) const
 		{
-			GLint texLocation = glGetUniformLocation(this->shaderProgram, name.c_str());
-			
-			if (texLocation != -1) {
-				int width, height, nrChannels;
-				unsigned char* data = stbi_load(texture_path, &width, &height, &nrChannels, 0);
-				if (!data) {
-					return;
-				}
-	
-				GLuint texture;
-				glGenTextures(1, &texture);
-				glBindTexture(GL_TEXTURE_2D, texture);
-	
-				// Texture Wrapping
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
-				GLenum format = (nrChannels == 3) ? GL_RGB : GL_RGBA;
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-				glGenerateMipmap(GL_TEXTURE_2D);
-	
-				stbi_image_free(data);
-	
-				if (texture == 0) {
-					return;
-				}
-	
-				glActiveTexture(GL_TEXTURE0 + texture_count);
-	
-				glBindTexture(GL_TEXTURE_2D, texture);
-	
-					glUniform1i(texLocation, texture_count);
-					texture_count++;
-			}
+			glUniformMatrix2fv(glGetUniformLocation(this->ID, name), 1, GL_FALSE, glm::value_ptr(value));
+		}
+
+		void Material::Set_Mat3(const char* name, glm::mat3 value) const
+		{
+			glUniformMatrix3fv(glGetUniformLocation(this->ID, name), 1, GL_FALSE, glm::value_ptr(value));
+		}
+
+		void Material::Set_Mat4(const char* name, glm::mat4 value) const
+		{
+			glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, GL_FALSE, glm::value_ptr(value));
+		}
+
+
+		void Material::Set_Texture(const char* name, Texture* texture) const
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture->Get_ID());
+
+			glUniform1i(glGetUniformLocation(this->ID, name), texture->Get_ID());
 		}
 	}
 }

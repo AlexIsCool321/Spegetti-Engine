@@ -2,27 +2,35 @@
 
 namespace Spegetti_Console
 {
-	void Log(std::string Message)
+	void Log(std::string message)
 	{
-		std::cout << "LOG : " << Message << std::endl;
+		std::cout << "LOG : " << message << std::endl;
 	}
 
-	void Warn(std::string Message)
+	void Warn(std::string message)
 	{
-		std::cout << "WARN : " << Message << "!" << std::endl;
+		std::cout << "WARN : " << message << "!" << std::endl;
 	}
 
-	void Error(std::string Message)
+	void Error(std::string message)
 	{
-		std::cout << "!ERROR! : " << Message << "!" << std::endl;
+		std::cout << "!ERROR! : " << message << "!" << std::endl;
 	}
 
-	void Fatal_Error(std::string Message)
+	void Fatal_Error(std::string message)
 	{
-		std::cout << "==!!!FATAL ERROR!!!== : " << Message << "! [=!ENGINE STOP!=]" << std::endl;
+		std::cout << "==!!!FATAL ERROR!!!== : " << message << "! [=!ENGINE STOP!=]" << std::endl;
 		abort();
 	}
 
-	void Create_Command();
-	void Call_Command();
+
+	void Create_Command()
+	{
+		return;
+	}
+
+	void Call_Command()
+	{
+		return;
+	}
 }

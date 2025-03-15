@@ -1,15 +1,25 @@
 #version 330 core
-layout (location = 0) in vec3 aPos;
+
+layout (location = 0) in vec3 aPosition;
 layout (location = 1) in int aVertex_Group;
 layout (location = 2) in vec3 aNormal;
 layout (location = 3) in vec2 aUV;
 
-out vec2 UV;
 
-uniform mat4 transform;
+out vec2 UV;
+out vec3 Normal;
+out vec3 FragPosition;
+
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
 
 void main()
 {
-	gl_Position = transform * vec4(aPos, 1.0);
-	UV = vec2(aUV.x, aUV.y);
+	gl_Position	= projection * view * model * vec4(aPosition, 1.0);
+	FragPosition = vec3(model * vec4(aPosition, 1.0));
+	UV			= aUV;
+	Normal		= aNormal;
 }

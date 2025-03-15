@@ -1,35 +1,43 @@
 #include <Spegetti_Logic.h>
 
-int frames = 0;
-int OldFPS = -1;
-float FPSOldTime = 0;
+#include <GLFW/glfw3.h>
 
-float DTOldTime = 0;
+#include <iostream>
+
+double deltaTime = 0;
 
 namespace Spegetti_Logic
 {
-    int GetFPS()
-    {
-        if ((float)glfwGetTime() - FPSOldTime > 1)
-        {
-            FPSOldTime = (float)glfwGetTime();
-            OldFPS = frames;
-            frames = 0;
-            return OldFPS;
-        }
-        else
-        {
-            frames++;
-            return OldFPS;
-        }
-    }
-
-	float GetDelta()
+	int Get_FPS()
 	{
-        float deltaTime = ((float)glfwGetTime() - DTOldTime);
+		static int frames = 0;
+		static int Old_FPS = -1;
+		static double Old_Time = 0;
 
-        DTOldTime = (float)glfwGetTime();
+		if (glfwGetTime() - Old_Time > 1)
+		{
+			Old_Time = glfwGetTime();
+			Old_FPS = frames;
+			frames = 0;
+			return Old_FPS;
+		}
+		else
+		{
+			frames++;
+			return Old_FPS;
+		}
+	}
 
-        return deltaTime;
+	void Update_Delta()
+	{
+		static double Old_Time = 0;
+
+		deltaTime = glfwGetTime() - Old_Time;
+		Old_Time = glfwGetTime();
+	}
+
+	double Get_Delta()
+	{
+		return deltaTime;
 	}
 }

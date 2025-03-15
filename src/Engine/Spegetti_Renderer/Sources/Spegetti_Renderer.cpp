@@ -2,8 +2,11 @@
 
 namespace Spegetti_Renderer
 {
-	void Init()
+	void Init_Spegetti_Renderer()
 	{
+		// -------------------------------------------------
+		// GLFW Init
+		// -------------------------------------------------
 		if (!glfwInit())
 		{
 			Fatal_Error("FAILED TO INIT GLFW");
@@ -17,7 +20,16 @@ namespace Spegetti_Renderer
 #ifdef __APPLE__
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+		// -------------------------------------------------
+		// GLFW Init
+		// -------------------------------------------------
 
 		Log("Successfully Init!");
+	}
+
+	void Quit_Spegetti_Renderer()
+	{
+		glfwTerminate();
+		Log("Successfully Quit!");
 	}
 }

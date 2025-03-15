@@ -1,0 +1,4 @@
+shader engine/shaders/pbr.vs engine/shaders/pbr.fs
+
+texture albedo engine/textures/debug.png
+vec4 base_color 1.0 1.0 1.0 1.0

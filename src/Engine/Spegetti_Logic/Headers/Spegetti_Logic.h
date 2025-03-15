@@ -1,16 +1,16 @@
 ﻿#ifndef Spegetti_Logic_H
 #define Spegetti_Logic_H
 
-#include <iostream>
-#include <GLFW/glfw3.h>
-
 namespace Spegetti_Logic
 {
-	// Gets The Number Of Frames In A Second
-	int GetFPS();
+	// Gets the FPS
+	int Get_FPS();
 
-	// Returns The Delta Between Frames In Seconds
-	float GetDelta();
+	// Updates the Delta
+	void Update_Delta();
+
+	// Returns the Delta between Frames in Seconds
+	double Get_Delta();
 }
 
 #endif // !Spegetti_Logic_H

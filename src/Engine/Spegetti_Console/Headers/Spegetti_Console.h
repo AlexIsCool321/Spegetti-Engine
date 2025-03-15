@@ -3,16 +3,26 @@
 
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
 namespace Spegetti_Console
 {
-	void Log(std::string Message);
-	void Warn(std::string Message);
-	void Error(std::string Message);
-	void Fatal_Error(std::string Message);
+	// Sends a Message to the Console
+	void Log(std::string message);
 
+	// Sends a Warning to the Console
+	void Warn(std::string message);
+
+	// Sends an Error to the Console
+	void Error(std::string message);
+
+	// Sends an Error to the Console and closes the program
+	void Fatal_Error(std::string message);
+
+
+	// Creates a callable Command for the Console
 	void Create_Command();
+
+	// Call a specified Command
 	void Call_Command();
 }
 

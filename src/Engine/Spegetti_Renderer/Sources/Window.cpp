@@ -1,8 +1,9 @@
 #include <Spegetti_Renderer.h>
+#include <Spegetti_Logic.h>
 
-bool GInit = false;
+using namespace Spegetti_Logic;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void Resize_Window(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
@@ -11,51 +12,64 @@ namespace Spegetti_Renderer
 {
 	namespace OS
 	{
-		Window::Window(std::string name, int size_x, int size_y)
+		Window::Window(const char* name, const int width, const int height)
 		{
-			this->window = glfwCreateWindow(size_x, size_y, name.c_str(), NULL, NULL);
-			if (this->window == NULL)
+			this->GLFW_Window = glfwCreateWindow(width, height, name, NULL, NULL);
+			if (this->GLFW_Window == NULL)
 			{
-				std::cout << "Failed to create GLFW window" << std::endl;
-				glfwTerminate();
+				Fatal_Error("FAILED TO CREATE WINDOW");
 				return;
 			}
-			glfwMakeContextCurrent(this->window);
-			glfwSetFramebufferSizeCallback(this->window, framebuffer_size_callback);
+			glfwMakeContextCurrent(this->GLFW_Window);
+			glfwSetWindowSizeCallback(this->GLFW_Window, Resize_Window);
 
-			if (GInit == false)
+			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			{
-				if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-				{
-					std::cout << "ERROR : FAILED TO INIT GLAD!" << std::endl;
-					return;
-				}
-				GInit = true;
+				Fatal_Error("FAILED TO INIT GLAD");
+				return;
 			}
-			glViewport(0, 0, size_x, size_y);
+
+			glViewport(0, 0, width, height);
+			glEnable(GL_DEPTH_TEST);
+
 		}
 
 		Window::~Window()
 		{
-			glfwDestroyWindow(this->window);
+			glfwDestroyWindow(this->GLFW_Window);
 		}
 
-		GLFWwindow* Window::GetWindow()
+
+		GLFWwindow* Window::Get_Window()
 		{
-			return this->window;
+			return this->GLFW_Window;
 		}
+
+		bool Window::Should_Close()
+		{
+			return glfwWindowShouldClose(this->GLFW_Window);
+		}
+
+		void Window::Close_Window()
+		{
+			glfwDestroyWindow(this->GLFW_Window);
+		}
+
 
 		void Window::Update()
 		{
-			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			Update_Delta();
 
-			glfwSwapBuffers(this->window);
+			glfwSwapBuffers(this->GLFW_Window);
 			glfwPollEvents();
+
+			glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
-		void Window::PushContext()
+		void Window::Push_Context()
 		{
-			glfwMakeContextCurrent(this->window);
+			glfwMakeContextCurrent(this->GLFW_Window);
 		}
 	}
 }
