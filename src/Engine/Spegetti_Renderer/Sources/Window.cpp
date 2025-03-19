@@ -40,10 +40,18 @@ namespace Spegetti_Renderer
 		}
 
 
+		glm::vec2 Window::Get_Size()
+		{
+			int width, height;
+			glfwGetWindowSize(this->GLFW_Window, &width, &height);
+			return glm::vec2(width, height);
+		}
+
 		GLFWwindow* Window::Get_Window()
 		{
 			return this->GLFW_Window;
 		}
+
 
 		bool Window::Should_Close()
 		{
@@ -63,7 +71,7 @@ namespace Spegetti_Renderer
 			glfwSwapBuffers(this->GLFW_Window);
 			glfwPollEvents();
 
-			glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+			glClearColor(0.2f, 0.2f, 0.2f, 0.01f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 

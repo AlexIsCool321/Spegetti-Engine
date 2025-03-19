@@ -28,6 +28,44 @@ namespace Spegetti_Renderer
 	// Quit Spegetti Renderer
 	void Quit_Spegetti_Renderer();
 	
+	namespace OS
+	{
+		class Window
+		{
+		private:
+
+			GLFWwindow* GLFW_Window;
+
+		public:
+			// Window init
+			Window(const char* name, const int width, const int height);
+
+			// Window deconstructor
+			~Window();
+
+
+			// Get the Size of the Window
+			glm::vec2 Get_Size();
+
+			// Returns the GLFW Window
+			GLFWwindow* Get_Window();
+
+
+			// Should the window close
+			bool Should_Close();
+
+			// Force close the window
+			void Close_Window();
+
+
+			// Updates imported GLFW Window functions
+			void Update();
+
+			// Forces the context of the Window
+			void Push_Context();
+		};
+	}
+
 	namespace Graphics
 	{
 		struct Vertex
@@ -58,6 +96,20 @@ namespace Spegetti_Renderer
 			Shader(std::string vertex_path, std::string fragment_path);
 		};
 		
+		enum Texture_Repetition
+		{
+			Repeat,
+			Extend,
+			Clip,
+			Mirror
+		};
+
+		enum Texture_Interpolation
+		{
+			Linear,
+			Closest
+		};
+
 		class Texture
 		{
 		private:
@@ -70,17 +122,24 @@ namespace Spegetti_Renderer
 			Texture();
 			
 			// Texture init with Texture Path
-			Texture(const char* texture_path);
+			Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation);
 			
 			// Texture deconstructor
 			~Texture();
 
 
 			// Load a Texture from the specified Path
-			void Load_Texture(const char* texture_path);
+			void Load_Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation);
 
 			// Get the ID of the Texture
 			unsigned int Get_ID();
+		};
+
+		enum Cull_Mode
+		{
+			Front,
+			Back,
+			None
 		};
 
 		class Material
@@ -89,6 +148,9 @@ namespace Spegetti_Renderer
 			unsigned int ID;
 
 		public:
+
+			Cull_Mode* Mode;
+
 			// Material init
 			Material();
 
@@ -97,6 +159,10 @@ namespace Spegetti_Renderer
 			
 			// Material init with material_path
 			Material(const char* material_path);
+
+
+			// Material
+			Material operator=(const Material& other) const;
 
 
 			// Load a Shader
@@ -146,6 +212,10 @@ namespace Spegetti_Renderer
 
 			// Sets a Sampler2D Uniform in the Shader
 			void Set_Texture(const char* name, Texture* texture) const;
+
+
+			// Change the cull mode
+			void Change_Cull_Mode(Cull_Mode mode);
 		};
 
 		struct Mesh
@@ -232,9 +302,31 @@ namespace Spegetti_Renderer
 			void Set_Material(Material material);
 		};
 
+		enum Draw_Mode
+		{
+			Normal,
+			Unlit,
+			Wireframe,
+			Surface_Normal,
+			Albedo,
+			Normal_Map,
+			Rougness
+		};
+
+		enum Clip_Space_Mode
+		{
+			Orthographic,
+			Perspective
+		};
+
 		struct Camera
 		{
 			bool Active = true;
+
+			Draw_Mode Mode = Normal;
+			Clip_Space_Mode View_Mode = Orthographic;
+
+			float FOV = 90.0f;
 
 			std::vector<Model*> Model_Draw_Stack;
 			std::vector<Mesh*> Mesh_Draw_Stack;
@@ -250,10 +342,17 @@ namespace Spegetti_Renderer
 			glm::vec3 Up	= glm::vec3(0.0f);
 
 			// Camera init
-			Camera();
+			Camera(OS::Window* window);
+			
+			// With Clip Space Mode
+			Camera(Clip_Space_Mode mode, float fov, OS::Window* window, float near, float far);
 
 			// Camera deconstructor
 			~Camera();
+
+			
+			// Change Clip Space Mode
+			void Change_Clip_Space_Mode(Clip_Space_Mode mode, float fov, OS::Window* window, float near, float far);
 
 
 			// Updates the View matrix using the Position and Rotation vectors
@@ -270,46 +369,15 @@ namespace Spegetti_Renderer
 			void Reload_Models();
 
 
+			// Change the Draw mode
+			void Change_Draw_Mode(Draw_Mode mode);
+
 			// Draw the Camera's draw stack
 			void Draw();
 		};
 
 		// Debug Mesh
 		Mesh Debug_Quad();
-	}
-
-	namespace OS
-	{
-		class Window
-		{
-		private:
-			
-			GLFWwindow* GLFW_Window;
-
-		public:
-			// Window init
-			Window(const char* name, const int width, const int height);
-			
-			// Window deconstructor
-			~Window();
-
-
-			// Returns the GLFW Window
-			GLFWwindow* Get_Window();
-
-			// Should the window close
-			bool Should_Close();
-
-			// Force close the window
-			void Close_Window();
-
-
-			// Updates imported GLFW Window functions
-			void Update();
-
-			// Forces the context of the Window
-			void Push_Context();
-		};
 	}
 }
 

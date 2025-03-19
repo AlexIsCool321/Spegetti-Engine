@@ -1,4 +1,6 @@
 shader engine/shaders/pbr.vs engine/shaders/pbr.fs
 
+cull none
+
 texture albedo engine/textures/crowbar/albedo.png
 vec4 base_color 1.0 1.0 1.0 1.0

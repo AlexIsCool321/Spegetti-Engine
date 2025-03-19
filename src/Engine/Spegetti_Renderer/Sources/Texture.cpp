@@ -15,14 +15,14 @@ namespace Spegetti_Renderer
 			this->Channels = 0;
 		}
 
-		Texture::Texture(const char* texture_path)
+		Texture::Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation)
 		{
 			this->ID = 0;
 			this->Width = 0;
 			this->Height = 0;
 			this->Channels = 0;
 
-			this->Load_Texture(texture_path);
+			this->Load_Texture(texture_path, texture_repetition, texture_interpolation);
 		}
 
 		Texture::~Texture()
@@ -31,15 +31,53 @@ namespace Spegetti_Renderer
 		}
 
 
-		void Texture::Load_Texture(const char* texture_path)
+		void Texture::Load_Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation)
 		{
+			stbi_set_flip_vertically_on_load(true);
+
 			glGenTextures(1, &this->ID);
 			glBindTexture(GL_TEXTURE_2D, this->ID);
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			GLint Repetition = 0;
+			if (texture_repetition == Repeat)
+			{
+				Repetition = GL_REPEAT;
+			}
+			else if (texture_repetition == Extend)
+			{
+				Repetition = GL_CLAMP_TO_EDGE;
+			}
+			else if (texture_repetition == Clip)
+			{
+				Repetition = GL_CLAMP_TO_BORDER;
+			}
+			else if (texture_repetition == Mirror)
+			{
+				Repetition = GL_MIRRORED_REPEAT;
+			}
+			else
+			{
+				Repetition = GL_REPEAT;
+			}
+
+			GLint Interpolation = 0;
+			if (texture_interpolation == Linear)
+			{
+				Interpolation = GL_LINEAR;
+			}
+			else if (texture_interpolation == Closest)
+			{
+				Interpolation = GL_NEAREST;
+			}
+			else
+			{
+				Interpolation = GL_LINEAR;
+			}
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, Repetition);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Repetition);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Interpolation);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Interpolation);
 			
 			unsigned char* data = stbi_load(texture_path, &this->Width, &this->Height, &this->Channels, 0);
 			if (data)

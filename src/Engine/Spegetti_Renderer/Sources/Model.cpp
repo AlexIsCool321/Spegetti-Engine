@@ -52,7 +52,7 @@ namespace Spegetti_Renderer
 			}
 		}
 
-
+		
 		void Model::Load_Model(const char* path)
 		{
 			std::string file;
@@ -65,9 +65,6 @@ namespace Spegetti_Renderer
 			std::vector<unsigned int> Indices;
 			std::vector<unsigned int> Normal_Indices;
 			std::vector<unsigned int> UV_Indices;
-
-			bool Writing_To_Mesh = false;
-			int Mesh_Index = 0;
 
 			Material material = Material("engine/materials/default.mat");
 
@@ -111,10 +108,9 @@ namespace Spegetti_Renderer
 						{
 							std::string face = Split(line, i + 1, ' ');
 
-							Indices			.push_back(std::stoi(Split(face, 2, '/')));
-							Normal_Indices	.push_back(std::stoi(Split(face, 0, '/')));
-							UV_Indices		.push_back(std::stoi(Split(face, 1, '/')));
-
+							Indices			.push_back(std::stoi(Split(face, 0, '/')) - 1);
+							UV_Indices		.push_back(std::stoi(Split(face, 1, '/')) - 1);
+							Normal_Indices	.push_back(std::stoi(Split(face, 2, '/')) - 1); 
 						}
 					}
 				} 
@@ -122,14 +118,17 @@ namespace Spegetti_Renderer
 
 				std::vector<Vertex> Vertices;
 
+				std::vector<unsigned int> Out_Indices;
+
 				for (int i = 0; i < Indices.size(); i++)
 				{
+					Out_Indices.push_back(i);
+					
 					Vertex vertex;
 
-					std::cout << Positions[Indices[i] - 1].x << std::endl;
-					vertex.Position = Positions[Indices[i] - 1];
-					//vertex.Normal = Normals[Normal_Indices[i]];
-					vertex.UV_Coords = UV_Coords[UV_Indices[i] - 1];
+					vertex.Position		= Positions[Indices[i]];
+					vertex.UV_Coords	= UV_Coords[UV_Indices[i]];
+					vertex.Normal		= Normals[Normal_Indices[i]];
 
 					Vertices.push_back(vertex);
 				}
@@ -137,7 +136,7 @@ namespace Spegetti_Renderer
 				this->Meshes.push_back(Mesh
 				(
 					Vertices,
-					Indices,
+					Out_Indices,
 					material
 				));
 			}
@@ -146,7 +145,7 @@ namespace Spegetti_Renderer
 				Error("FAILE TO LOAD MODEL : [ " + (std::string)path + " ]");
 			}
 		}
-		 
+
 
 		void Model::Add_Mesh(Mesh mesh)
 		{

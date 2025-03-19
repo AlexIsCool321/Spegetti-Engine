@@ -14,7 +14,7 @@ uniform sampler2D rougness;
 
 void main()
 {
-	if (false)
+	if (true)
 	{
 		FragColor = texture(rougness, UV);
 	}

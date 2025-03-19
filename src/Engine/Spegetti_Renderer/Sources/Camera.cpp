@@ -4,13 +4,26 @@ namespace Spegetti_Renderer
 {
 	namespace Graphics
 	{
-		Camera::Camera()
+		Camera::Camera(OS::Window* window)
 		{
-			this->Position	= glm::vec3(0, 0, 0);
-			this->Rotation	= glm::vec3(0, 0, 0);
+			this->Position = glm::vec3(0, 0, 0);
+			this->Rotation = glm::vec3(0, 0, 0);
 
-			this->Projection	= glm::perspective(glm::radians(90.0f), 1200.0f / 800.0f, 0.001f, 500.0f);
-			this->View			= glm::mat4(1.0f);
+			this->FOV = 90.0f;
+
+			this->Change_Clip_Space_Mode(Perspective, 90.0f, window, 0.01f, 500.0f);
+			this->View = glm::mat4(1.0f);
+		}
+
+		Camera::Camera(Clip_Space_Mode mode, float fov, OS::Window* window, float near, float far)
+		{
+			this->Position = glm::vec3(0, 0, 0);
+			this->Rotation = glm::vec3(0, 0, 0);
+
+			this->FOV = fov;
+
+			this->Change_Clip_Space_Mode(mode, fov, window, 0.01f, 500.0f);
+			this->View = glm::mat4(1.0f);
 		}
 
 		Camera::~Camera()
@@ -23,6 +36,21 @@ namespace Spegetti_Renderer
 			for (int i = 0; i < this->Mesh_Draw_Stack.size(); i++)
 			{
 				delete this->Mesh_Draw_Stack[i];
+			}
+		}
+
+
+		void Camera::Change_Clip_Space_Mode(Clip_Space_Mode mode, float fov, OS::Window* window, float near, float far)
+		{
+			glm::vec2 size = window->Get_Size();
+			
+			if (mode == Orthographic)
+			{
+				this->Projection = glm::ortho(0.0f, size.x, 0.0f, size.y, near, far);
+			}
+			else
+			{
+				this->Projection = glm::perspective(glm::radians(fov), size.x / size.y, near, far);
 			}
 		}
 
@@ -82,10 +110,51 @@ namespace Spegetti_Renderer
 		}
 
 
+		void Camera::Change_Draw_Mode(Draw_Mode mode)
+		{
+			this->Mode = mode;
+			
+			if (mode == Normal)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else if (mode == Unlit)
+			{
+				
+			}
+			else if (mode == Wireframe)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			else if (mode == Surface_Normal)
+			{
+
+			}
+			else if (mode == Albedo)
+			{
+
+			}
+			else if (mode == Rougness)
+			{
+
+			}
+			else if (mode == Normal_Map)
+			{
+
+			}
+			else
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			
+			this->Reload_Models();
+		}
+
 		void Camera::Draw()
 		{
 			this->Update_View();
-
+			this->Change_Draw_Mode(this->Mode);
+			
 			for (int i = 0; i < this->Model_Draw_Stack.size(); i++)
 			{
 				for (int j = 0; j < this->Model_Draw_Stack[i]->Meshes.size(); j++)
@@ -95,6 +164,23 @@ namespace Spegetti_Renderer
 						this->Model_Draw_Stack[i]->Meshes[j].Set_Projection(this->Projection);
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Direction(this->View);
 						
+						if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Cull_Mode::Back)
+						{
+							glEnable(GL_CULL_FACE);
+							glCullFace(GL_BACK);
+							glFrontFace(GL_CCW);
+						}
+						else if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Cull_Mode::Front)
+						{
+							glEnable(GL_CULL_FACE);
+							glCullFace(GL_FRONT);
+							glFrontFace(GL_CCW);
+						}
+						else
+						{
+							glDisable(GL_CULL_FACE);
+						}
+
 						this->Model_Draw_Stack[i]->Meshes[j].Draw();
 					}
 				}
@@ -106,6 +192,23 @@ namespace Spegetti_Renderer
 				{
 					this->Mesh_Draw_Stack[i]->Set_Projection(this->Projection);
 					this->Mesh_Draw_Stack[i]->Set_View_Direction(this->View);
+
+					if (*this->Mesh_Draw_Stack[i]->material.Mode == Cull_Mode::Back)
+					{
+						glEnable(GL_CULL_FACE);
+						glCullFace(GL_BACK);
+						glFrontFace(GL_CCW);
+					}
+					else if (*this->Mesh_Draw_Stack[i]->material.Mode == Cull_Mode::Front)
+					{
+						glEnable(GL_CULL_FACE);
+						glCullFace(GL_FRONT);
+						glFrontFace(GL_CCW);
+					}
+					else
+					{
+						glDisable(GL_CULL_FACE);
+					}
 
 					this->Mesh_Draw_Stack[i]->Draw();
 				}

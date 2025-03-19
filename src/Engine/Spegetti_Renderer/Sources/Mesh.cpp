@@ -64,12 +64,12 @@ namespace Spegetti_Renderer
 
 			glBindVertexArray(this->VAO);
 			glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-			
+
 			glBufferData(GL_ARRAY_BUFFER, this->Vertices.size() * sizeof(Vertex), &this->Vertices[0], GL_STATIC_DRAW);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->Indices.size() * sizeof(unsigned int), &this->Indices[0], GL_STATIC_DRAW);
-
+			
 			// Vertices' Positions
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
@@ -104,7 +104,7 @@ namespace Spegetti_Renderer
 			this->material.Use();
 
 			glBindVertexArray(this->VAO);
-			glDrawElements(GL_TRIANGLES, this->Indices.size(), GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, (GLsizei)this->Indices.size(), GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 		}
 	}

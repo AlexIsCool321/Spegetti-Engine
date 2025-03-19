@@ -9,17 +9,35 @@ namespace Spegetti_Renderer
 			this->ID = 0;
 			Shader shader = Shader("engine/shaders/pbr.vs", "engine/shaders/pbr.fs");
 			this->Load_Shader(&shader);
+			this->Change_Cull_Mode(Back);
 		}
 
 		Material::Material(Shader* shader)
 		{
 			this->Load_Shader(shader);
+			this->Change_Cull_Mode(Back);
 		}
 
 		Material::Material(const char* material_path)
 		{
 			this->Load_Material(*material_path);
+			this->Change_Cull_Mode(Back);
 		}
+
+
+		Material Material::operator=(const Material& other) const
+		{
+			if (this != &other)
+			{
+				Material material = Material();
+				material.ID		= this->ID;
+				material.Mode	= this->Mode;
+
+				return material;
+			}
+			return *this;
+		}
+
 
 		void Material::Load_Material(const char& path)
 		{
@@ -40,41 +58,49 @@ namespace Spegetti_Renderer
 							this->Load_Shader(&shader);
 						}
 					}
-
-					if (First_Token(line) == "texture")
+					else if (First_Token(line) == "cull")
 					{
-						Texture texture = Texture(Split(line, 2, ' ').c_str());
+						if (Split(line, 1, ' ') == "front")
+						{
+							this->Change_Cull_Mode(Front);
+						}
+						else if (Split(line, 1, ' ') == "back")
+						{
+							this->Change_Cull_Mode(Back);
+						}
+						else
+						{
+							this->Change_Cull_Mode(None);
+						}
+					}
+					else if (First_Token(line) == "texture")
+					{
+						Texture texture = Texture(Split(line, 2, ' ').c_str(), Repeat, Linear);
 						this->Set_Texture(Split(line, 1, ' ').c_str(), &texture);
 					}
-
-					if (First_Token(line) == "bool")
+					else if (First_Token(line) == "bool")
 					{
 						this->Set_Bool(Split(line, 1, ' ').c_str(), std::stoi(Split(line, 2, ' ')));
 					}
-
-					if (First_Token(line) == "float")
+					else if (First_Token(line) == "float")
 					{
 						this->Set_Float(Split(line, 1, ' ').c_str(), std::stof(Split(line, 2, ' ')));
 					}
-
-					if (First_Token(line) == "int")
+					else if (First_Token(line) == "int")
 					{
 						this->Set_Int(Split(line, 1, ' ').c_str(), std::stoi(Split(line, 2, ' ')));
 					}
-
-					if (First_Token(line) == "vec2")
+					else if (First_Token(line) == "vec2")
 					{
 						glm::vec2 vector = glm::vec2(std::stof(Split(line, 2, ' ')), std::stof(Split(line, 3, ' ')));
 						this->Set_Vector2(Split(line, 1, ' ').c_str(), vector);
 					}
-
-					if (First_Token(line) == "vec3")
+					else if (First_Token(line) == "vec3")
 					{
 						glm::vec3 vector = glm::vec3(std::stof(Split(line, 2, ' ')), std::stof(Split(line, 3, ' ')), std::stof(Split(line, 4, ' ')));
 						this->Set_Vector3(Split(line, 1, ' ').c_str(), vector);
 					}
-
-					if (First_Token(line) == "vec4")
+					else if (First_Token(line) == "vec4")
 					{
 						glm::vec4 vector = glm::vec4(std::stof(Split(line, 2, ' ')), std::stof(Split(line, 3, ' ')), std::stof(Split(line, 4, ' ')), std::stof(Split(line, 5, ' ')));
 						this->Set_Vector4(Split(line, 1, ' ').c_str(), vector);
@@ -216,6 +242,12 @@ namespace Spegetti_Renderer
 			glBindTexture(GL_TEXTURE_2D, texture->Get_ID());
 
 			glUniform1i(glGetUniformLocation(this->ID, name), texture->Get_ID());
+		}
+
+
+		void Material::Change_Cull_Mode(Cull_Mode mode)
+		{
+			this->Mode = &mode;
 		}
 	}
 }

@@ -35,8 +35,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Memory)
 target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Files)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
+	FOLDER "Engine"
+
 	ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/../build/shared"
 	ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/../build/shared"
-
-	FOLDER("Engine")
 )
