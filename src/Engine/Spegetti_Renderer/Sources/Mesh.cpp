@@ -87,7 +87,12 @@ namespace Spegetti_Renderer
 		}
 
 
-		void Mesh::Set_View_Direction(glm::mat4 view)
+		void Mesh::Set_View_Position(glm::vec3 view)
+		{
+			this->material.Set_Vector3("view_position", view);
+		}
+		
+		void Mesh::Set_View_Matrix(glm::mat4 view)
 		{
 			this->material.Set_Mat4("view", view);
 		}

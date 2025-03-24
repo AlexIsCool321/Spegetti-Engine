@@ -57,6 +57,10 @@ namespace Spegetti_Renderer
 			// Force close the window
 			void Close_Window();
 
+			
+			// Set the Window Icon
+			void Set_Icon(const char* path);
+
 
 			// Updates imported GLFW Window functions
 			void Update();
@@ -90,6 +94,9 @@ namespace Spegetti_Renderer
 			std::string Fragment_Shader;
 
 			// Shader init
+			Shader();
+
+			// Shader init with const char*
 			Shader(const char* vertex_path, const char* fragment_path);
 			
 			// Shader init with std::string
@@ -172,8 +179,11 @@ namespace Spegetti_Renderer
 			void Load_Material(const char& path);
 			
 
-			// Forces OpenGl to Use this Material
+			// Forces the renderer to Use this Material
 			void Use();
+
+			// Returns the Material's ID
+			unsigned int Get_ID();
 
 
 			// Returns if the specified Uniform is in the Shader
@@ -251,8 +261,11 @@ namespace Spegetti_Renderer
 			void Set_Up_Mesh();
 
 
-			// Set the the View that the Mesh will be Drawn at
-			void Set_View_Direction(glm::mat4 view);
+			// Set the the View that the Shaders can use
+			void Set_View_Position(glm::vec3 view);
+			
+			// Set the the Model that the Mesh will be Drawn at
+			void Set_View_Matrix(glm::mat4 view);
 
 			// Set the the Projection that the Mesh will be Drawn at
 			void Set_Projection(glm::mat4 projection);
@@ -319,8 +332,48 @@ namespace Spegetti_Renderer
 			Perspective
 		};
 
-		struct Camera
+		class Post_Process_Effect
 		{
+		private:
+			unsigned int VAO, VBO, EBO;
+			Material* Material_Effect;
+
+		public:
+
+			// Post Process Effect init
+			Post_Process_Effect();
+
+			// Post Process Effect init with Material
+			Post_Process_Effect(Material* material);
+
+			
+			// Equals
+			Post_Process_Effect operator=(Post_Process_Effect& other) const;
+
+
+			// Sets up the Post Process Effect
+			void Set_Up_Effect();
+
+
+			// Set Material
+			void Set_Material(Material* material);
+
+			// Returns the Material of the Effect
+			Material* Get_Material();
+
+
+			// Draws the Effect
+			void Draw();
+		};
+
+		class Camera
+		{
+		private:
+			unsigned int gPosition, gNormal, gAlbedo_Roughness, Depth;
+
+			Post_Process_Effect* Lighting;
+
+		public:
 			bool Active = true;
 
 			Draw_Mode Mode = Normal;
@@ -334,12 +387,12 @@ namespace Spegetti_Renderer
 			glm::mat4 View			= glm::mat4(1.0f);
 			glm::mat4 Projection	= glm::mat4(1.0f);
 
-			glm::vec3 Position = glm::vec3(0.0f);
-			glm::vec3 Rotation = glm::vec3(0.0f);
+			glm::vec3 Position		= glm::vec3(0.0f);
+			glm::vec3 Rotation		= glm::vec3(0.0f);
 
-			glm::vec3 Front	= glm::vec3(0.0f);
-			glm::vec3 Right	= glm::vec3(0.0f);
-			glm::vec3 Up	= glm::vec3(0.0f);
+			glm::vec3 Front			= glm::vec3(0.0f);
+			glm::vec3 Right			= glm::vec3(0.0f);
+			glm::vec3 Up			= glm::vec3(0.0f);
 
 			// Camera init
 			Camera(OS::Window* window);
@@ -366,7 +419,11 @@ namespace Spegetti_Renderer
 
 
 			// Recompiles all Models and Meshes in the Camera's draw stack
-			void Reload_Models();
+			void Reload_Models(OS::Window* window);
+
+
+			// Set Lighting Material
+			void Set_Lighting_Material(Material* material);
 
 
 			// Change the Draw mode

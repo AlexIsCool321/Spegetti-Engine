@@ -1,5 +1,18 @@
 ﻿#include <UV_Viewer.h>
 
+// Remove Console
+#ifdef _WIN32
+#include <Windows.h>
+
+int main();
+
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	return main();
+}
+
+#endif // _WIN32
+
 bool running = true;
 
 int main()
@@ -7,10 +20,8 @@ int main()
 	std::string model_path;
 	std::string texture_path;
 
-	model_path = "engine/models/cube.obj";
-	texture_path = "engine/textures/cube/albedo.png";
-	//std::cin >> model_path;
-	//std::cin >> texture_path;
+	model_path = "engine/models/crowbar.obj";
+	texture_path = "engine/textures/crowbar/albedo.png";
 
 	Init_Spegetti_Renderer();
 
@@ -19,17 +30,17 @@ int main()
 
 	// World
 	Window World_View = Window("World View", 800, 600);
+	World_View.Set_Icon("bin/UV_Viewer.png");
 
 	Camera World_Camera = Camera(Perspective, 90.0f, &World_View, 0.01f, 500.0f);
 
-	Material material = Material();
-
-	Texture texture = Texture(texture_path.c_str(), Repeat, Closest);
+	Material world_material = Material();
+	Texture world_albedo = Texture(texture_path.c_str(), Repeat, Linear);
 
 	Model world_model = Model(model_path.c_str());
 
-	world_model.Set_Material(material);
-	material.Set_Texture("albedo", &texture);
+	world_model.Set_Material(world_material);
+	world_material.Set_Texture("albedo", &world_albedo);
 
 	World_Camera.Add_Model_To_Draw_Stack(&world_model);
 
@@ -38,16 +49,20 @@ int main()
 
 	// UV
 	Window UV_View = Window("UV View", 800, 600);
+	UV_View.Set_Icon("bin/UV_Viewer.png");
 
 	Camera UV_Camera = Camera(Perspective, 90.0f, &UV_View, 0.01f, 500.0f);
 	//UV_Camera.Change_Draw_Mode(Wireframe);
+
+	Material uv_material = Material();
+	Texture uv_albedo = Texture(texture_path.c_str(), Repeat, Linear);
 
 	Mesh uv_mesh = Load_Model_UV(model_path.c_str());
 	Model uv_model = Model();
 	uv_model.Add_Mesh(uv_mesh);
 
-	uv_model.Set_Material(material);
-	material.Set_Texture("albedo", &texture);
+	uv_model.Set_Material(uv_material);
+	uv_material.Set_Texture("albedo", &uv_albedo);
 
 	UV_Camera.Add_Model_To_Draw_Stack(&uv_model);
 
@@ -62,7 +77,7 @@ int main()
 		World_View.Push_Context();
 		World_View.Update();
 
-		//FreeCam(&World_Camera, &World_View);
+		FreeCam(&World_Camera, &World_View);
 
 		World_Camera.Draw();
 
@@ -75,7 +90,7 @@ int main()
 		UV_View.Push_Context();
 		UV_View.Update();
 
-		FreeCam(&UV_Camera, &UV_View);
+		//FreeCam(&UV_Camera, &UV_View);
 
 		UV_Camera.Draw();
 

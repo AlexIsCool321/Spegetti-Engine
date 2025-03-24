@@ -1,5 +1,7 @@
 #include <Spegetti_Renderer.h>
 
+#include <stb_image/stb_image.h>
+
 namespace Spegetti_Renderer
 {
 	void Init_Spegetti_Renderer()
@@ -23,7 +25,7 @@ namespace Spegetti_Renderer
 		// -------------------------------------------------
 		// GLFW Init
 		// -------------------------------------------------
-
+		
 		Log("Successfully Init!");
 	}
 

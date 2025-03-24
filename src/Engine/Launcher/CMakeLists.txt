@@ -8,18 +8,32 @@ set(Launcher_Sources
 	"Headers/Launcher.h"
 )
 
-add_executable(${PROJECT_NAME} ${Launcher_Sources})
+add_executable(${PROJECT_NAME} WIN32 ${Launcher_Sources})
 
-add_dependencies(${PROJECT_NAME} Spegetti_Console)
-add_dependencies(${PROJECT_NAME} Spegetti_Entity_System)
-add_dependencies(${PROJECT_NAME} Spegetti_Files)
-add_dependencies(${PROJECT_NAME} Spegetti_Logic)
-add_dependencies(${PROJECT_NAME} Spegetti_Map_System)
-add_dependencies(${PROJECT_NAME} Spegetti_Memory)
-add_dependencies(${PROJECT_NAME} Spegetti_Renderer)
+#Third Part
+add_dependencies(${PROJECT_NAME} "GLAD")
+add_dependencies(${PROJECT_NAME} "IMGUI")
 
-add_dependencies(${PROJECT_NAME} Engine)
-add_dependencies(${PROJECT_NAME} UV_Viewer)
+target_link_libraries(${PROJECT_NAME} PRIVATE "IMGUI")
+
+# Engine
+add_dependencies(${PROJECT_NAME} "Spegetti_Console")
+add_dependencies(${PROJECT_NAME} "Spegetti_Entity_System")
+add_dependencies(${PROJECT_NAME} "Spegetti_Files")
+add_dependencies(${PROJECT_NAME} "Spegetti_Logic")
+add_dependencies(${PROJECT_NAME} "Spegetti_Map_System")
+add_dependencies(${PROJECT_NAME} "Spegetti_Memory")
+add_dependencies(${PROJECT_NAME} "Spegetti_Renderer")
+
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Renderer")
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Logic")
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Console")
+
+# Tools
+add_dependencies(${PROJECT_NAME} "Engine")
+add_dependencies(${PROJECT_NAME} "UV_Viewer")
+#add_dependencies(${PROJECT_NAME} "Fork")
+add_dependencies(${PROJECT_NAME} "Material_Editor")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	FOLDER "Engine"

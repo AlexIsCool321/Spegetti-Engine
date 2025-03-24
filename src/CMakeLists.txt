@@ -15,8 +15,13 @@ include_directories(${PROJECT_NAME} PUBLIC "Third Party/GLAD/Headers")
 include_directories(${PROJECT_NAME} PUBLIC "Third Party/GLFW/Headers")
 
 include_directories(${PROJECT_NAME} PUBLIC "Third Party/GLM/Headers")
-include_directories(${PROJECT_NAME} PUBLIC "Third Party/IMGUI/Headers")
 
+include_directories(${PROJECT_NAME} PUBLIC "Third Party/IMGUI/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Third Party/IMGUI/Headers/imgui")
+
+add_subdirectory("Third Party/GLAD")
+
+add_subdirectory("Third Party/IMGUI")
 
 # Engine
 include_directories(${PROJECT_NAME} PUBLIC "Engine/Launcher/Headers")
@@ -48,6 +53,9 @@ add_subdirectory("Engine/Spegetti_Entity_System")
 # Tools
 include_directories(${PROJECT_NAME} PUBLIC "Tools/Engine/Headers")
 include_directories(${PROJECT_NAME} PUBLIC "Tools/UV_Viewer/Headers")
+include_directories(${PROJECT_NAME} PUBLIC "Tools/Fork/Headers")
 
 add_subdirectory("Tools/Engine")
 add_subdirectory("Tools/UV_Viewer")
+#add_subdirectory("Tools/Fork")
+add_subdirectory("Tools/Material_Editor")

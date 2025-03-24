@@ -1,0 +1,28 @@
+Render Equation
+
+https://en.wikipedia.org/wiki/Rendering_equation
+https://www.youtube.com/watch?v=RjoatjztY_Y
+
+Light_out(x, w>o , y, t) = Light_Emitted(x, w>o, y, t) + Light_Reflected(x, w>o, y, t)
+
+[inputs are for the light so position is the light's position]
+surface_light(position, direction, color) = render equation = surface_color
+
+
+reflected_light(position, direction, color) 
+	= brdf(position, incoming_light, outgoing_light) 
+	* {light_color |OR| average_light_color_from_reflection[e.g light prob / cube map]}
+	* dot(light direction, normal) * (normal * light direction)
+
+brdf = pbr_hanling
+
+
+Lr in	[color]
+Lo out	[reflection]
+
+surface_color = rsr(light_position, light_direction, light_color)
+
+	= brdf(light_position, negitive_light_direction, light_direction, light_color)
+	* srw(light_position, negitive_light_direction, light_color)
+	* dot(negitive_light_direction, surface_normal[ + normal_map])
+	* (surface_normal[ + normal_map]) * negitive_light_direction

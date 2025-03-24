@@ -13,6 +13,8 @@ namespace Spegetti_Renderer
 			this->Width = 0;
 			this->Height = 0;
 			this->Channels = 0;
+
+			this->Load_Texture("engine/textures/debug.png", Repeat, Closest);
 		}
 
 		Texture::Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation)
@@ -21,7 +23,7 @@ namespace Spegetti_Renderer
 			this->Width = 0;
 			this->Height = 0;
 			this->Channels = 0;
-
+			
 			this->Load_Texture(texture_path, texture_repetition, texture_interpolation);
 		}
 
@@ -30,14 +32,8 @@ namespace Spegetti_Renderer
 			glDeleteTextures(1, &this->ID);
 		}
 
-
 		void Texture::Load_Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation)
 		{
-			stbi_set_flip_vertically_on_load(true);
-
-			glGenTextures(1, &this->ID);
-			glBindTexture(GL_TEXTURE_2D, this->ID);
-
 			GLint Repetition = 0;
 			if (texture_repetition == Repeat)
 			{
@@ -74,25 +70,35 @@ namespace Spegetti_Renderer
 				Interpolation = GL_LINEAR;
 			}
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, Repetition);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Repetition);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Interpolation);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Interpolation);
-			
+			glGenTextures(1, &this->ID);
+			stbi_set_flip_vertically_on_load(true);
 			unsigned char* data = stbi_load(texture_path, &this->Width, &this->Height, &this->Channels, 0);
 			if (data)
 			{
-				GLenum format = (this->Channels == 3) ? GL_RGB : GL_RGBA;
+				GLenum format;
+				if (this->Channels == 1)
+					format = GL_RED;
+				else if (this->Channels == 3)
+					format = GL_RGB;
+				else if (this->Channels == 4)
+					format = GL_RGBA;
+
+				glBindTexture(GL_TEXTURE_2D, this->ID);
 				glTexImage2D(GL_TEXTURE_2D, 0, format, this->Width, this->Height, 0, format, GL_UNSIGNED_BYTE, data);
 				glGenerateMipmap(GL_TEXTURE_2D);
+
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, Repetition);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Repetition);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Interpolation);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Interpolation);
+
+				stbi_image_free(data);
 			}
 			else
 			{
-				this->ID = 0;
-				Error("Failed to load texture" + (std::string)texture_path);
+				Error("FAILED TO LOAD TEXTURE : [ " + std::string(texture_path) + " ]");
+				stbi_image_free(data);
 			}
-			
-			stbi_image_free(data);
 		}
 
 

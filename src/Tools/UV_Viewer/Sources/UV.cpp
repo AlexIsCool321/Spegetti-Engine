@@ -40,10 +40,6 @@ Mesh Load_Model_UV(const char* path)
 		stream.close();
 
 		std::vector<Vertex> Vertices;
-		for (int i = 0; i < UV_Indices.size(); i++)
-		{
-			std::cout << UV_Coords[UV_Indices[i]].x << " " << UV_Coords[UV_Indices[i]].z << " " << UV_Indices[i] << std::endl;
-		}
 
 		std::vector<unsigned int> Out_Indices;
 		for (int i = 0; i < UV_Indices.size(); i++)

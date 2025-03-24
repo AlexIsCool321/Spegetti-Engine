@@ -1,6 +1,8 @@
 #include <Spegetti_Renderer.h>
 #include <Spegetti_Logic.h>
 
+#include <stb_image/stb_image.h>
+
 using namespace Spegetti_Logic;
 
 void Resize_Window(GLFWwindow* window, int width, int height)
@@ -61,6 +63,15 @@ namespace Spegetti_Renderer
 		void Window::Close_Window()
 		{
 			glfwDestroyWindow(this->GLFW_Window);
+		}
+
+
+		void Window::Set_Icon(const char* path)
+		{
+			GLFWimage images[1];
+			images[0].pixels = stbi_load(path, &images[0].width, &images[0].height, 0, 4);
+			glfwSetWindowIcon(this->GLFW_Window, 1, images);
+			stbi_image_free(images[0].pixels);
 		}
 
 

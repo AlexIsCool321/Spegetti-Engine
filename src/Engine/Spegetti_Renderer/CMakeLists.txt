@@ -5,8 +5,6 @@ project(Spegetti_Renderer)
 include_directories(${PROJECT_NAME} PUBLIC "/")
 
 set(Spegetti_Renderer_Sources
-	"../../Third Party/GLAD/Sources/glad.c"
-
 	"Sources/Window.cpp"
 	"Sources/Camera.cpp"
 
@@ -20,6 +18,8 @@ set(Spegetti_Renderer_Sources
 	"Sources/Model.cpp"
 	
 	"Sources/Debug_Quad.cpp"
+	
+	"Sources/Post_Process_Effect.cpp"
 
 	"Sources/Spegetti_Renderer.cpp"
 	"Headers/Spegetti_Renderer.h"
@@ -31,8 +31,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE "GLFW/glfw3")
 
 link_directories("${CMAKE_SOURCE_DIR}/../build/shared")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Memory)
-target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Files)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE "GLAD")
+
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Memory")
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Files")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	FOLDER "Engine"

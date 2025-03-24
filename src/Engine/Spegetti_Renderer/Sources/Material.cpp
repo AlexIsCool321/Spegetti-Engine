@@ -123,6 +123,11 @@ namespace Spegetti_Renderer
 			glUseProgram(this->ID);
 		}
 
+		unsigned int Material::Get_ID()
+		{
+			return this->ID;
+		}
+
 
 		void Material::Load_Shader(Shader* shader)
 		{
@@ -149,7 +154,7 @@ namespace Spegetti_Renderer
 				std::string reason_string = reason;
 				Error("FAILED TO COMPILE VERTEX SHADER : [ " + reason_string + " ]");
 			}
-
+			
 			// Fragement Shader
 			unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 			glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
@@ -162,9 +167,10 @@ namespace Spegetti_Renderer
 				std::string reason_string = reason;
 				Error("FAILED TO COMPILE FRAGMENT SHADER : [ " + reason_string + " ]");
 			}
-
+			
 			// Shader Program
 			this->ID = glCreateProgram();
+
 			glAttachShader(this->ID, vertexShader);
 			glAttachShader(this->ID, fragmentShader);
 			glLinkProgram(this->ID);
@@ -175,73 +181,83 @@ namespace Spegetti_Renderer
 				std::string reason_string = reason;
 				Error("FAILED TO LINK SHADERS : [ " + reason_string + " ]");
 			}
+			
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
-
-			glUseProgram(this->ID);
 		}
 
 
 		bool Material::Has_Uniform(const char* name)
 		{
+			glUseProgram(this->ID);
 			return (glGetUniformLocation(this->ID, name) != -1);
 		}
 
 
 		void Material::Set_Bool(const char* name, bool value) const
 		{
+			glUseProgram(this->ID);
 			glUniform1i(glGetUniformLocation(this->ID, name), (int)value);
 		}
 
 		void Material::Set_Int(const char* name, int value) const
 		{
+			glUseProgram(this->ID);
 			glUniform1i(glGetUniformLocation(this->ID, name), value);
 		}
 
 		void Material::Set_Float(const char* name, float value) const
 		{
+			glUseProgram(this->ID);
 			glUniform1f(glGetUniformLocation(this->ID, name), value);
 		}
 
 
 		void Material::Set_Vector2(const char* name, glm::vec2 value) const
 		{
+			glUseProgram(this->ID);
 			glUniform2f(glGetUniformLocation(this->ID, name), value.x, value.y);
 		}
 
 		void Material::Set_Vector3(const char* name, glm::vec3 value) const
 		{
+			glUseProgram(this->ID);
 			glUniform3f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z);
 		}
 
 		void Material::Set_Vector4(const char* name, glm::vec4 value) const
 		{
+			glUseProgram(this->ID);
 			glUniform4f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z, value.w);
 		}
 
 
 		void Material::Set_Mat2(const char* name, glm::mat2 value) const
 		{
+			glUseProgram(this->ID);
 			glUniformMatrix2fv(glGetUniformLocation(this->ID, name), 1, GL_FALSE, glm::value_ptr(value));
 		}
 
 		void Material::Set_Mat3(const char* name, glm::mat3 value) const
 		{
+			glUseProgram(this->ID);
 			glUniformMatrix3fv(glGetUniformLocation(this->ID, name), 1, GL_FALSE, glm::value_ptr(value));
 		}
 
 		void Material::Set_Mat4(const char* name, glm::mat4 value) const
 		{
+			glUseProgram(this->ID);
 			glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, GL_FALSE, glm::value_ptr(value));
 		}
 
 
 		void Material::Set_Texture(const char* name, Texture* texture) const
 		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture->Get_ID());
-
+			glUseProgram(this->ID);
 			glUniform1i(glGetUniformLocation(this->ID, name), texture->Get_ID());
+
+			glActiveTexture(GL_TEXTURE0 + texture->Get_ID());
+			glBindTexture(GL_TEXTURE_2D, texture->Get_ID());
 		}
 
 
