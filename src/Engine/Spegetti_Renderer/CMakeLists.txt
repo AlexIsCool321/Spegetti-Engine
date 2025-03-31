@@ -12,6 +12,7 @@ set(Spegetti_Renderer_Sources
 	"Sources/Material.cpp"
 	
 	"Sources/Texture.cpp"
+	"Sources/G_Buffer.cpp"
 	
 	"Sources/Vertex.cpp"
 	"Sources/Mesh.cpp"

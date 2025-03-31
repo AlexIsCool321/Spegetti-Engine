@@ -22,13 +22,13 @@ int main()
 	Window window = Window("Engine", 800, 600);
 	window.Set_Icon("bin/UV_Viewer.png");
 
-	Camera camera = Camera(Perspective, 90.0f, &window, 0.01f, 500.0f);
+	Camera camera = Camera(Camera::Perspective, 90.0f, &window, 0.01f, 500.0f);
 	
 	Material material = Material();
 	
-	Texture albedo		= Texture("engine/textures/crowbar/albedo.png",		Repeat, Linear);
-	Texture normal		= Texture("engine/textures/crowbar/normal.png",		Repeat, Linear);
-	Texture roughness	= Texture("engine/textures/crowbar/roughness.png",	Repeat, Linear);
+	Texture albedo		= Texture("engine/textures/crowbar/albedo.png",		Texture::Repeat, Texture::Linear);
+	Texture normal		= Texture("engine/textures/crowbar/normal.png",		Texture::Repeat, Texture::Linear);
+	Texture roughness	= Texture("engine/textures/crowbar/roughness.png",	Texture::Repeat, Texture::Linear);
 	
 	Model model = Model("engine/models/crowbar.obj");
 

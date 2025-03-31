@@ -109,6 +109,7 @@ namespace Spegetti_Renderer
 
 		void Camera::Reload_Models(OS::Window* window)
 		{
+			/*
 			unsigned int gBuffer;
 			glGenFramebuffers(1, &gBuffer);
 			glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
@@ -152,6 +153,7 @@ namespace Spegetti_Renderer
 				Error("FRAMEBUFFER DID NOT COMPLETE");
 			}
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			*/
 		}
 
 
@@ -215,13 +217,13 @@ namespace Spegetti_Renderer
 						
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Position(this->Position);
 
-						if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Cull_Mode::Back)
+						if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Material::Cull_Mode::Back)
 						{
 							//glEnable(GL_CULL_FACE);
 							//glCullFace(GL_BACK);
 							//glFrontFace(GL_CCW);
 						}
-						else if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Cull_Mode::Front)
+						else if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Material::Cull_Mode::Front)
 						{
 							//glEnable(GL_CULL_FACE);
 							//glCullFace(GL_FRONT);
@@ -246,13 +248,13 @@ namespace Spegetti_Renderer
 					
 					this->Mesh_Draw_Stack[i]->Set_View_Position(this->Position);
 
-					if (*this->Mesh_Draw_Stack[i]->material.Mode == Cull_Mode::Back)
+					if (*this->Mesh_Draw_Stack[i]->material.Mode == Material::Cull_Mode::Back)
 					{
 						//glEnable(GL_CULL_FACE);
 						//glCullFace(GL_BACK);
 						//glFrontFace(GL_CCW);
 					}
-					else if (*this->Mesh_Draw_Stack[i]->material.Mode == Cull_Mode::Front)
+					else if (*this->Mesh_Draw_Stack[i]->material.Mode == Material::Cull_Mode::Front)
 					{
 						//glEnable(GL_CULL_FACE);
 						//glCullFace(GL_FRONT);
@@ -267,20 +269,20 @@ namespace Spegetti_Renderer
 				}
 			}
 			
-			this->Lighting_Effect.Get_Material()->Set_Int("gPosition", this->gPosition);
-			this->Lighting_Effect.Get_Material()->Set_Int("gNormal", this->gNormal);
-			this->Lighting_Effect.Get_Material()->Set_Int("gAlbedo_Roughness", this->gAlbedo_Roughness);
+			//this->Lighting_Effect.Get_Material()->Set_Int("gPosition", this->gPosition);
+			//this->Lighting_Effect.Get_Material()->Set_Int("gNormal", this->gNormal);
+			//this->Lighting_Effect.Get_Material()->Set_Int("gAlbedo_Roughness", this->gAlbedo_Roughness);
 			
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, this->gPosition);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, this->gNormal);
-			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, this->gAlbedo_Roughness);
+			//glActiveTexture(GL_TEXTURE0);
+			//glBindTexture(GL_TEXTURE_2D, this->gPosition);
+			//glActiveTexture(GL_TEXTURE1);
+			//glBindTexture(GL_TEXTURE_2D, this->gNormal);
+			//glActiveTexture(GL_TEXTURE2);
+			//glBindTexture(GL_TEXTURE_2D, this->gAlbedo_Roughness);
 
-			this->Lighting_Effect.Draw();
+			//this->Lighting_Effect.Draw();
 		}
 	}
 }

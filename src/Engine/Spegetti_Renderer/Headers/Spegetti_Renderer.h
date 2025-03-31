@@ -103,26 +103,26 @@ namespace Spegetti_Renderer
 			Shader(std::string vertex_path, std::string fragment_path);
 		};
 		
-		enum Texture_Repetition
-		{
-			Repeat,
-			Extend,
-			Clip,
-			Mirror
-		};
-
-		enum Texture_Interpolation
-		{
-			Linear,
-			Closest
-		};
-
 		class Texture
 		{
 		private:
 			unsigned int ID;
 
 		public:
+			enum Texture_Repetition
+			{
+				Repeat,
+				Extend,
+				Clip,
+				Mirror
+			};
+
+			enum Texture_Interpolation
+			{
+				Linear,
+				Closest
+			};
+
 			int Width, Height, Channels;
 
 			// Texture init
@@ -142,11 +142,100 @@ namespace Spegetti_Renderer
 			unsigned int Get_ID();
 		};
 
-		enum Cull_Mode
+		class G_Buffer
 		{
-			Front,
-			Back,
-			None
+		private:
+			unsigned int ID;
+
+		public:
+			enum Format
+			{
+				Red,
+				RG,
+				RGB,
+				RGBA,
+				SRGB,
+
+				R8,
+				R16,
+
+				RG8,
+				RG16,
+
+				R3_G3_B2,
+
+				RGB4,
+				RGB5,
+				RGB8,
+				RGB10,
+				RGB12,
+				RGB16,
+
+				RGBA2,
+				RGBA4,
+				RGBA8,
+				RGBA12,
+				RGBA16,
+
+				RGB5_A1,
+				RGB10_A2,
+
+				SRGB8,
+				
+				SRGB8_A8
+			};
+
+			enum Type
+			{
+				R,
+				RG,
+				RGB,
+				BGR,
+				RGBA,
+				BGRA,
+				
+				R_INT,
+				RG_INT,
+				RGB_INT,
+				BGR_INT,
+				RGBA_INT,
+
+				STENCIL_INDEX,
+				DEPTH_COMPONENT,
+				DEPTH_STENCIL
+			};
+
+			enum Format_Type
+			{
+				UNSIGNED_BYTE,
+				UNSIGNED_BYTE,
+
+				UNSIGNED_SHORT,
+				SHORT, 
+
+				UNSIGNED_INT,
+				INT,
+
+				HALF_FLOAT,
+				FLOAT,
+
+				UNSIGNED_BYTE_3_3_2,
+				UNSIGNED_BYTE_2_3_3_REV,
+
+				UNSIGNED_SHORT_5_6_5,
+				UNSIGNED_SHORT_5_6_5_REV,
+				UNSIGNED_SHORT_4_4_4_4,
+				UNSIGNED_SHORT_4_4_4_4_REV,
+				UNSIGNED_SHORT_5_5_5_1,
+				UNSIGNED_SHORT_1_5_5_5_REV,
+
+				UNSIGNED_INT_8_8_8_8,
+				UNSIGNED_INT_8_8_8_8_REV,
+				UNSIGNED_INT_10_10_10_2,
+				UNSIGNED_INT_2_10_10_10_REV
+			};
+
+			G_Buffer(Format format, Type type, Format_Type format_type, OS::Window* window);
 		};
 
 		class Material
@@ -155,6 +244,12 @@ namespace Spegetti_Renderer
 			unsigned int ID;
 
 		public:
+			enum Cull_Mode
+			{
+				Front,
+				Back,
+				None
+			};
 
 			Cull_Mode* Mode;
 
@@ -315,23 +410,6 @@ namespace Spegetti_Renderer
 			void Set_Material(Material material);
 		};
 
-		enum Draw_Mode
-		{
-			Normal,
-			Unlit,
-			Wireframe,
-			Surface_Normal,
-			Albedo,
-			Normal_Map,
-			Rougness
-		};
-
-		enum Clip_Space_Mode
-		{
-			Orthographic,
-			Perspective
-		};
-
 		class Post_Process_Effect
 		{
 		private:
@@ -362,11 +440,28 @@ namespace Spegetti_Renderer
 		class Camera
 		{
 		private:
-			unsigned int gPosition, gNormal, gAlbedo_Roughness, Depth;
+			unsigned int gBuffer;
 
 			Post_Process_Effect Lighting_Effect;
 
 		public:
+			enum Draw_Mode
+			{
+				Normal,
+				Unlit,
+				Wireframe,
+				Surface_Normal,
+				Albedo,
+				Normal_Map,
+				Rougness
+			};
+
+			enum Clip_Space_Mode
+			{
+				Orthographic,
+				Perspective
+			};
+
 			bool Active = true;
 
 			Draw_Mode Mode = Normal;

@@ -32,10 +32,10 @@ int main()
 	Window World_View = Window("World View", 800, 600);
 	World_View.Set_Icon("bin/UV_Viewer.png");
 
-	Camera World_Camera = Camera(Perspective, 90.0f, &World_View, 0.01f, 500.0f);
+	Camera World_Camera = Camera(Camera::Perspective, 90.0f, &World_View, 0.01f, 500.0f);
 
 	Material world_material = Material();
-	Texture world_albedo = Texture(texture_path.c_str(), Repeat, Linear);
+	Texture world_albedo = Texture(texture_path.c_str(), Texture::Repeat, Texture::Linear);
 
 	Model world_model = Model(model_path.c_str());
 
@@ -51,11 +51,11 @@ int main()
 	Window UV_View = Window("UV View", 800, 600);
 	UV_View.Set_Icon("bin/UV_Viewer.png");
 
-	Camera UV_Camera = Camera(Perspective, 90.0f, &UV_View, 0.01f, 500.0f);
+	Camera UV_Camera = Camera(Camera::Perspective, 90.0f, &UV_View, 0.01f, 500.0f);
 	//UV_Camera.Change_Draw_Mode(Wireframe);
 
 	Material uv_material = Material();
-	Texture uv_albedo = Texture(texture_path.c_str(), Repeat, Linear);
+	Texture uv_albedo = Texture(texture_path.c_str(), Texture::Repeat, Texture::Linear);
 
 	Mesh uv_mesh = Load_Model_UV(model_path.c_str());
 	Model uv_model = Model();
