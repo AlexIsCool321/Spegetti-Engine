@@ -14,5 +14,5 @@ void main()
     vec3 Albedo = texture(gAlbedo_Roughness, UV).rgb;
     float Roughness = texture(gAlbedo_Roughness, UV).a;
 	
-	FragColor = vec4(0.5f);
+	FragColor = vec4(Normal, 0.0f);
 }

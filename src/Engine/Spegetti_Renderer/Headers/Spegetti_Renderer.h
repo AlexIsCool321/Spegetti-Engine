@@ -336,7 +336,8 @@ namespace Spegetti_Renderer
 		{
 		private:
 			unsigned int VAO, VBO, EBO;
-			Material* Material_Effect;
+			
+			Material Effect_Material;
 
 		public:
 
@@ -344,25 +345,17 @@ namespace Spegetti_Renderer
 			Post_Process_Effect();
 
 			// Post Process Effect init with Material
-			Post_Process_Effect(Material* material);
-
-			
-			// Equals
-			Post_Process_Effect operator=(Post_Process_Effect& other) const;
-
-
-			// Sets up the Post Process Effect
-			void Set_Up_Effect();
+			Post_Process_Effect(Material material);
 
 
 			// Set Material
-			void Set_Material(Material* material);
+			void Set_Material(Material material);
 
-			// Returns the Material of the Effect
+			// Get the Material
 			Material* Get_Material();
 
 
-			// Draws the Effect
+			// Draw the Post Process Effect with a Material
 			void Draw();
 		};
 
@@ -371,7 +364,7 @@ namespace Spegetti_Renderer
 		private:
 			unsigned int gPosition, gNormal, gAlbedo_Roughness, Depth;
 
-			Post_Process_Effect* Lighting;
+			Post_Process_Effect Lighting_Effect;
 
 		public:
 			bool Active = true;

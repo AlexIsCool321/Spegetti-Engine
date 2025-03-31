@@ -19,7 +19,7 @@ namespace Spegetti_Renderer
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
 
-			this->Lighting = &Post_Process_Effect(&material);
+			this->Lighting_Effect = Post_Process_Effect(material);
 		}
 
 		Camera::Camera(Clip_Space_Mode mode, float fov, OS::Window* window, float near, float far)
@@ -37,7 +37,7 @@ namespace Spegetti_Renderer
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
 
-			this->Lighting = &Post_Process_Effect(&material);
+			this->Lighting_Effect = Post_Process_Effect(material);
 		}
 
 		Camera::~Camera()
@@ -157,7 +157,7 @@ namespace Spegetti_Renderer
 
 		void Camera::Set_Lighting_Material(Material* material)
 		{
-			this->Lighting->Set_Material(material);
+			this->Lighting_Effect.Set_Material(*material);
 		}
 
 
@@ -217,15 +217,15 @@ namespace Spegetti_Renderer
 
 						if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Cull_Mode::Back)
 						{
-							glEnable(GL_CULL_FACE);
-							glCullFace(GL_BACK);
-							glFrontFace(GL_CCW);
+							//glEnable(GL_CULL_FACE);
+							//glCullFace(GL_BACK);
+							//glFrontFace(GL_CCW);
 						}
 						else if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Cull_Mode::Front)
 						{
-							glEnable(GL_CULL_FACE);
-							glCullFace(GL_FRONT);
-							glFrontFace(GL_CCW);
+							//glEnable(GL_CULL_FACE);
+							//glCullFace(GL_FRONT);
+							//glFrontFace(GL_CCW);
 						}
 						else
 						{
@@ -248,15 +248,15 @@ namespace Spegetti_Renderer
 
 					if (*this->Mesh_Draw_Stack[i]->material.Mode == Cull_Mode::Back)
 					{
-						glEnable(GL_CULL_FACE);
-						glCullFace(GL_BACK);
-						glFrontFace(GL_CCW);
+						//glEnable(GL_CULL_FACE);
+						//glCullFace(GL_BACK);
+						//glFrontFace(GL_CCW);
 					}
 					else if (*this->Mesh_Draw_Stack[i]->material.Mode == Cull_Mode::Front)
 					{
-						glEnable(GL_CULL_FACE);
-						glCullFace(GL_FRONT);
-						glFrontFace(GL_CCW);
+						//glEnable(GL_CULL_FACE);
+						//glCullFace(GL_FRONT);
+						//glFrontFace(GL_CCW);
 					}
 					else
 					{
@@ -267,9 +267,9 @@ namespace Spegetti_Renderer
 				}
 			}
 			
-			this->Lighting->Get_Material()->Set_Int("gPosition", this->gPosition);
-			this->Lighting->Get_Material()->Set_Int("gNormal", this->gNormal);
-			this->Lighting->Get_Material()->Set_Int("gAlbedo_Roughness", this->gAlbedo_Roughness);
+			this->Lighting_Effect.Get_Material()->Set_Int("gPosition", this->gPosition);
+			this->Lighting_Effect.Get_Material()->Set_Int("gNormal", this->gNormal);
+			this->Lighting_Effect.Get_Material()->Set_Int("gAlbedo_Roughness", this->gAlbedo_Roughness);
 			
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
@@ -280,7 +280,7 @@ namespace Spegetti_Renderer
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, this->gAlbedo_Roughness);
 
-			//this->Lighting->Draw();
+			this->Lighting_Effect.Draw();
 		}
 	}
 }
