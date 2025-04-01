@@ -75,7 +75,7 @@ namespace Spegetti_Renderer
 					}
 					else if (First_Token(line) == "texture")
 					{
-						Texture texture = Texture(Split(line, 2, ' ').c_str(), Repeat, Linear);
+						Texture texture = Texture(Split(line, 2, ' ').c_str(), Texture::Repeat, Texture::Linear);
 						this->Set_Texture(Split(line, 1, ' ').c_str(), &texture);
 					}
 					else if (First_Token(line) == "bool")

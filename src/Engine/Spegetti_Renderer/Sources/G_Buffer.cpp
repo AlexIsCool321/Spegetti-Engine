@@ -4,12 +4,13 @@ namespace Spegetti_Renderer
 {
 	namespace Graphics
 	{
-		G_Buffer::G_Buffer(Format format, Type type, Format_Type format_type, OS::Window* window)
+		G_Buffer::G_Buffer(GLint internal_format, GLenum format, GLenum type, OS::Window* window)
 		{
-			GLint internal_format;
-			GLenum internal_type;
-			GLenum internal_format_type;
-			
+			//GLint internal_format;
+			//GLenum internal_type;
+			//GLenum internal_format_type;
+
+			/*
 			if (format == Red)
 			{
 				internal_format = GL_RED;
@@ -272,14 +273,25 @@ namespace Spegetti_Renderer
 			{
 				internal_format_type = GL_FLOAT;
 			}
+			*/
 
-
-			glGenTextures(1, &ID);
-			glBindTexture(GL_TEXTURE_2D, ID);
-			glTexImage2D(GL_TEXTURE_2D, 0, internal_format, window->Get_Size().x, window->Get_Size().y, 0, internal_type, GL_FLOAT, NULL);
+			glGenTextures(1, &this->ID);
+			glBindTexture(GL_TEXTURE_2D, this->ID);
+			glTexImage2D(GL_TEXTURE_2D, 0, internal_format, window->Get_Size().x, window->Get_Size().y, 0, format, type, NULL);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ID, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->ID, 0);
+
+			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+			{
+				Error("FRAMEBUFFER DID NOT COMPLETE");
+			}
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+
+		unsigned int G_Buffer::Get_ID()
+		{
+			return this->ID;
 		}
 	}
 }

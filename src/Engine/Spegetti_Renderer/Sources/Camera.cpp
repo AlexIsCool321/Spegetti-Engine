@@ -16,6 +16,9 @@ namespace Spegetti_Renderer
 
 			this->Reload_Models(window);
 
+			glGenFramebuffers(1, &this->gBuffer);
+			glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
+
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
 
@@ -33,6 +36,9 @@ namespace Spegetti_Renderer
 			this->View = glm::mat4(1.0f);
 
 			this->Reload_Models(window);
+
+			glGenFramebuffers(1, &this->gBuffer);
+			glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
 
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
@@ -205,7 +211,7 @@ namespace Spegetti_Renderer
 		{
 			this->Update_View();
 			this->Change_Draw_Mode(this->Mode);
-
+			
 			for (int i = 0; i < this->Model_Draw_Stack.size(); i++)
 			{
 				for (int j = 0; j < this->Model_Draw_Stack[i]->Meshes.size(); j++)

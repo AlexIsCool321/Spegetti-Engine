@@ -148,6 +148,7 @@ namespace Spegetti_Renderer
 			unsigned int ID;
 
 		public:
+			/*
 			enum Format
 			{
 				Red,
@@ -234,8 +235,11 @@ namespace Spegetti_Renderer
 				UNSIGNED_INT_10_10_10_2,
 				UNSIGNED_INT_2_10_10_10_REV
 			};
+			*/
 
-			G_Buffer(Format format, Type type, Format_Type format_type, OS::Window* window);
+			G_Buffer(GLint internal_format, GLenum format, GLenum type, OS::Window* window);
+
+			unsigned int Get_ID();
 		};
 
 		class Material
