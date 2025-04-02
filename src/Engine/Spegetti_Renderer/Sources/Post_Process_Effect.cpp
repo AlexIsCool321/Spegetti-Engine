@@ -79,7 +79,9 @@ namespace Spegetti_Renderer
 
 			glBindVertexArray(0);
 
+			std::cout << material.Get_ID() << std::endl;
 			this->Effect_Material = material;
+			std::cout << this->Effect_Material.Get_ID() << std::endl;
 		}
 
 
