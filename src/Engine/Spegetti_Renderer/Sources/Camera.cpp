@@ -19,7 +19,7 @@ namespace Spegetti_Renderer
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
 			
-			this->Lighting_Effect = Post_Process_Effect(material);
+			this->Lighting_Effect = Post_Process_Effect(&material);
 		}
 
 		Camera::Camera(Clip_Space_Mode mode, float fov, OS::Window* window, float near, float far)
@@ -37,7 +37,7 @@ namespace Spegetti_Renderer
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
 
-			this->Lighting_Effect = Post_Process_Effect(material);
+			this->Lighting_Effect = Post_Process_Effect(&material);
 		}
 
 		Camera::~Camera()
@@ -148,7 +148,7 @@ namespace Spegetti_Renderer
 
 		void Camera::Set_Lighting_Material(Material* material)
 		{
-			this->Lighting_Effect.Set_Material(*material);
+			this->Lighting_Effect.Set_Material(material);
 		}
 
 
