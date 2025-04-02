@@ -33,5 +33,5 @@ void main()
 	gPosition				= Frag_Position;
 	gNormal					= normalize(Normal);
 	gAlbedo_Roughness.rgb	= texture(material.albedo, UV).rgb;
-	gAlbedo_Roughness.a		= texture(material.albedo, UV).r;
+	gAlbedo_Roughness.a		= texture(material.roughness, UV).r;
 }

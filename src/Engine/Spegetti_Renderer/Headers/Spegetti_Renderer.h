@@ -445,6 +445,7 @@ namespace Spegetti_Renderer
 		{
 		private:
 			unsigned int gBuffer;
+			unsigned int gPosition, gNormal, gAlbedoSpec;
 
 			Post_Process_Effect Lighting_Effect;
 
