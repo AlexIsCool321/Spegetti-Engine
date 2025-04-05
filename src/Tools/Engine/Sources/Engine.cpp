@@ -1,4 +1,4 @@
-﻿#include <UV_Viewer.h>
+﻿#include <Engine.h>
 
 // Remove Console
 #ifdef _WIN32
@@ -13,8 +13,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 #endif // _WIN32
 
-glm::vec3 Light_Position;
-
 int main()
 {
 	Init_Spegetti_Renderer();
@@ -22,45 +20,58 @@ int main()
 	Window window = Window("Engine", 800, 600);
 	window.Set_Icon("bin/UV_Viewer.png");
 
-	Camera camera = Camera(Camera::Perspective, 90.0f, &window, 0.01f, 500.0f);
-	
+	Texture Albedo = Texture("engine/textures/cube/albedo.png", Texture::Repeat, Texture::Linear);
+
 	Material material = Material();
-	
-	Texture albedo		= Texture("engine/textures/crowbar/albedo.png",		Texture::Repeat, Texture::Linear);
-	Texture normal		= Texture("engine/textures/crowbar/normal.png",		Texture::Repeat, Texture::Linear);
-	Texture roughness	= Texture("engine/textures/crowbar/roughness.png",	Texture::Repeat, Texture::Linear);
-	
-	Model model = Model("engine/models/crowbar.obj");
+	material.Set_Texture("material.albedo", &Albedo);
 
-	model.Set_Material(material);
-	
+	Model model = Model("engine/models/cube.obj");
+
+	Camera camera = Camera(Camera::Perspective, 90.0f, &window, 0.005f, 500);
+
 	camera.Add_Model_To_Draw_Stack(&model);
-	
-	camera.Reload_Models(&window);
-	
 
-	//Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
-	//Material material = Material(&shader);
-	//Post_Process_Effect effect = Post_Process_Effect(&material);
+	bool Has_Released = false;
+	bool Can_Press = true;
 
 	while (!window.Should_Close())
 	{
-		Update_Delta();
-
 		window.Push_Context();
 		window.Update();
 		
-		//effect.Draw();
+		if (glfwGetKey(window.Get_Window(), GLFW_KEY_TAB) == GLFW_PRESS)
+		{
+			if (Has_Released == true)
+			{
+				if (camera.Mode == Camera::Normal)
+				{
+					camera.Change_Draw_Mode(Camera::Frag_Position);
+				}
+				else
+				{
+					camera.Change_Draw_Mode(Camera::Normal);
+				}
 
-		
+				Has_Released = false;
+				Can_Press = false;
+			}
+			else
+			{
+				if (Can_Press == true)
+				{
+					Has_Released = true;
+				}
+			}
+		}
+		else
+		{
+			Has_Released = false;
+			Can_Press = true;
+		}
+
 		FreeCam(&camera, &window);
 
-		material.Set_Texture("material.albedo", &albedo);
-		material.Set_Texture("material.normal", &normal);
-		material.Set_Texture("material.roughness", &roughness);
-
-		camera.Draw();
-		
+		camera.Draw(&window);
 	}
 
 	Quit_Spegetti_Renderer();

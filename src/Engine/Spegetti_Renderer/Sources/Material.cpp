@@ -133,6 +133,8 @@ namespace Spegetti_Renderer
 		{
 			if (shader == nullptr) return;
 
+			this->shader = *shader;
+
 			// Get Shader Sources
 			std::string vertexSource	= Read_File(shader->Vertex_Shader);
 			std::string fragmentSource	= Read_File(shader->Fragment_Shader);

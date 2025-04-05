@@ -6,6 +6,13 @@ namespace Spegetti_Renderer
 	{
 		Post_Process_Effect::Post_Process_Effect()
 		{
+			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
+			
+			this->Effect_Material = Material(&shader);
+			this->Effect_Material.Load_Shader(&shader);
+
+			this->Effect_Material.Change_Cull_Mode(Material::Cull_Mode::None);
+
 			static std::vector<Vertex> Vertices =
 			{
 				Vertex(glm::vec3(-1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	0)),	// Bottom Left
@@ -42,7 +49,7 @@ namespace Spegetti_Renderer
 			glBindVertexArray(0);
 		}
 
-		Post_Process_Effect::Post_Process_Effect(Material material)
+		Post_Process_Effect::Post_Process_Effect(Material* material)
 		{
 			static std::vector<Vertex> Vertices =
 			{
@@ -79,13 +86,18 @@ namespace Spegetti_Renderer
 
 			glBindVertexArray(0);
 
-			this->Effect_Material = material;
+			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
+
+			this->Effect_Material = Material(&shader);
+
+			this->Effect_Material.Load_Shader(&shader);
+			this->Effect_Material.Change_Cull_Mode(Material::Cull_Mode::None);
 		}
 
 
-		void Post_Process_Effect::Set_Material(Material material)
+		void Post_Process_Effect::Set_Material(Material* material)
 		{
-			this->Effect_Material = material;
+			this->Effect_Material = *material;
 		}
 
 		Material* Post_Process_Effect::Get_Material()

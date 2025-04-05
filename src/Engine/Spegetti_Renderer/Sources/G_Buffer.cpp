@@ -277,7 +277,7 @@ namespace Spegetti_Renderer
 
 			glGenTextures(1, &this->ID);
 			glBindTexture(GL_TEXTURE_2D, this->ID);
-			glTexImage2D(GL_TEXTURE_2D, 0, internal_format, window->Get_Size().x, window->Get_Size().y, 0, format, type, NULL);
+			glTexImage2D(GL_TEXTURE_2D, 0, internal_format, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, format, type, NULL);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->ID, 0);
