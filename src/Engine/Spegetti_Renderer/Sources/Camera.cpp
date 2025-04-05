@@ -108,41 +108,61 @@ namespace Spegetti_Renderer
 
 		void Camera::Reload_Models(OS::Window* window)
 		{
-			int SCR_WIDTH = (int)window->Get_Size().x;
-			int SCR_HEIGHT = (int)window->Get_Size().y;
+			if (this->Mode != Camera::Forward)
+			{
+				if (this->gBuffer != 0)
+				{
+					return;
+				}
+				
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				glGenFramebuffers(1, &this->gBuffer);
+				glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
 
-			glGenFramebuffers(1, &gBuffer);
-			//glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
-			
-			// - position color buffer
-			glGenTextures(1, &gPosition);
-			glBindTexture(GL_TEXTURE_2D, gPosition);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gPosition, 0);
+				// Position Buffer
+				glGenTextures(1, &this->gPosition);
+				glBindTexture(GL_TEXTURE_2D, this->gPosition);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_FLOAT, NULL);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->gPosition, 0);
 
-			// - normal color buffer
-			glGenTextures(1, &gNormal);
-			glBindTexture(GL_TEXTURE_2D, gNormal);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gNormal, 0);
+				// Normal Buffer
+				glGenTextures(1, &this->gNormal);
+				glBindTexture(GL_TEXTURE_2D, this->gNormal);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_FLOAT, NULL);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, this->gNormal, 0);
 
-			// - color + specular color buffer
-			glGenTextures(1, &gAlbedoSpec);
-			glBindTexture(GL_TEXTURE_2D, gAlbedoSpec);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gAlbedoSpec, 0);
+				// Albedo Buffer
+				glGenTextures(1, &this->gAlbedoSpec);
+				glBindTexture(GL_TEXTURE_2D, this->gAlbedoSpec);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, this->gAlbedoSpec, 0);
 
-			// - tell OpenGL which color attachments we'll use (of this framebuffer) for rendering 
-			unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-			//glDrawBuffers(3, attachments);
+				unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+				glDrawBuffers(3, attachments);
+
+				// Depth Buffer
+				glGenRenderbuffers(1, &this->gDepth);
+				glBindRenderbuffer(GL_RENDERBUFFER, this->gDepth);
+				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, (int)window->Get_Size().x, (int)window->Get_Size().y);
+				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->gDepth);
+
+				if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+				{
+					Error("FAILED TO CREATE FRAMEBUFFER(S)");
+				}
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
+			else
+			{
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
 		}
 
 
@@ -154,11 +174,20 @@ namespace Spegetti_Renderer
 
 		void Camera::Change_Draw_Mode(Draw_Mode mode)
 		{
+			if (this->Mode == mode)
+			{
+				return;
+			}
+
 			this->Mode = mode;
-			
-			if (mode == Normal)
+
+			if (mode == Default)
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else if (mode == Forward)
+			{
+				this->Reload_Models(nullptr);
 			}
 			else if (mode == Unlit)
 			{
@@ -168,7 +197,7 @@ namespace Spegetti_Renderer
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			}
-			else if (mode == Surface_Normal)
+			else if (mode == Frag_Position)
 			{
 
 			}
@@ -176,7 +205,11 @@ namespace Spegetti_Renderer
 			{
 
 			}
-			else if (mode == Rougness)
+			else if (mode == Roughness)
+			{
+
+			}
+			else if (mode == Normal)
 			{
 
 			}
@@ -188,10 +221,18 @@ namespace Spegetti_Renderer
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
+
+			this->Reload_Models(nullptr);
 		}
 
-		void Camera::Draw()
+		void Camera::Draw(OS::Window* window)
 		{
+			if (this->Mode == !Camera::Forward)
+			{
+				glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			}
+			
 			this->Update_View();
 			this->Change_Draw_Mode(this->Mode);
 			
@@ -258,24 +299,34 @@ namespace Spegetti_Renderer
 				}
 			}
 			
+			if (this->Mode == !Camera::Forward)
+			{
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			
-
-
-
-			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, gPosition);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, gNormal);
-			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, gAlbedoSpec);
-			
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			this->Lighting_Effect.Get_Material()->Use();
-			this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
+				this->Lighting_Effect.Get_Material()->Use();
+
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, gPosition);
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, gNormal);
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, gAlbedoSpec);
+				
+				this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
+				this->Lighting_Effect.Get_Material()->Set_Int("Mode", (int)this->Mode);
+				
+				this->Lighting_Effect.Draw();
+
+				
+
+				glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 			
-			this->Lighting_Effect.Draw();
+				glBlitFramebuffer(0, 0, window->Get_Size().x, window->Get_Size().y, 0, 0, window->Get_Size().x, window->Get_Size().y, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+			}
 		}
 	}
 }

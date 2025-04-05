@@ -79,7 +79,7 @@ int main()
 
 		FreeCam(&World_Camera, &World_View);
 
-		World_Camera.Draw();
+		World_Camera.Draw(&World_View);
 
 		if (World_View.Should_Close()) running = false;
 
@@ -92,7 +92,7 @@ int main()
 
 		//FreeCam(&UV_Camera, &UV_View);
 
-		UV_Camera.Draw();
+		UV_Camera.Draw(&UV_View);
 
 		if (UV_View.Should_Close()) running = false;
 	}

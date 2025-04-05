@@ -6,6 +6,13 @@ namespace Spegetti_Renderer
 	{
 		Post_Process_Effect::Post_Process_Effect()
 		{
+			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
+			
+			this->Effect_Material = Material(&shader);
+			this->Effect_Material.Load_Shader(&shader);
+
+			this->Effect_Material.Change_Cull_Mode(Material::Cull_Mode::None);
+
 			static std::vector<Vertex> Vertices =
 			{
 				Vertex(glm::vec3(-1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	0)),	// Bottom Left
@@ -79,28 +86,29 @@ namespace Spegetti_Renderer
 
 			glBindVertexArray(0);
 
-			std::cout << material->Get_ID() << std::endl;
-			this->Effect_Material = material;
-			std::cout << this->Effect_Material->Get_ID() << std::endl;
+			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
+
+			this->Effect_Material = Material(&shader);
+
+			this->Effect_Material.Load_Shader(&shader);
+			this->Effect_Material.Change_Cull_Mode(Material::Cull_Mode::None);
 		}
 
 
 		void Post_Process_Effect::Set_Material(Material* material)
 		{
-			this->Effect_Material = material;
+			this->Effect_Material = *material;
 		}
 
 		Material* Post_Process_Effect::Get_Material()
 		{
-			return this->Effect_Material;
+			return &this->Effect_Material;
 		}
 
 
 		void Post_Process_Effect::Draw()
 		{
-			this->Effect_Material->Use();
-			
-			std::cout << this->Effect_Material->Get_ID() << std::endl;
+			this->Effect_Material.Use();
 
 			glBindVertexArray(this->VAO);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

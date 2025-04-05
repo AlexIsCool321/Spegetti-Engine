@@ -246,7 +246,7 @@ namespace Spegetti_Renderer
 		{
 		private:
 			unsigned int ID;
-
+			
 		public:
 			enum Cull_Mode
 			{
@@ -254,6 +254,8 @@ namespace Spegetti_Renderer
 				Back,
 				None
 			};
+			
+			Shader shader;
 
 			Cull_Mode* Mode;
 
@@ -419,7 +421,7 @@ namespace Spegetti_Renderer
 		private:
 			unsigned int VAO, VBO, EBO;
 			
-			Material* Effect_Material;
+			Material Effect_Material;
 
 		public:
 
@@ -445,20 +447,22 @@ namespace Spegetti_Renderer
 		{
 		private:
 			unsigned int gBuffer;
-			unsigned int gPosition, gNormal, gAlbedoSpec;
+			unsigned int gPosition, gNormal, gAlbedoSpec, gDepth;
 
 			Post_Process_Effect Lighting_Effect;
 
 		public:
 			enum Draw_Mode
 			{
-				Normal,
-				Unlit,
-				Wireframe,
-				Surface_Normal,
-				Albedo,
-				Normal_Map,
-				Rougness
+				Default,		// 0
+				Forward,		// 1
+				Unlit,			// 2
+				Wireframe,		// 3
+				Frag_Position,	// 4
+				Albedo,			// 5
+				Normal,			// 6
+				Normal_Map,		// 7
+				Roughness		// 8
 			};
 
 			enum Clip_Space_Mode
@@ -523,7 +527,7 @@ namespace Spegetti_Renderer
 			void Change_Draw_Mode(Draw_Mode mode);
 
 			// Draw the Camera's draw stack
-			void Draw();
+			void Draw(OS::Window* window);
 		};
 
 		// Debug Mesh
