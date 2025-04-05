@@ -19,7 +19,7 @@ namespace Spegetti_Renderer
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
 			
-			this->Lighting_Effect = Post_Process_Effect(material);
+			this->Lighting_Effect = Post_Process_Effect(&material);
 		}
 
 		Camera::Camera(Clip_Space_Mode mode, float fov, OS::Window* window, float near, float far)
@@ -37,7 +37,7 @@ namespace Spegetti_Renderer
 			Shader shader = Shader("engine/shaders/light.vs", "engine/shaders/light.fs");
 			Material material = Material(&shader);
 
-			this->Lighting_Effect = Post_Process_Effect(material);
+			this->Lighting_Effect = Post_Process_Effect(&material);
 		}
 
 		Camera::~Camera()
@@ -108,14 +108,14 @@ namespace Spegetti_Renderer
 
 		void Camera::Reload_Models(OS::Window* window)
 		{
-			int SCR_WIDTH = 800;
-			int SCR_HEIGHT = 600;
+			int SCR_WIDTH = (int)window->Get_Size().x;
+			int SCR_HEIGHT = (int)window->Get_Size().y;
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 			glGenFramebuffers(1, &gBuffer);
-			glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
-
+			//glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
+			
 			// - position color buffer
 			glGenTextures(1, &gPosition);
 			glBindTexture(GL_TEXTURE_2D, gPosition);
@@ -142,13 +142,13 @@ namespace Spegetti_Renderer
 
 			// - tell OpenGL which color attachments we'll use (of this framebuffer) for rendering 
 			unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-			glDrawBuffers(3, attachments);
+			//glDrawBuffers(3, attachments);
 		}
 
 
 		void Camera::Set_Lighting_Material(Material* material)
 		{
-			this->Lighting_Effect.Set_Material(*material);
+			this->Lighting_Effect.Set_Material(material);
 		}
 
 
@@ -262,7 +262,8 @@ namespace Spegetti_Renderer
 
 
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, gPosition);
 			glActiveTexture(GL_TEXTURE1);
@@ -270,6 +271,7 @@ namespace Spegetti_Renderer
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, gAlbedoSpec);
 			
+
 			this->Lighting_Effect.Get_Material()->Use();
 			this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
 			

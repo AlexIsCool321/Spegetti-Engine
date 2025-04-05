@@ -419,7 +419,7 @@ namespace Spegetti_Renderer
 		private:
 			unsigned int VAO, VBO, EBO;
 			
-			Material Effect_Material;
+			Material* Effect_Material;
 
 		public:
 
@@ -427,11 +427,11 @@ namespace Spegetti_Renderer
 			Post_Process_Effect();
 
 			// Post Process Effect init with Material
-			Post_Process_Effect(Material material);
+			Post_Process_Effect(Material* material);
 
 
 			// Set Material
-			void Set_Material(Material material);
+			void Set_Material(Material* material);
 
 			// Get the Material
 			Material* Get_Material();

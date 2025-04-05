@@ -42,7 +42,7 @@ namespace Spegetti_Renderer
 			glBindVertexArray(0);
 		}
 
-		Post_Process_Effect::Post_Process_Effect(Material material)
+		Post_Process_Effect::Post_Process_Effect(Material* material)
 		{
 			static std::vector<Vertex> Vertices =
 			{
@@ -79,24 +79,28 @@ namespace Spegetti_Renderer
 
 			glBindVertexArray(0);
 
+			std::cout << material->Get_ID() << std::endl;
 			this->Effect_Material = material;
+			std::cout << this->Effect_Material->Get_ID() << std::endl;
 		}
 
 
-		void Post_Process_Effect::Set_Material(Material material)
+		void Post_Process_Effect::Set_Material(Material* material)
 		{
 			this->Effect_Material = material;
 		}
 
 		Material* Post_Process_Effect::Get_Material()
 		{
-			return &this->Effect_Material;
+			return this->Effect_Material;
 		}
 
 
 		void Post_Process_Effect::Draw()
 		{
-			this->Effect_Material.Use();
+			this->Effect_Material->Use();
+			
+			std::cout << this->Effect_Material->Get_ID() << std::endl;
 
 			glBindVertexArray(this->VAO);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
