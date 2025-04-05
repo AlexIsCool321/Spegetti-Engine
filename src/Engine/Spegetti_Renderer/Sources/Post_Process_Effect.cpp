@@ -99,6 +99,8 @@ namespace Spegetti_Renderer
 		void Post_Process_Effect::Draw()
 		{
 			this->Effect_Material->Use();
+			
+			std::cout << this->Effect_Material->Get_ID() << std::endl;
 
 			glBindVertexArray(this->VAO);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
