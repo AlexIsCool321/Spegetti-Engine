@@ -447,7 +447,7 @@ namespace Spegetti_Renderer
 		{
 		private:
 			unsigned int gBuffer;
-			unsigned int gPosition, gNormal, gAlbedoSpec, gDepth;
+			unsigned int gPosition, gNormal, gAlbedo_Roughness, gDepth;
 
 			Post_Process_Effect Lighting_Effect;
 
@@ -473,10 +473,10 @@ namespace Spegetti_Renderer
 
 			bool Active = true;
 
-			Draw_Mode Mode = Normal;
+			Draw_Mode Mode = Default;
 			Clip_Space_Mode View_Mode = Orthographic;
 
-			float FOV = 90.0f;
+			float FOV = 120.0f;
 
 			std::vector<Model*> Model_Draw_Stack;
 			std::vector<Mesh*> Mesh_Draw_Stack;

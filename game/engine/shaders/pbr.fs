@@ -9,29 +9,19 @@ in vec2 UV;
 in vec3 Normal;
 in vec3 Frag_Position;
 
+uniform sampler2D albedo;
 
-struct Material
-{
-	sampler2D albedo;
-	vec3 base_color;
-	
-	sampler2D normal;
-	
-	sampler2D roughness;
-	float roughness_strength;
-	
-	sampler2D height;
-	float height_scale;
-};
+uniform sampler2D normal;
 
+uniform sampler2D roughness;
 
-uniform Material material;
+uniform sampler2D height;
 
 
 void main()
 {
 	gPosition				= Frag_Position;
-	gNormal					= normalize(Normal);
-	gAlbedo_Roughness.rgb	= texture(material.albedo, UV).rgb;
-	gAlbedo_Roughness.a		= texture(material.roughness, UV).r;
+	gNormal					= texture(normal, UV).rgb;
+	gAlbedo_Roughness.rgb	= texture(albedo, UV).rgb;
+	gAlbedo_Roughness.a		= texture(roughness, UV).r;
 }

@@ -9,7 +9,7 @@ namespace Spegetti_Renderer
 			this->Position = glm::vec3(0, 0, 0);
 			this->Rotation = glm::vec3(0, 0, 0);
 
-			this->FOV = 90.0f;
+			this->FOV = 120.0f;
 
 			this->Change_Clip_Space_Mode(Perspective, 90.0f, window, 0.01f, 500.0f);
 			this->View = glm::mat4(1.0f);
@@ -108,61 +108,49 @@ namespace Spegetti_Renderer
 
 		void Camera::Reload_Models(OS::Window* window)
 		{
-			if (this->Mode != Camera::Forward)
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+			glGenFramebuffers(1, &this->gBuffer);
+			glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
+			
+			// Position Buffer
+			glGenTextures(1, &this->gPosition);
+			glBindTexture(GL_TEXTURE_2D, this->gPosition);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_FLOAT, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->gPosition, 0);
+			
+			// Normal Buffer
+			glGenTextures(1, &this->gNormal);
+			glBindTexture(GL_TEXTURE_2D, this->gNormal);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_FLOAT, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, this->gNormal, 0);
+			
+			// Albedo Buffer
+			glGenTextures(1, &this->gAlbedo_Roughness);
+			glBindTexture(GL_TEXTURE_2D, this->gAlbedo_Roughness);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, this->gAlbedo_Roughness, 0);
+			
+			unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+			glDrawBuffers(3, attachments);
+
+			// Depth Buffer
+			glGenRenderbuffers(1, &this->gDepth);
+			glBindRenderbuffer(GL_RENDERBUFFER, this->gDepth);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, (int)window->Get_Size().x, (int)window->Get_Size().y);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->gDepth);
+			
+			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			{
-				if (this->gBuffer != 0)
-				{
-					return;
-				}
-				
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-				glGenFramebuffers(1, &this->gBuffer);
-				glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
-
-				// Position Buffer
-				glGenTextures(1, &this->gPosition);
-				glBindTexture(GL_TEXTURE_2D, this->gPosition);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_FLOAT, NULL);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->gPosition, 0);
-
-				// Normal Buffer
-				glGenTextures(1, &this->gNormal);
-				glBindTexture(GL_TEXTURE_2D, this->gNormal);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_FLOAT, NULL);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, this->gNormal, 0);
-
-				// Albedo Buffer
-				glGenTextures(1, &this->gAlbedoSpec);
-				glBindTexture(GL_TEXTURE_2D, this->gAlbedoSpec);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, this->gAlbedoSpec, 0);
-
-				unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-				glDrawBuffers(3, attachments);
-
-				// Depth Buffer
-				glGenRenderbuffers(1, &this->gDepth);
-				glBindRenderbuffer(GL_RENDERBUFFER, this->gDepth);
-				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, (int)window->Get_Size().x, (int)window->Get_Size().y);
-				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, this->gDepth);
-
-				if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-				{
-					Error("FAILED TO CREATE FRAMEBUFFER(S)");
-				}
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				Error("FAILED TO CREATE FRAMEBUFFER(S)");
 			}
-			else
-			{
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			}
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 
 
@@ -227,15 +215,21 @@ namespace Spegetti_Renderer
 
 		void Camera::Draw(OS::Window* window)
 		{
-			if (this->Mode == !Camera::Forward)
+			static glm::vec2 old_window_size = glm::vec2(0.0f);
+
+			if (window->Get_Size() != old_window_size)
 			{
-				glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				this->Reload_Models(window);
+				old_window_size = window->Get_Size();
 			}
-			
+
+			glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
 			this->Update_View();
 			this->Change_Draw_Mode(this->Mode);
-			
+
 			for (int i = 0; i < this->Model_Draw_Stack.size(); i++)
 			{
 				for (int j = 0; j < this->Model_Draw_Stack[i]->Meshes.size(); j++)
@@ -244,7 +238,7 @@ namespace Spegetti_Renderer
 					{
 						this->Model_Draw_Stack[i]->Meshes[j].Set_Projection(this->Projection);
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Matrix(this->View);
-						
+
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Position(this->Position);
 
 						if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Material::Cull_Mode::Back)
@@ -268,14 +262,14 @@ namespace Spegetti_Renderer
 					}
 				}
 			}
-			
+
 			for (int i = 0; i < this->Mesh_Draw_Stack.size(); i++)
 			{
 				if (this->Mesh_Draw_Stack[i] != nullptr)
 				{
 					this->Mesh_Draw_Stack[i]->Set_Projection(this->Projection);
 					this->Mesh_Draw_Stack[i]->Set_View_Matrix(this->View);
-					
+
 					this->Mesh_Draw_Stack[i]->Set_View_Position(this->Position);
 
 					if (*this->Mesh_Draw_Stack[i]->material.Mode == Material::Cull_Mode::Back)
@@ -298,35 +292,38 @@ namespace Spegetti_Renderer
 					this->Mesh_Draw_Stack[i]->Draw();
 				}
 			}
-			
-			if (this->Mode == !Camera::Forward)
-			{
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			
-			
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				this->Lighting_Effect.Get_Material()->Use();
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, gPosition);
-				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, gNormal);
-				glActiveTexture(GL_TEXTURE2);
-				glBindTexture(GL_TEXTURE_2D, gAlbedoSpec);
-				
-				this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
-				this->Lighting_Effect.Get_Material()->Set_Int("Mode", (int)this->Mode);
-				
-				this->Lighting_Effect.Draw();
-
-				
-
-				glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
-				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 			
-				glBlitFramebuffer(0, 0, window->Get_Size().x, window->Get_Size().y, 0, 0, window->Get_Size().x, window->Get_Size().y, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-			}
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			this->Lighting_Effect.Get_Material()->Use();
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, this->gPosition);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, this->gNormal);
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, this->gAlbedo_Roughness);
+			
+			glActiveTexture(GL_TEXTURE0);
+
+			this->Lighting_Effect.Get_Material()->Set_Int("gPosition", 0);
+			this->Lighting_Effect.Get_Material()->Set_Int("gNormal", 1);
+			this->Lighting_Effect.Get_Material()->Set_Int("gAlbedo_Roughness", 2);
+
+			this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
+			this->Lighting_Effect.Get_Material()->Set_Int("Mode", (int)this->Mode);
+
+			this->Lighting_Effect.Draw();
+
+
+
+			glBindFramebuffer(GL_READ_FRAMEBUFFER, this->gBuffer);
+			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+			glBlitFramebuffer(0, 0, window->Get_Size().x, window->Get_Size().y, 0, 0, window->Get_Size().x, window->Get_Size().y, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 		}
 	}
 }

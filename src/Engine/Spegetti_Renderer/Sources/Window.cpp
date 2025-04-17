@@ -46,6 +46,7 @@ namespace Spegetti_Renderer
 		{
 			int width, height;
 			glfwGetWindowSize(this->GLFW_Window, &width, &height);
+
 			return glm::vec2(width, height);
 		}
 

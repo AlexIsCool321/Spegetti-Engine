@@ -26,12 +26,18 @@ int main()
 	for (const auto& entry : std::filesystem::directory_iterator("bin"))
 	{
 		if (!entry.is_directory())
-			entry.path().filename().replace_extension("");
-			Projects.push_back(entry.path().filename().string());
+		{
+			if (entry.path().extension() == ".exe")
+			{
+				std::string path = entry.path().filename().string();
+				path.replace(path.find(".exe"), 4, "");
+				Projects.push_back(path);
+			}
+		}
 	}
 
 	Init_Spegetti_Renderer();
-	Window window = Window("Launcher", 800, 600);
+	Window window = Window("Launcher", 250, 250);
 	
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -41,8 +47,9 @@ int main()
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplGlfw_InitForOpenGL(window.Get_Window(), true);
-
 	ImGui_ImplOpenGL3_Init("#version 130");
+
+	ImGui::SaveIniSettingsToDisk(nullptr);
 
 	while (!window.Should_Close())
 	{
@@ -51,8 +58,8 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 		ImGui::Begin("Launcher");
-		ImGui::Text("Select a Project");
-		ImGui::Separator();
+		ImGui::SetWindowSize(ImVec2(250, 250));
+		ImGui::SetWindowPos(ImVec2(0, 0));
 		
 		for (int i = 0; i < Projects.size(); i++)
 		{
@@ -67,6 +74,11 @@ int main()
 		ImGui::Render();
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (glfwGetKey(window.Get_Window(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			window.Close_Window();
+		}
 	}
 	
 	return 0;

@@ -70,6 +70,8 @@ namespace Spegetti_Renderer
 				Interpolation = GL_LINEAR;
 			}
 
+			glActiveTexture(GL_TEXTURE1);
+
 			glGenTextures(1, &this->ID);
 			stbi_set_flip_vertically_on_load(true);
 			unsigned char* data = stbi_load(texture_path, &this->Width, &this->Height, &this->Channels, 0);
@@ -82,11 +84,13 @@ namespace Spegetti_Renderer
 					format = GL_RGB;
 				else if (this->Channels == 4)
 					format = GL_RGBA;
-
+				else
+					format = GL_RGB;
+				
 				glBindTexture(GL_TEXTURE_2D, this->ID);
 				glTexImage2D(GL_TEXTURE_2D, 0, format, this->Width, this->Height, 0, format, GL_UNSIGNED_BYTE, data);
 				glGenerateMipmap(GL_TEXTURE_2D);
-
+				std::cout << this->ID << std::endl;
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, Repetition);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Repetition);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Interpolation);

@@ -255,11 +255,14 @@ namespace Spegetti_Renderer
 
 		void Material::Set_Texture(const char* name, Texture* texture) const
 		{
+			if (texture == nullptr) return;
 			glUseProgram(this->ID);
-			glUniform1i(glGetUniformLocation(this->ID, name), texture->Get_ID());
 
 			glActiveTexture(GL_TEXTURE0 + texture->Get_ID());
 			glBindTexture(GL_TEXTURE_2D, texture->Get_ID());
+			glUniform1i(glGetUniformLocation(this->ID, name), texture->Get_ID());
+
+			glActiveTexture(GL_TEXTURE0);
 		}
 
 
