@@ -11,6 +11,22 @@ namespace Spegetti_Logic
 
 	// Returns the Delta between Frames in Seconds
 	double Get_Delta();
+
+	class Resource
+	{
+	public:
+		// Resource init
+		Resource()
+		{
+
+		}
+
+		// Resource deconstructor
+		~Resource()
+		{
+
+		}
+	};
 }
 
 #endif // !Spegetti_Logic_H

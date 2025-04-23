@@ -16,6 +16,7 @@
 
 #include <Spegetti_Console.h>
 #include <Spegetti_Files.h>
+#include <Spegetti_Logic.h>
 
 using namespace Spegetti_Console;
 using namespace Spegetti_Files;
@@ -69,7 +70,7 @@ namespace Spegetti_Renderer
 			void Push_Context();
 		};
 	}
-
+	
 	namespace Graphics
 	{
 		struct Vertex
@@ -88,7 +89,7 @@ namespace Spegetti_Renderer
 			Vertex(glm::vec3 position, int vertex_group, glm::vec3 normal, glm::vec2 uv_coords);
 		};
 
-		struct Shader
+		struct Shader : public Spegetti_Logic::Resource
 		{
 			std::string Vertex_Shader;
 			std::string Fragment_Shader;
@@ -103,7 +104,7 @@ namespace Spegetti_Renderer
 			Shader(std::string vertex_path, std::string fragment_path);
 		};
 		
-		class Texture
+		class Texture : public Spegetti_Logic::Resource
 		{
 		private:
 			unsigned int ID;
@@ -142,7 +143,7 @@ namespace Spegetti_Renderer
 			unsigned int Get_ID();
 		};
 
-		class G_Buffer
+		class G_Buffer : public Spegetti_Logic::Resource
 		{
 		private:
 			unsigned int ID;
@@ -242,7 +243,7 @@ namespace Spegetti_Renderer
 			unsigned int Get_ID();
 		};
 
-		class Material
+		class Material : public Spegetti_Logic::Resource
 		{
 		private:
 			unsigned int ID;
@@ -329,7 +330,7 @@ namespace Spegetti_Renderer
 			void Change_Cull_Mode(Cull_Mode mode);
 		};
 
-		struct Mesh
+		struct Mesh : public Spegetti_Logic::Resource
 		{
 			std::vector<Vertex> Vertices;
 			std::vector<unsigned int> Indices;
@@ -376,7 +377,7 @@ namespace Spegetti_Renderer
 			void Draw();
 		};
 		
-		struct Model
+		struct Model : public Spegetti_Logic::Resource
 		{
 			std::vector<Mesh> Meshes;
 
@@ -416,7 +417,7 @@ namespace Spegetti_Renderer
 			void Set_Material(Material material);
 		};
 
-		class Post_Process_Effect
+		class Post_Process_Effect : public Spegetti_Logic::Resource
 		{
 		private:
 			unsigned int VAO, VBO, EBO;
@@ -443,7 +444,7 @@ namespace Spegetti_Renderer
 			void Draw();
 		};
 
-		class Camera
+		class Camera : public Spegetti_Logic::Resource
 		{
 		private:
 			unsigned int gBuffer;

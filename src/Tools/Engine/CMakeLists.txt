@@ -20,7 +20,6 @@ add_dependencies(${PROJECT_NAME} Spegetti_Files)
 
 link_directories("${CMAKE_SOURCE_DIR}/../build/shared")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Memory)
 target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Renderer)
 target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Console)
 target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Logic)

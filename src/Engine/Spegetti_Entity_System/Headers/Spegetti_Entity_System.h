@@ -9,31 +9,6 @@
 
 namespace Spegetti_Entity_System
 {
-	enum Component_Type
-	{
-		Marker,
-		Camera,
-		Model,
-		Physics,
-
-		Map_Mesh
-	};
-
-	struct Component
-	{
-		Component_Type Type;
-
-		// Component init
-		Component();
-
-		// Component init with Type
-		Component(Component_Type type);
-
-		
-		// Updates the Component
-		void Update();
-	};
-
 	struct Entity
 	{
 		glm::vec3 Position;

@@ -21,7 +21,7 @@ uniform sampler2D height;
 void main()
 {
 	gPosition				= Frag_Position;
-	gNormal					= texture(normal, UV).rgb;
+	gNormal					= gNormal; //texture(normal, UV).rgb;
 	gAlbedo_Roughness.rgb	= texture(albedo, UV).rgb;
 	gAlbedo_Roughness.a		= texture(roughness, UV).r;
 }

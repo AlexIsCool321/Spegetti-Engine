@@ -2,21 +2,6 @@
 
 namespace Spegetti_Entity_System
 {
-	Component::Component()
-	{
-		this->Type = Marker;
-	}
-	
-	Component::Component(Component_Type type)
-	{
-		this->Type = type;
-	}
-	
-	void Component::Update()
-	{
-
-	}
-
 	
 	Entity::Entity()
 	{

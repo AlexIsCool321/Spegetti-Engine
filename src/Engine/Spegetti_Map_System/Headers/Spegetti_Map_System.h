@@ -3,7 +3,17 @@
 
 namespace Spegetti_Map_System
 {
-	
+	namespace Map_System
+	{
+		class Map
+		{
+		private:
+
+		public:
+
+
+		};
+	}
 }
 
 #endif // !Spegetti_Map_System_H

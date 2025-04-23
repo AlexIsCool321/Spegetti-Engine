@@ -292,7 +292,7 @@ namespace Spegetti_Renderer
 					this->Mesh_Draw_Stack[i]->Draw();
 				}
 			}
-
+			
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 			
@@ -317,10 +317,8 @@ namespace Spegetti_Renderer
 			this->Lighting_Effect.Get_Material()->Set_Int("Mode", (int)this->Mode);
 
 			this->Lighting_Effect.Draw();
+			
 
-
-
-			glBindFramebuffer(GL_READ_FRAMEBUFFER, this->gBuffer);
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 			glBlitFramebuffer(0, 0, window->Get_Size().x, window->Get_Size().y, 0, 0, window->Get_Size().x, window->Get_Size().y, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
