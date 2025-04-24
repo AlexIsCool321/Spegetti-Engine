@@ -1,0 +1,7 @@
+ent player player_start [ vec(0 0 0) vec(0 0 0) vec(0 0 0) ] { }
+
+ent button button [ vec(0 0 3) vec(0 0 0) vec(0 0 0) ] { press=door.open }
+
+ent door door [ vec(10 0 0) vec(0 0 0) vec(0 0 0) ] { open=door_close.start }
+
+ent timer door_close [ vec(0 10 0) vec(0 0 0) vec(0 0 0) ] { timer_end=door.close }
