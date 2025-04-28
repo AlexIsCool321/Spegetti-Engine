@@ -39,10 +39,10 @@ int main()
 
 	Model world_model = Model(model_path.c_str());
 
-	world_model.Set_Material(world_material);
+	world_model.Set_Material(&world_material);
 	world_material.Set_Texture("albedo", &world_albedo);
 
-	World_Camera.Add_Model_To_Draw_Stack(&world_model);
+	World_Camera.Add_To_Draw_Stack(&world_model);
 
 
 
@@ -61,10 +61,10 @@ int main()
 	Model uv_model = Model();
 	uv_model.Add_Mesh(uv_mesh);
 
-	uv_model.Set_Material(uv_material);
+	uv_model.Set_Material(&uv_material);
 	uv_material.Set_Texture("albedo", &uv_albedo);
 
-	UV_Camera.Add_Model_To_Draw_Stack(&uv_model);
+	UV_Camera.Add_To_Draw_Stack(&uv_model);
 
 
 

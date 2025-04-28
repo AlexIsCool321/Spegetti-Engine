@@ -33,7 +33,6 @@ namespace Spegetti_Renderer
 
 			glViewport(0, 0, width, height);
 			glEnable(GL_DEPTH_TEST);
-
 		}
 
 		Window::~Window()
@@ -85,6 +84,9 @@ namespace Spegetti_Renderer
 
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
 		void Window::Push_Context()

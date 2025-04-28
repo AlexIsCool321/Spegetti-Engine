@@ -15,41 +15,53 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 #endif // _WIN32
 */
 
+#include <stb_image/stb_image.h>
+
 int main()
 {
 	Init_Spegetti_Renderer();
 
 	Window window = Window("Spegetti Engine", 800, 600);
 
-	Camera camera = Camera(Camera::Perspective, 90.0f, &window, 0.005f, 500.0f);
+	
+	Camera camera = Camera(Camera::Perspective, 90.0f, &window, 0.005f, 1000.0f);
 
+	
 	Material material = Material();
 
-	Texture Albedo		= Texture("demo/textures/Crowbar/albedo.png", Texture::Repeat, Texture::Linear);
-	Texture Normal		= Texture("demo/textures/Crowbar/normal.png", Texture::Repeat, Texture::Linear);
-	Texture Roughness	= Texture("demo/textures/Crowbar/roughness.png", Texture::Repeat, Texture::Linear);
+	Texture albedo		= Texture("demo/textures/crowbar/albedo.png", Texture::Repeat, Texture::Linear);
+	Texture normal		= Texture("demo/textures/crowbar/normal.png", Texture::Repeat, Texture::Linear);
+	Texture roughness	= Texture("demo/textures/crowbar/roughness.png", Texture::Repeat, Texture::Linear);
 
-	Model mesh = Model("demo/models/cube.obj");
+	Material light_mat = Material();
+	light_mat.Set_Float("emmision", 1.0f);
 
+	Model light = Model("demo/models/cube.obj");
+	light.Set_Material(&light_mat);
 
-	camera.Add_Model_To_Draw_Stack(&mesh);
-	mesh.Set_Material(material);
+	Model crowbar = Model("demo/models/crowbar.obj");
+	crowbar.Set_Material(&material);
 
+	crowbar.Transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -10.0f));
+	crowbar.Update_Transform();
+
+	camera.Add_To_Draw_Stack(&crowbar);
+	camera.Add_To_Draw_Stack(&light);
+	 
 	while (!window.Should_Close())
 	{
 		window.Update();
-
+		
+		
 		FreeCam(&camera, &window);
 
-		material.Use();
+		light.Transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 1.0f, sin(glfwGetTime()) * 20.0f));
+		light.Update_Transform();
 
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Albedo.Get_ID());
-		material.Set_Int("albedo", 0);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, Normal.Get_ID());
-		material.Set_Int("normal", 2);
+		material.Set_Texture("albedo", &albedo);
+		material.Set_Texture("normal", &normal);
+		material.Set_Texture("roughness", &roughness);
+		
 
 		camera.Draw(&window);
 	}

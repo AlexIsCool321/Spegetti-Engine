@@ -15,10 +15,10 @@ namespace Spegetti_Renderer
 
 			static std::vector<Vertex> Vertices =
 			{
-				Vertex(glm::vec3(-1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	0)),	// Bottom Left
-				Vertex(glm::vec3(1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	0)),	// Bottom Right
-				Vertex(glm::vec3(-1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	1)),	// Top Left
-				Vertex(glm::vec3(1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	1))		// Top Right
+				Vertex(glm::vec3(-1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	0), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0)),	// Bottom Left
+				Vertex(glm::vec3(1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	0), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0)),	// Bottom Right
+				Vertex(glm::vec3(-1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	1), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0)),	// Top Left
+				Vertex(glm::vec3(1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	1), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0))		// Top Right
 			};
 
 			static std::vector<unsigned int> Indices =
@@ -53,10 +53,10 @@ namespace Spegetti_Renderer
 		{
 			static std::vector<Vertex> Vertices =
 			{
-				Vertex(glm::vec3(-1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	0)),	// Bottom Left
-				Vertex(glm::vec3(1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	0)),	// Bottom Right
-				Vertex(glm::vec3(-1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	1)),	// Top Left
-				Vertex(glm::vec3(1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	1))		// Top Right
+				Vertex(glm::vec3(-1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	0), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0)),	// Bottom Left
+				Vertex(glm::vec3(1.0f,	-1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	0), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0)),	// Bottom Right
+				Vertex(glm::vec3(-1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(0,	1), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0)),	// Top Left
+				Vertex(glm::vec3(1.0f,	 1.0f,	0.0f), 1, glm::vec3(1,	0,	0), glm::vec2(1,	1), glm::vec3(0,	0,	0), glm::vec3(0,	0,	0))		// Top Right
 			};
 
 			static std::vector<unsigned int> Indices =

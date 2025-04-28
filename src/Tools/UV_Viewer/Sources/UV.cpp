@@ -54,7 +54,7 @@ Mesh Load_Model_UV(const char* path)
 			Vertices.push_back(vertex);
 		}
 
-		return Mesh(Vertices, Out_Indices, material);
+		return Mesh(Vertices, Out_Indices, &material);
 	}
 	else
 	{

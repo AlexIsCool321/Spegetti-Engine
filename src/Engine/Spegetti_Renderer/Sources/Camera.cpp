@@ -89,7 +89,7 @@ namespace Spegetti_Renderer
 		}
 
 
-		void Camera::Add_Mesh_To_Draw_Stack(Mesh* mesh)
+		void Camera::Add_To_Draw_Stack(Mesh* mesh)
 		{
 			if (mesh != nullptr)
 			{
@@ -97,7 +97,7 @@ namespace Spegetti_Renderer
 			}
 		}
 
-		void Camera::Add_Model_To_Draw_Stack(Model* model)
+		void Camera::Add_To_Draw_Stack(Model* model)
 		{
 			if (model != nullptr)
 			{
@@ -130,15 +130,23 @@ namespace Spegetti_Renderer
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, this->gNormal, 0);
 			
 			// Albedo Buffer
-			glGenTextures(1, &this->gAlbedo_Roughness);
-			glBindTexture(GL_TEXTURE_2D, this->gAlbedo_Roughness);
+			glGenTextures(1, &this->gAlbedo);
+			glBindTexture(GL_TEXTURE_2D, this->gAlbedo);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, this->gAlbedo_Roughness, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, this->gAlbedo, 0);
 			
-			unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-			glDrawBuffers(3, attachments);
+			// Albedo Buffer
+			glGenTextures(1, &this->gAO_Metallic_Roughness);
+			glBindTexture(GL_TEXTURE_2D, this->gAO_Metallic_Roughness);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, this->gAO_Metallic_Roughness, 0);
+
+			unsigned int attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+			glDrawBuffers(4, attachments);
 
 			// Depth Buffer
 			glGenRenderbuffers(1, &this->gDepth);
@@ -241,13 +249,13 @@ namespace Spegetti_Renderer
 
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Position(this->Position);
 
-						if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Material::Cull_Mode::Back)
+                        if (*this->Model_Draw_Stack[i]->Meshes[j].material->Mode == Material::Cull_Mode::Back)
 						{
 							//glEnable(GL_CULL_FACE);
 							//glCullFace(GL_BACK);
 							//glFrontFace(GL_CCW);
 						}
-						else if (*this->Model_Draw_Stack[i]->Meshes[j].material.Mode == Material::Cull_Mode::Front)
+						else if (*this->Model_Draw_Stack[i]->Meshes[j].material->Mode == Material::Cull_Mode::Front)
 						{
 							//glEnable(GL_CULL_FACE);
 							//glCullFace(GL_FRONT);
@@ -272,13 +280,13 @@ namespace Spegetti_Renderer
 
 					this->Mesh_Draw_Stack[i]->Set_View_Position(this->Position);
 
-					if (*this->Mesh_Draw_Stack[i]->material.Mode == Material::Cull_Mode::Back)
+					if (*this->Mesh_Draw_Stack[i]->material->Mode == Material::Cull_Mode::Back)
 					{
 						//glEnable(GL_CULL_FACE);
 						//glCullFace(GL_BACK);
 						//glFrontFace(GL_CCW);
 					}
-					else if (*this->Mesh_Draw_Stack[i]->material.Mode == Material::Cull_Mode::Front)
+					else if (*this->Mesh_Draw_Stack[i]->material->Mode == Material::Cull_Mode::Front)
 					{
 						//glEnable(GL_CULL_FACE);
 						//glCullFace(GL_FRONT);
@@ -305,19 +313,27 @@ namespace Spegetti_Renderer
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, this->gNormal);
 			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, this->gAlbedo_Roughness);
+			glBindTexture(GL_TEXTURE_2D, this->gAlbedo);
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, this->gAO_Metallic_Roughness);
 			
 			glActiveTexture(GL_TEXTURE0);
 
 			this->Lighting_Effect.Get_Material()->Set_Int("gPosition", 0);
 			this->Lighting_Effect.Get_Material()->Set_Int("gNormal", 1);
-			this->Lighting_Effect.Get_Material()->Set_Int("gAlbedo_Roughness", 2);
+			this->Lighting_Effect.Get_Material()->Set_Int("gAlbedo", 2);
+			this->Lighting_Effect.Get_Material()->Set_Int("gAO_Metallic_Roughness", 3);
 
 			this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
 			this->Lighting_Effect.Get_Material()->Set_Int("Mode", (int)this->Mode);
 
+			this->Lighting_Effect.Get_Material()->Set_Vector3("light1.Position", glm::vec3(0.0f, 1.0f, sin(glfwGetTime()) * 20.0f));
+			this->Lighting_Effect.Get_Material()->Set_Vector3("light1.Color", glm::vec3(1, 1, 1));
+			this->Lighting_Effect.Get_Material()->Set_Float("light1.Strength", 1.0f);
+
+			glEnable(GL_FRAMEBUFFER_SRGB);
 			this->Lighting_Effect.Draw();
-			
+			glDisable(GL_FRAMEBUFFER_SRGB);
 
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 

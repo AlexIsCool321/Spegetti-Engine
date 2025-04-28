@@ -26,3 +26,6 @@ surface_color = rsr(light_position, light_direction, light_color)
 	* srw(light_position, negitive_light_direction, light_color)
 	* dot(negitive_light_direction, surface_normal[ + normal_map])
 	* (surface_normal[ + normal_map]) * negitive_light_direction
+
+
+Color = (Roughness + dot(view_direction, normal))

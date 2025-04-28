@@ -14,6 +14,8 @@
 #include <iostream>
 #include <vector>
 
+#include <thread>
+
 #include <Spegetti_Console.h>
 #include <Spegetti_Files.h>
 #include <Spegetti_Logic.h>
@@ -80,13 +82,16 @@ namespace Spegetti_Renderer
 			glm::vec3 Position;
 			glm::vec3 Normal;
 
+			glm::vec3 Tangent;
+			glm::vec3 Bitangent;
+
 			glm::vec2 UV_Coords;
 			
 			// Vertex init
 			Vertex();
 
 			// Vertex init with Position, Vertex Group, Normal, and UV Coords
-			Vertex(glm::vec3 position, int vertex_group, glm::vec3 normal, glm::vec2 uv_coords);
+			Vertex(glm::vec3 position, int vertex_group, glm::vec3 normal, glm::vec2 uv_coords, glm::vec3 tangent, glm::vec3 bitangent);
 		};
 
 		struct Shader : public Spegetti_Logic::Resource
@@ -334,9 +339,7 @@ namespace Spegetti_Renderer
 		{
 			std::vector<Vertex> Vertices;
 			std::vector<unsigned int> Indices;
-			Material material;
-			
-			std::string Name;
+			Material* material;
 
 			unsigned int VAO, VBO, EBO;
 
@@ -349,7 +352,7 @@ namespace Spegetti_Renderer
 			Mesh(const Mesh& mesh);
 
 			// Mesh init with Vertices, Indices, and Materials
-			Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material material);
+			Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material* material);
 
 			// Mesh deconstructor
 			~Mesh();
@@ -411,10 +414,10 @@ namespace Spegetti_Renderer
 			void Add_Mesh(Mesh mesh);
 
 			// Apply a Material to a specified Mesh
-			void Set_Material(Material material, int mesh_index);
+			void Set_Material(Material* material, int mesh_index);
 
 			// Apply a Material to all Meshes in the Model
-			void Set_Material(Material material);
+			void Set_Material(Material* material);
 		};
 
 		class Post_Process_Effect : public Spegetti_Logic::Resource
@@ -448,7 +451,7 @@ namespace Spegetti_Renderer
 		{
 		private:
 			unsigned int gBuffer;
-			unsigned int gPosition, gNormal, gAlbedo_Roughness, gDepth;
+			unsigned int gPosition, gNormal, gAlbedo, gAO_Metallic_Roughness, gDepth;
 
 			Post_Process_Effect Lighting_Effect;
 
@@ -510,10 +513,10 @@ namespace Spegetti_Renderer
 			void Update_View();
 
 			// Add a Mesh to the Camera's draw stack
-			void Add_Mesh_To_Draw_Stack(Mesh* mesh);
+			void Add_To_Draw_Stack(Mesh* mesh);
 
 			// Add a Model to the Camera's draw stack
-			void Add_Model_To_Draw_Stack(Model* mesh);
+			void Add_To_Draw_Stack(Model* mesh);
 
 
 			// Recompiles all Models and Meshes in the Camera's draw stack

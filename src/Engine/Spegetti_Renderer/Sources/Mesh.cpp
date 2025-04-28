@@ -9,7 +9,7 @@ namespace Spegetti_Renderer
 		Mesh::Mesh()
 		{
 			this->Vertices	= std::vector<Vertex>();
-			this->material	= Material();
+			this->material	= &Material();
 			this->Indices	= std::vector<unsigned int>();
 			this->Model		= glm::mat4(1.0f);
 
@@ -27,7 +27,7 @@ namespace Spegetti_Renderer
 			this->Set_Up_Mesh();
 		}
 
-		Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material material)
+		Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Material* material)
 		{
 			this->Vertices	= vertices;
 			this->material	= material;
@@ -69,19 +69,25 @@ namespace Spegetti_Renderer
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->Indices.size() * sizeof(unsigned int), &this->Indices[0], GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->Indices.size() * sizeof(unsigned int), &this->Indices[0], GL_STATIC_DRAW);
 			
 			// Vertices' Positions
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
-			// Vertices' Groups
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 1, GL_INT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Vertex_Group));
 			// Vertices' Normals
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 			// Vertices' UV Coords
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, UV_Coords));
+			// Vertices' Tangents
 			glEnableVertexAttribArray(3);
-			glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, UV_Coords));
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
+			// Vertices' Bitangents
+			glEnableVertexAttribArray(4);
+			glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 
 			glBindVertexArray(0);
 		}
@@ -89,24 +95,24 @@ namespace Spegetti_Renderer
 
 		void Mesh::Set_View_Position(glm::vec3 view)
 		{
-			this->material.Set_Vector3("view_position", view);
+			this->material->Set_Vector3("view_position", view);
 		}
 		
 		void Mesh::Set_View_Matrix(glm::mat4 view)
 		{
-			this->material.Set_Mat4("view", view);
+			this->material->Set_Mat4("view", view);
 		}
 
 		void Mesh::Set_Projection(glm::mat4 projection)
 		{
-			this->material.Set_Mat4("projection", projection);
+			this->material->Set_Mat4("projection", projection);
 		}
 
 
 		void Mesh::Draw()
 		{
-			this->material.Set_Mat4("model", this->Model);
-			this->material.Use();
+			this->material->Use();
+			this->material->Set_Mat4("model", this->Model);
 
 			glBindVertexArray(this->VAO);
 			glDrawElements(GL_TRIANGLES, (GLsizei)this->Indices.size(), GL_UNSIGNED_INT, 0);

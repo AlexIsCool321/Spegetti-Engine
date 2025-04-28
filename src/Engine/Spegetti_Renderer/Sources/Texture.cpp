@@ -70,7 +70,7 @@ namespace Spegetti_Renderer
 				Interpolation = GL_LINEAR;
 			}
 
-			glActiveTexture(GL_TEXTURE1);
+			glActiveTexture(GL_TEXTURE0);
 
 			glGenTextures(1, &this->ID);
 			stbi_set_flip_vertically_on_load(true);
