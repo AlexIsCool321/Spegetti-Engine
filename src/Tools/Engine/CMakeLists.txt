@@ -13,17 +13,19 @@ set(Engine_Sources
 
 add_executable(${PROJECT_NAME} ${Engine_Sources})
 
-add_dependencies(${PROJECT_NAME} Spegetti_Renderer)
-add_dependencies(${PROJECT_NAME} Spegetti_Console)
-add_dependencies(${PROJECT_NAME} Spegetti_Logic)
-add_dependencies(${PROJECT_NAME} Spegetti_Files)
+target_link_libraries(${PROJECT_NAME} PRIVATE "IMGUI")
+
+add_dependencies(${PROJECT_NAME} "Spegetti_Renderer")
+add_dependencies(${PROJECT_NAME} "Spegetti_Console")
+add_dependencies(${PROJECT_NAME} "Spegetti_Logic")
+add_dependencies(${PROJECT_NAME} "Spegetti_Files")
 
 link_directories("${CMAKE_SOURCE_DIR}/../build/shared")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Renderer)
-target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Console)
-target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Logic)
-target_link_libraries(${PROJECT_NAME} PRIVATE Spegetti_Files)
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Renderer")
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Console")
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Logic")
+target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Files")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	FOLDER "Tools"

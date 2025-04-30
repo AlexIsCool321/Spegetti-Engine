@@ -57,5 +57,5 @@ include_directories(${PROJECT_NAME} PUBLIC "Tools/Fork/Headers")
 
 add_subdirectory("Tools/Engine")
 add_subdirectory("Tools/UV_Viewer")
-#add_subdirectory("Tools/Fork")
+add_subdirectory("Tools/Fork")
 add_subdirectory("Tools/Material_Editor")

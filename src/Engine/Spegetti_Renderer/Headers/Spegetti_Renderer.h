@@ -144,6 +144,9 @@ namespace Spegetti_Renderer
 			// Load a Texture from the specified Path
 			void Load_Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation);
 
+			// Unload Texture without deleting the Texture
+			void Unload_Texture();
+
 			// Get the ID of the Texture
 			unsigned int Get_ID();
 		};

@@ -32,7 +32,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE "Spegetti_Console")
 # Tools
 add_dependencies(${PROJECT_NAME} "Engine")
 add_dependencies(${PROJECT_NAME} "UV_Viewer")
-#add_dependencies(${PROJECT_NAME} "Fork")
+add_dependencies(${PROJECT_NAME} "Fork")
 add_dependencies(${PROJECT_NAME} "Material_Editor")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

@@ -14,7 +14,7 @@ namespace Spegetti_Renderer
 			this->Height = 0;
 			this->Channels = 0;
 
-			this->Load_Texture("engine/textures/debug.png", Repeat, Closest);
+			//this->Load_Texture("engine/textures/debug.png", Repeat, Closest);
 		}
 
 		Texture::Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation)
@@ -90,11 +90,13 @@ namespace Spegetti_Renderer
 				glBindTexture(GL_TEXTURE_2D, this->ID);
 				glTexImage2D(GL_TEXTURE_2D, 0, format, this->Width, this->Height, 0, format, GL_UNSIGNED_BYTE, data);
 				glGenerateMipmap(GL_TEXTURE_2D);
-				std::cout << this->ID << std::endl;
+				
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, Repetition);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Repetition);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Interpolation);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Interpolation);
+
+				std::cout << this->ID << std::endl;
 
 				stbi_image_free(data);
 			}
@@ -103,6 +105,12 @@ namespace Spegetti_Renderer
 				Error("FAILED TO LOAD TEXTURE : [ " + std::string(texture_path) + " ]");
 				stbi_image_free(data);
 			}
+		}
+
+		void Texture::Unload_Texture()
+		{
+			glDeleteTextures(1, &this->ID);
+			this->ID = 0;
 		}
 
 

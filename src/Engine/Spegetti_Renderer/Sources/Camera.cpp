@@ -231,12 +231,20 @@ namespace Spegetti_Renderer
 				old_window_size = window->Get_Size();
 			}
 
-			glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			if (this->Mode != Unlit)
+			{
+				//glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
+				//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			}
 
+			glEnable(GL_DEPTH_TEST);
 
 			this->Update_View();
 			this->Change_Draw_Mode(this->Mode);
+
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			glFrontFace(GL_CCW);
 
 			for (int i = 0; i < this->Model_Draw_Stack.size(); i++)
 			{
@@ -249,7 +257,7 @@ namespace Spegetti_Renderer
 
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Position(this->Position);
 
-                        if (*this->Model_Draw_Stack[i]->Meshes[j].material->Mode == Material::Cull_Mode::Back)
+						if (*this->Model_Draw_Stack[i]->Meshes[j].material->Mode == Material::Cull_Mode::Back)
 						{
 							//glEnable(GL_CULL_FACE);
 							//glCullFace(GL_BACK);
@@ -263,7 +271,7 @@ namespace Spegetti_Renderer
 						}
 						else
 						{
-							glDisable(GL_CULL_FACE);
+							//glDisable(GL_CULL_FACE);
 						}
 
 						this->Model_Draw_Stack[i]->Meshes[j].Draw();
@@ -294,13 +302,21 @@ namespace Spegetti_Renderer
 					}
 					else
 					{
-						glDisable(GL_CULL_FACE);
+						//glDisable(GL_CULL_FACE);
 					}
 
 					this->Mesh_Draw_Stack[i]->Draw();
 				}
 			}
-			
+			glDisable(GL_CULL_FACE);
+
+			if (this->Mode == Unlit)
+			{
+				//return;
+			}
+
+			glDisable(GL_DEPTH_TEST);
+
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 			
@@ -327,13 +343,16 @@ namespace Spegetti_Renderer
 			this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
 			this->Lighting_Effect.Get_Material()->Set_Int("Mode", (int)this->Mode);
 
-			this->Lighting_Effect.Get_Material()->Set_Vector3("light1.Position", glm::vec3(0.0f, 1.0f, sin(glfwGetTime()) * 20.0f));
+			this->Lighting_Effect.Get_Material()->Set_Vector3("light1.Position", glm::vec3(0.0f, 1.0f, sin(glfwGetTime()) * 0.0f));
 			this->Lighting_Effect.Get_Material()->Set_Vector3("light1.Color", glm::vec3(1, 1, 1));
-			this->Lighting_Effect.Get_Material()->Set_Float("light1.Strength", 1.0f);
 
-			glEnable(GL_FRAMEBUFFER_SRGB);
+			this->Lighting_Effect.Get_Material()->Set_Float("light1.Constant", 1.0f);
+			this->Lighting_Effect.Get_Material()->Set_Float("light1.Linear", 0.09f);
+			this->Lighting_Effect.Get_Material()->Set_Float("light1.Quadratic", 0.032f);
+
+			//glEnable(GL_FRAMEBUFFER_SRGB);
 			this->Lighting_Effect.Draw();
-			glDisable(GL_FRAMEBUFFER_SRGB);
+			//glDisable(GL_FRAMEBUFFER_SRGB);
 
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 

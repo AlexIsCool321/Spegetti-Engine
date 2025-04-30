@@ -7,7 +7,10 @@ struct Light
 {
 	vec3 Position;
 	vec3 Color;
-	float Strength;
+	
+	float Constant;
+	float Linear;
+	float Quadratic;
 };
 
 uniform Light light1;
@@ -31,21 +34,25 @@ void main()
 	float Roughness	= AO_Metallic_Roughness.b;
 	float Emmision	= AO_Metallic_Roughness.a;
 	
+	vec3 ambient = light1.Color;
+	 
+	vec3 Normalized_Normal = normalize(Normal);
 	vec3 Light_Direction = normalize(light1.Position - Position);
 	
-	vec3 View_Direction = normalize(View_Position - Position);
-	vec3 HalfWay_Direction = normalize(Light_Direction + View_Direction); 
+	vec3 diffuse = light1.Color * max(dot(Normalized_Normal, Light_Direction), 0.0);
 
+	vec3 View_Direction = normalize(View_Position - Position);
+	vec3 Reflect_Direction = reflect(-Light_Direction, Normalized_Normal);
 	
-	float ambient_strength =  0.1f;
-	vec3 ambient = ambient_strength * light1.Color;
-	
-	vec3 diffuse = max(dot(Normal, Light_Direction), 0.0f) * light1.Color;
-	
-	float specular_strength = 0.5;
-	vec3 specular = (Roughness * pow(max(dot(View_Direction, HalfWay_Direction), 0.0), Metallic * 256)) * light1.Color;  
-	
-	
+	vec3 specular = light1.Color * pow(max(dot(View_Direction, Reflect_Direction), 0.0), Metallic * 256) * Roughness;
+
+	float distance= length(light1.Position - Position);
+	float attenuation = 1.0 / (light1.Constant + light1.Linear * distance + light1.Quadratic * (distance * distance));
+
+	ambient		*= attenuation;
+	diffuse		*= attenuation;
+	specular	*= attenuation; 
+
 	vec3 result = Albedo * (ambient + diffuse + specular);
-	FragColor = vec4(result, 1.0f);
+	FragColor = vec4(result, 1.0);
 }
