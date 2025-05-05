@@ -423,6 +423,23 @@ namespace Spegetti_Renderer
 			void Set_Material(Material* material);
 		};
 
+		struct Light : public Spegetti_Logic::Resource
+		{
+			glm::vec3 Position;
+			
+			glm::vec3 Color;
+			
+			float Constant;
+			float Linear;
+			float Quadratic;
+
+			// Light init
+			Light();
+
+			// Light init with Position, Color, Constant, Linear, and Quadratic
+			Light(glm::vec3 position, glm::vec3 color, float Constant, float Linear, float Quadratic);
+		};
+
 		class Post_Process_Effect : public Spegetti_Logic::Resource
 		{
 		private:
@@ -454,7 +471,7 @@ namespace Spegetti_Renderer
 		{
 		private:
 			unsigned int gBuffer;
-			unsigned int gPosition, gNormal, gAlbedo, gAO_Metallic_Roughness, gDepth;
+			unsigned int gPosition, gNormal, gAlbedo, gARM, gDepth;
 
 			Post_Process_Effect Lighting_Effect;
 
@@ -488,6 +505,8 @@ namespace Spegetti_Renderer
 			std::vector<Model*> Model_Draw_Stack;
 			std::vector<Mesh*> Mesh_Draw_Stack;
 
+			std::vector<Light*> Lights;
+
 			glm::mat4 View			= glm::mat4(1.0f);
 			glm::mat4 Projection	= glm::mat4(1.0f);
 
@@ -515,6 +534,7 @@ namespace Spegetti_Renderer
 			// Updates the View matrix using the Position and Rotation vectors
 			void Update_View();
 
+
 			// Add a Mesh to the Camera's draw stack
 			void Add_To_Draw_Stack(Mesh* mesh);
 
@@ -524,6 +544,9 @@ namespace Spegetti_Renderer
 
 			// Recompiles all Models and Meshes in the Camera's draw stack
 			void Reload_Models(OS::Window* window);
+
+			// Adds a Light when drawing
+			void Add_Light(Light* light);
 
 
 			// Set Lighting Material
@@ -535,6 +558,21 @@ namespace Spegetti_Renderer
 
 			// Draw the Camera's draw stack
 			void Draw(OS::Window* window);
+		};
+		
+		class View_Port
+		{
+		private:
+			unsigned int gBuffer, View;
+		public:
+			View_Port(OS::Window* window);
+
+			
+			void Force_Size_Update(OS::Window* window);
+
+			void Use();
+
+			unsigned int Get_ID();
 		};
 
 		// Debug Mesh

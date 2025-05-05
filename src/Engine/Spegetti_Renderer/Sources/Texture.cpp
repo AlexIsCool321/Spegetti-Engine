@@ -95,7 +95,7 @@ namespace Spegetti_Renderer
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Repetition);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Interpolation);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Interpolation);
-
+				
 				std::cout << this->ID << std::endl;
 
 				stbi_image_free(data);

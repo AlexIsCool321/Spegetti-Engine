@@ -132,18 +132,18 @@ namespace Spegetti_Renderer
 			// Albedo Buffer
 			glGenTextures(1, &this->gAlbedo);
 			glBindTexture(GL_TEXTURE_2D, this->gAlbedo);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, this->gAlbedo, 0);
 			
-			// Albedo Buffer
-			glGenTextures(1, &this->gAO_Metallic_Roughness);
-			glBindTexture(GL_TEXTURE_2D, this->gAO_Metallic_Roughness);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+			// ARM Buffer
+			glGenTextures(1, &this->gARM);
+			glBindTexture(GL_TEXTURE_2D, this->gARM);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (int)window->Get_Size().x, (int)window->Get_Size().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, this->gAO_Metallic_Roughness, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, this->gARM, 0);
 
 			unsigned int attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 			glDrawBuffers(4, attachments);
@@ -161,6 +161,11 @@ namespace Spegetti_Renderer
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 
+
+		void Camera::Add_Light(Light* light)
+		{
+			this->Lights.push_back(light);
+		}
 
 		void Camera::Set_Lighting_Material(Material* material)
 		{
@@ -221,6 +226,8 @@ namespace Spegetti_Renderer
 			this->Reload_Models(nullptr);
 		}
 
+#define No_Deffered 0
+
 		void Camera::Draw(OS::Window* window)
 		{
 			static glm::vec2 old_window_size = glm::vec2(0.0f);
@@ -231,16 +238,16 @@ namespace Spegetti_Renderer
 				old_window_size = window->Get_Size();
 			}
 
-			if (this->Mode != Unlit)
-			{
-				//glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
-				//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			}
+#if No_Deffered
+#else
+			glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#endif
 
 			glEnable(GL_DEPTH_TEST);
 
 			this->Update_View();
-			this->Change_Draw_Mode(this->Mode);
+			//this->Change_Draw_Mode(this->Mode);
 
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
@@ -310,11 +317,9 @@ namespace Spegetti_Renderer
 			}
 			glDisable(GL_CULL_FACE);
 
-			if (this->Mode == Unlit)
-			{
-				//return;
-			}
-
+#if No_Deffered
+			return;
+#endif
 			glDisable(GL_DEPTH_TEST);
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -331,7 +336,7 @@ namespace Spegetti_Renderer
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, this->gAlbedo);
 			glActiveTexture(GL_TEXTURE3);
-			glBindTexture(GL_TEXTURE_2D, this->gAO_Metallic_Roughness);
+			glBindTexture(GL_TEXTURE_2D, this->gARM);
 			
 			glActiveTexture(GL_TEXTURE0);
 
@@ -343,13 +348,27 @@ namespace Spegetti_Renderer
 			this->Lighting_Effect.Get_Material()->Set_Vector3("View_Position", this->Position);
 			this->Lighting_Effect.Get_Material()->Set_Int("Mode", (int)this->Mode);
 
-			this->Lighting_Effect.Get_Material()->Set_Vector3("light1.Position", glm::vec3(0.0f, 1.0f, sin(glfwGetTime()) * 0.0f));
-			this->Lighting_Effect.Get_Material()->Set_Vector3("light1.Color", glm::vec3(1, 1, 1));
+			for (int i = 0; i < this->Lights.size(); i++)
+			{
+				if (this->Lights[i] == NULL)
+				{
+					this->Lighting_Effect.Get_Material()->Set_Vector3(("Point_Lights["	+ std::to_string(i) + "].Position").c_str(),	glm::vec3(0.0f));
+					this->Lighting_Effect.Get_Material()->Set_Vector3(("Point_Lights["	+ std::to_string(i) + "].Color").c_str(),		glm::vec3(0.0f));
+					this->Lighting_Effect.Get_Material()->Set_Float(("Point_Lights["	+ std::to_string(i) + "].Constant").c_str(),	0.0f);
+					this->Lighting_Effect.Get_Material()->Set_Float(("Point_Lights["	+ std::to_string(i) + "].Linear").c_str(),		0.0f);
+					this->Lighting_Effect.Get_Material()->Set_Float(("Point_Lights["	+ std::to_string(i) + "].Quadratic").c_str(),	0.0f);
 
-			this->Lighting_Effect.Get_Material()->Set_Float("light1.Constant", 1.0f);
-			this->Lighting_Effect.Get_Material()->Set_Float("light1.Linear", 0.09f);
-			this->Lighting_Effect.Get_Material()->Set_Float("light1.Quadratic", 0.032f);
+					this->Lights.erase(this->Lights.begin() + i);
+					break;
+				}
 
+				this->Lighting_Effect.Get_Material()->Set_Vector3(("Point_Lights["	+ std::to_string(i) + "].Position").c_str(),	this->Lights[i]->Position);
+				this->Lighting_Effect.Get_Material()->Set_Vector3(("Point_Lights["	+ std::to_string(i) + "].Color").c_str(),		this->Lights[i]->Color);
+				this->Lighting_Effect.Get_Material()->Set_Float(("Point_Lights["	+ std::to_string(i) + "].Constant").c_str(),	this->Lights[i]->Constant);
+				this->Lighting_Effect.Get_Material()->Set_Float(("Point_Lights["	+ std::to_string(i) + "].Linear").c_str(),		this->Lights[i]->Linear);
+				this->Lighting_Effect.Get_Material()->Set_Float(("Point_Lights["	+ std::to_string(i) + "].Quadratic").c_str(),	this->Lights[i]->Quadratic);
+			}
+			
 			//glEnable(GL_FRAMEBUFFER_SRGB);
 			this->Lighting_Effect.Draw();
 			//glDisable(GL_FRAMEBUFFER_SRGB);

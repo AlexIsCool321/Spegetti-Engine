@@ -3,7 +3,7 @@ out vec4 FragColor;
 
 in vec2 UV;
 
-struct Light
+struct Point_Light
 {
 	vec3 Position;
 	vec3 Color;
@@ -13,7 +13,8 @@ struct Light
 	float Quadratic;
 };
 
-uniform Light light1;
+#define NUMBER_OF_LIGHTS 10  
+uniform Point_Light Point_Lights[NUMBER_OF_LIGHTS];
 
 uniform vec3 View_Position;
 
@@ -21,6 +22,47 @@ uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gAlbedo;
 uniform sampler2D gAO_Metallic_Roughness;
+
+vec3 Calculate_Spot_Light(Point_Light Light, vec3 Albedo, vec3 Position, vec3 Normal, float Metallic, float Roughness, float AO)
+{
+	vec3 color;
+	
+	
+	vec3 Light_Direction	= normalize(Light.Position - Position);
+	vec3 View_Direction		= normalize(View_Position - Position);
+	
+	vec3 Normilized_Normal = normalize(Normal);
+	
+	//vec3 Half_Way_Direction = reflect(-Light_Direction, Normilized_Normal);
+	vec3 Half_Way_Direction = normalize(View_Direction + Light_Direction);
+	
+	vec3 ambient = Light.Color;
+	
+	vec3 diffuse = Light.Color * max(dot(Normilized_Normal, Light_Direction), 0.0);
+	
+	vec3 specular = Roughness * pow(max(dot(Normilized_Normal, Half_Way_Direction), 0.0f), (1.0f - Roughness) * 256) * Light.Color;
+	
+	float ao = 1.0f - AO;
+	
+	float distance = length(Light.Position - Position);
+	float attenuation = 1.0 / (Light.Constant + Light.Linear * distance + Light.Quadratic * (distance * distance));
+	
+	ambient		*= attenuation;
+	diffuse		*= attenuation;
+	specular	*= attenuation;
+	
+	color = (Albedo) * (ambient + diffuse + specular);
+	
+	
+	if (color.x >= 0.0f && color.y >= 0.0f && color.z >= 0.0f)
+	{
+		return color;
+	}
+	else
+	{
+		return vec3(0.0f);
+	}
+}
 
 void main()
 {	
@@ -34,25 +76,12 @@ void main()
 	float Roughness	= AO_Metallic_Roughness.b;
 	float Emmision	= AO_Metallic_Roughness.a;
 	
-	vec3 ambient = light1.Color;
-	 
-	vec3 Normalized_Normal = normalize(Normal);
-	vec3 Light_Direction = normalize(light1.Position - Position);
+	vec3 result = vec3(0.0f);
 	
-	vec3 diffuse = light1.Color * max(dot(Normalized_Normal, Light_Direction), 0.0);
-
-	vec3 View_Direction = normalize(View_Position - Position);
-	vec3 Reflect_Direction = reflect(-Light_Direction, Normalized_Normal);
+	for(int i = 0; i < NUMBER_OF_LIGHTS; i++)
+	{
+		result += Calculate_Spot_Light(Point_Lights[i], Albedo, Position, Normal, Metallic, Roughness, AO);
+	}
 	
-	vec3 specular = light1.Color * pow(max(dot(View_Direction, Reflect_Direction), 0.0), Metallic * 256) * Roughness;
-
-	float distance= length(light1.Position - Position);
-	float attenuation = 1.0 / (light1.Constant + light1.Linear * distance + light1.Quadratic * (distance * distance));
-
-	ambient		*= attenuation;
-	diffuse		*= attenuation;
-	specular	*= attenuation; 
-
-	vec3 result = Albedo * (ambient + diffuse + specular);
 	FragColor = vec4(result, 1.0);
 }

@@ -7,7 +7,9 @@ include_directories(${PROJECT_NAME} PUBLIC "/")
 set(Spegetti_Renderer_Sources
 	"Sources/Window.cpp"
 	"Sources/Camera.cpp"
-
+	
+	"Sources/View_Port.cpp"
+	
 	"Sources/Shader.cpp"
 	"Sources/Material.cpp"
 	
@@ -18,6 +20,9 @@ set(Spegetti_Renderer_Sources
 	"Sources/Mesh.cpp"
 	"Sources/Model.cpp"
 	
+	"Sources/Light.cpp"
+	
+
 	"Sources/Debug_Quad.cpp"
 	
 	"Sources/Post_Process_Effect.cpp"
