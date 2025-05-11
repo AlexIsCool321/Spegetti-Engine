@@ -144,8 +144,17 @@ namespace Spegetti_Renderer
 			// Load a Texture from the specified Path
 			void Load_Texture(const char* texture_path, Texture_Repetition texture_repetition, Texture_Interpolation texture_interpolation);
 
+
 			// Unload Texture without deleting the Texture
 			void Unload_Texture();
+
+
+			// Bind the Texture
+			void Bind();
+
+			// Unbind the Texture
+			void Unbind();
+
 
 			// Get the ID of the Texture
 			unsigned int Get_ID();
@@ -264,7 +273,7 @@ namespace Spegetti_Renderer
 				None
 			};
 			
-			Shader shader;
+			Shader* shader;
 
 			Cull_Mode* Mode;
 
@@ -361,7 +370,7 @@ namespace Spegetti_Renderer
 			~Mesh();
 
 
-			// Mesh = eqation
+			// Mesh = equation
 			Mesh operator=(const Mesh &other) const;
 			
 

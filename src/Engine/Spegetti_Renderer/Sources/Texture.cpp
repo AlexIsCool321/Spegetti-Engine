@@ -25,6 +25,8 @@ namespace Spegetti_Renderer
 			this->Channels = 0;
 			
 			this->Load_Texture(texture_path, texture_repetition, texture_interpolation);
+
+			this->Bind();
 		}
 
 		Texture::~Texture()
@@ -69,7 +71,6 @@ namespace Spegetti_Renderer
 			{
 				Interpolation = GL_LINEAR;
 			}
-
 			glActiveTexture(GL_TEXTURE0);
 
 			glGenTextures(1, &this->ID);
@@ -95,8 +96,6 @@ namespace Spegetti_Renderer
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, Repetition);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Interpolation);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Interpolation);
-				
-				std::cout << this->ID << std::endl;
 
 				stbi_image_free(data);
 			}
@@ -111,6 +110,19 @@ namespace Spegetti_Renderer
 		{
 			glDeleteTextures(1, &this->ID);
 			this->ID = 0;
+		}
+
+
+		void Texture::Bind()
+		{
+			glActiveTexture(GL_TEXTURE0 + this->ID - 1);
+			glBindTexture(GL_TEXTURE_2D, this->ID);
+		}
+
+		void Texture::Unbind()
+		{
+			glActiveTexture(GL_TEXTURE0 + this->ID - 1);
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
 

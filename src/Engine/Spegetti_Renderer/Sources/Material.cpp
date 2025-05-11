@@ -133,7 +133,7 @@ namespace Spegetti_Renderer
 		{
 			if (shader == nullptr) return;
 
-			this->shader = *shader;
+			this->shader = shader;
 
 			// Get Shader Sources
 			std::string vertexSource	= Read_File(shader->Vertex_Shader);
@@ -258,11 +258,7 @@ namespace Spegetti_Renderer
 			if (texture == nullptr) return;
 			glUseProgram(this->ID);
 
-			glActiveTexture(GL_TEXTURE0 + texture->Get_ID() - 1);
-			glBindTexture(GL_TEXTURE_2D, texture->Get_ID());
 			glUniform1i(glGetUniformLocation(this->ID, name), texture->Get_ID() - 1);
-
-			glActiveTexture(GL_TEXTURE0);
 		}
 
 

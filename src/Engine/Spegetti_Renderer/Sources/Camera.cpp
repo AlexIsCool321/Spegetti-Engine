@@ -1,5 +1,7 @@
 #include <Spegetti_Renderer.h>
 
+#define No_Deffered 0
+
 namespace Spegetti_Renderer
 {
 	namespace Graphics
@@ -99,15 +101,16 @@ namespace Spegetti_Renderer
 
 		void Camera::Add_To_Draw_Stack(Model* model)
 		{
-			if (model != nullptr)
-			{
-				this->Model_Draw_Stack.push_back(model);
-			}
+			this->Model_Draw_Stack.push_back(model);
 		}
 
 
 		void Camera::Reload_Models(OS::Window* window)
 		{
+#if No_Deffered
+			return;
+#endif
+
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 			glGenFramebuffers(1, &this->gBuffer);
@@ -226,8 +229,6 @@ namespace Spegetti_Renderer
 			this->Reload_Models(nullptr);
 		}
 
-#define No_Deffered 0
-
 		void Camera::Draw(OS::Window* window)
 		{
 			static glm::vec2 old_window_size = glm::vec2(0.0f);
@@ -243,8 +244,6 @@ namespace Spegetti_Renderer
 			glBindFramebuffer(GL_FRAMEBUFFER, this->gBuffer);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif
-
-			glEnable(GL_DEPTH_TEST);
 
 			this->Update_View();
 			//this->Change_Draw_Mode(this->Mode);
@@ -263,7 +262,7 @@ namespace Spegetti_Renderer
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Matrix(this->View);
 
 						this->Model_Draw_Stack[i]->Meshes[j].Set_View_Position(this->Position);
-
+						/*
 						if (*this->Model_Draw_Stack[i]->Meshes[j].material->Mode == Material::Cull_Mode::Back)
 						{
 							//glEnable(GL_CULL_FACE);
@@ -280,7 +279,7 @@ namespace Spegetti_Renderer
 						{
 							//glDisable(GL_CULL_FACE);
 						}
-
+						*/
 						this->Model_Draw_Stack[i]->Meshes[j].Draw();
 					}
 				}
@@ -295,6 +294,7 @@ namespace Spegetti_Renderer
 
 					this->Mesh_Draw_Stack[i]->Set_View_Position(this->Position);
 
+					/*
 					if (*this->Mesh_Draw_Stack[i]->material->Mode == Material::Cull_Mode::Back)
 					{
 						//glEnable(GL_CULL_FACE);
@@ -311,6 +311,7 @@ namespace Spegetti_Renderer
 					{
 						//glDisable(GL_CULL_FACE);
 					}
+					*/
 
 					this->Mesh_Draw_Stack[i]->Draw();
 				}
@@ -320,7 +321,6 @@ namespace Spegetti_Renderer
 #if No_Deffered
 			return;
 #endif
-			glDisable(GL_DEPTH_TEST);
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -369,9 +369,13 @@ namespace Spegetti_Renderer
 				this->Lighting_Effect.Get_Material()->Set_Float(("Point_Lights["	+ std::to_string(i) + "].Quadratic").c_str(),	this->Lights[i]->Quadratic);
 			}
 			
-			//glEnable(GL_FRAMEBUFFER_SRGB);
+			glDisable(GL_DEPTH_TEST);
+
+			glEnable(GL_FRAMEBUFFER_SRGB);
 			this->Lighting_Effect.Draw();
-			//glDisable(GL_FRAMEBUFFER_SRGB);
+			glDisable(GL_FRAMEBUFFER_SRGB);
+
+			glEnable(GL_DEPTH_TEST);
 
 			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 

@@ -53,7 +53,6 @@ vec3 Calculate_Spot_Light(Point_Light Light, vec3 Albedo, vec3 Position, vec3 No
 	
 	color = (Albedo) * (ambient + diffuse + specular);
 	
-	
 	if (color.x >= 0.0f && color.y >= 0.0f && color.z >= 0.0f)
 	{
 		return color;
@@ -72,8 +71,8 @@ void main()
 	
 	vec4 AO_Metallic_Roughness = texture(gAO_Metallic_Roughness, UV);
 	float AO		= AO_Metallic_Roughness.r;
-	float Metallic	= AO_Metallic_Roughness.g;
-	float Roughness	= AO_Metallic_Roughness.b;
+	float Metallic	= AO_Metallic_Roughness.b;
+	float Roughness	= AO_Metallic_Roughness.g;
 	float Emmision	= AO_Metallic_Roughness.a;
 	
 	vec3 result = vec3(0.0f);
@@ -82,6 +81,8 @@ void main()
 	{
 		result += Calculate_Spot_Light(Point_Lights[i], Albedo, Position, Normal, Metallic, Roughness, AO);
 	}
+	
+	//result = Albedo;
 	
 	FragColor = vec4(result, 1.0);
 }
