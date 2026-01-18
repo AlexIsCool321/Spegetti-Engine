@@ -1,6 +1,6 @@
 project("Engine")
 
-file(GLOB_RECURSE SOURCE "*.c" "*.cpp" "*.h")
+file(GLOB_RECURSE SOURCE "*.c" "*.cpp" "*.h" "*.hpp")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE})
 

@@ -1,12 +1,10 @@
 #include <iostream>
 
-#include <Core/Core.hpp>
+#include <Launcher/LoadGame.hpp>
 
 int main()
 {
-	std::cout << "Hello, World!" << std::endl;
-	
-	Init();
+	Game::Properties* properties = Launcher::LoadGame("Demo");
 
 	return 0;
 }

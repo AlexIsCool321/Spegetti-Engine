@@ -1,6 +1,6 @@
 project("Launcher")
 
-file(GLOB_RECURSE SOURCE "*.c" "*.cpp" "*.h")
+file(GLOB_RECURSE SOURCE "*.c" "*.cpp" "*.h" "*.hpp")
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
