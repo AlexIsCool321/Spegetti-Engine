@@ -7,14 +7,13 @@ int main()
 	Game::Properties* properties = Launcher::LoadGame("Demo");
 
 	Noodle::Entity* Freecam = properties->registry->CreateEntity("Freecam");
-	
-	Freecam->OnCreate();
+
 	while (true)
 	{
-		Freecam->OnUpdate();
+		properties->registry->UpdateEntities();
 	}
 
-	Freecam->OnDestroy();
+	properties->registry->ClearEntities();
 
 	return 0;
 }

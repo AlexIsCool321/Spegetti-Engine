@@ -11,11 +11,11 @@ namespace Demo
 
 	void Freecam::OnUpdate()
 	{
-
+		std::cout << "Freecam Updated!" << std::endl;
 	}
 
 	void Freecam::OnDestroy()
 	{
-
+		std::cout << "Freecam Destroyed!" << std::endl;
 	}
 }
