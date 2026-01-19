@@ -11,7 +11,7 @@ namespace Launcher
 		
 		std::string path = "./" + std::string(game) + "/libClient.so";
 
-		void* handle = dlopen(path.c_str(), RTLD_LAZY);
+		void* handle = dlopen(path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
 		if (!handle)
 		{
 			std::cout << "ERROR : FAILED TO OPEN [ " << path << " ]! : [ " << dlerror() << " ]" << std::endl;

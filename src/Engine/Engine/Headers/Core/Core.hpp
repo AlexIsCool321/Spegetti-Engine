@@ -2,7 +2,6 @@
 #define CORE_HPP
 
 #include <Game/Game.hpp>
-
-void Init();
+#include <Noodle/Noodle.hpp>
 
 #endif
