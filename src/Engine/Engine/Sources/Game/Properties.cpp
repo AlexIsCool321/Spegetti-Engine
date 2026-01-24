@@ -2,6 +2,13 @@
 
 namespace Game
 {
+	Properties::Properties()
+	{
+		this->title = "";
+		this->entityRegistry = new Noodle::Registry();
+	}
+
+
 	Properties* mergeProperties(std::vector<Properties*> properties, std::string new_title)
 	{
 		Game::Properties* result = new Game::Properties();
