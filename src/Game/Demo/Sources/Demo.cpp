@@ -6,8 +6,8 @@ Game::Properties* Init()
 	
 	properties->title = "Demo";
 
-	properties->registry = new Noodle::Registry();
-	properties->registry->RegisterEntity<Demo::Freecam>("Freecam");
+	properties->entityRegistry = new Noodle::Registry();
+	properties->entityRegistry->RegisterEntity<Demo::Freecam>("Freecam");
 
 	return properties;
 }

@@ -1,4 +1,4 @@
-project("Demo")
+project("Engine")
 
 file(GLOB_RECURSE SOURCE "*.c" "*.cpp" "*.h" "*.hpp")
 

@@ -2,6 +2,7 @@
 #define PROPERTIES_HPP
 
 #include <string>
+#include <vector>
 
 #include <Noodle/Noodle.hpp>
 
@@ -11,8 +12,10 @@ namespace Game
 	{
 		std::string title;
 
-		Noodle::Registry* registry;
+		Noodle::Registry* entityRegistry;
 	};
+
+	Properties* mergeProperties(std::vector<Properties*> properties, std::string new_title);
 }
 
 #endif

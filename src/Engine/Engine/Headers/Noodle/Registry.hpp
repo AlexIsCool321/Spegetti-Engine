@@ -17,21 +17,25 @@ namespace Noodle
 		std::map<std::string, std::function<Entity*()>> m_entityRegister;
 		std::vector<Entity*> m_entities;
 
+		friend Registry* mergeRegistries(std::vector<Registry*> registries);
+
 	public:
 		Registry();
 		~Registry();
 
 		template<typename T>
-		void RegisterEntity(std::string name)
+		void RegisterEntity(std::string type)
 		{
-			m_entityRegister[name] = std::function<Entity*()>([]() { return new T(); });
+			this->m_entityRegister[type] = std::function<Entity*()>([]() { return new T(); });
 		}
 
-		Entity* CreateEntity(std::string name);
+		Entity* CreateEntity(std::string type, std::string name);
 
 		void UpdateEntities();
 		void ClearEntities();
 	};
+
+	Registry* mergeRegistries(std::vector<Registry*> registries);
 }
 
 #endif

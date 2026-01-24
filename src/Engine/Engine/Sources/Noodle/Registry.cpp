@@ -15,16 +15,18 @@ namespace Noodle
 	}
 
 
-	Entity* Registry::CreateEntity(std::string name)
+	Entity* Registry::CreateEntity(std::string type, std::string name)
 	{
-		std::function<Entity*()> CreateEntity = m_entityRegister[name.c_str()];
+		std::function<Entity*()> CreateEntity = m_entityRegister[type.c_str()];
 		if (!CreateEntity)
 		{
-			std::cout << "ERROR : Entity [ " << name << " ] not found in registry!" << std::endl;
+			std::cout << "ERROR : Entity [ " << type << " ] not found in registry!" << std::endl;
 			return nullptr;
 		}
 
 		Entity* entity = CreateEntity();
+		entity->name = name;
+		
 		entity->OnCreate();
 
 		this->m_entities.push_back(entity);
@@ -56,5 +58,27 @@ namespace Noodle
 
 		this->m_entities.clear();
 		this->m_entities.shrink_to_fit();
+	}
+
+
+	Registry* mergeRegistries(std::vector<Registry*> registers)
+	{
+		Registry* result = new Registry();
+		
+		for (unsigned int i = 0; i < registers.size(); i++)
+		{
+			result->m_entityRegister.merge(registers[i]->m_entityRegister);
+
+			for (unsigned int j = 0; j < registers[i]->m_entities.size(); j++)
+			{
+				result->m_entities.push_back(registers[i]->m_entities[j]);
+			}
+
+			for (const auto& pair : registers[i]->m_entityRegister) {
+				std::cout << pair.first << std::endl;
+			}
+		}
+
+		return result;
 	}
 }
