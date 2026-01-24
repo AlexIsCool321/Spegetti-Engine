@@ -10,8 +10,9 @@ namespace Game
 {
 	struct Properties
 	{
-		std::string title;
+		Properties();
 
+		std::string title;
 		Noodle::Registry* entityRegistry;
 	};
 

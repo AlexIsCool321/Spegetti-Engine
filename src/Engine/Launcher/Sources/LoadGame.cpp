@@ -15,7 +15,7 @@ namespace Launcher
 		if (!handle)
 		{
 			std::cout << "ERROR : FAILED TO OPEN [ " << path << " ]! : [ " << dlerror() << " ]" << std::endl;
-			return nullptr;
+			return new Game::Properties();
 		}
 
 		// Clear error
@@ -27,7 +27,7 @@ namespace Launcher
 		{
 			std::cout << "ERROR : FAILED TO LOAD SYMBOL! : [ " << dlsym_error << " ]" << std::endl;
 			dlclose(handle);
-			return nullptr;
+			return new Game::Properties();
 		}
 
 		Game::Properties* properties = init();
