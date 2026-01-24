@@ -1,19 +1,26 @@
 #include <iostream>
 
 #include <Launcher/LoadGame.hpp>
+#include <vector>
 
 int main()
 {
-	Game::Properties* properties = Launcher::LoadGame("Demo");
+	std::vector<Game::Properties*> game_properties;
 
-	Noodle::Entity* Freecam = properties->registry->CreateEntity("Freecam");
+	game_properties.push_back(Launcher::LoadGame("Engine"));
+	game_properties.push_back(Launcher::LoadGame("Demo"));
+
+	Game::Properties* properties = Game::mergeProperties(game_properties, "Demo");
+
+	Noodle::Entity* Freecam = properties->entityRegistry->CreateEntity("Freecam", "freecam");
+	Noodle::Entity* Model = properties->entityRegistry->CreateEntity("Model", "cube");
 
 	while (true)
 	{
-		properties->registry->UpdateEntities();
+		properties->entityRegistry->UpdateEntities();
 	}
 
-	properties->registry->ClearEntities();
+	properties->entityRegistry->ClearEntities();
 
 	return 0;
 }

@@ -1,11 +1,11 @@
-#ifndef FREECAM_HPP
-#define FREECAM_HPP
+#ifndef MODEL_HPP
+#define MODEL_HPP
 
 #include <Noodle/Noodle.hpp>
 
-namespace Demo
+namespace Engine
 {
-	class Freecam : public Noodle::Entity
+	class Model : public Noodle::Entity
 	{
 	public:
 		void OnCreate();
