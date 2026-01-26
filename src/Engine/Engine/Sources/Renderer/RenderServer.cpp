@@ -4,7 +4,7 @@ namespace Renderer
 {
 	RenderServer::RenderServer(System::Window& window)
 	{
-
+		
 	}
 
 	RenderServer::~RenderServer()
