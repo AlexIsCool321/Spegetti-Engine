@@ -1,21 +1,21 @@
 #include <Demo/Freecam.hpp>
 
-#include <iostream>
+#include <Logging/Logging.hpp>
 
 namespace Demo
 {
 	void Freecam::OnCreate()
 	{
-		std::cout << "Freecam Created!" << std::endl;
+		Logging::Log("Freecam Created!");
 	}
 
 	void Freecam::OnUpdate()
 	{
-		std::cout << "Freecam Updated!" << std::endl;
+		Logging::Log("Freecam Updated!");
 	}
 
 	void Freecam::OnDestroy()
 	{
-		std::cout << "Freecam Destroyed!" << std::endl;
+		Logging::Log("Freecam Destroyed!");
 	}
 }
