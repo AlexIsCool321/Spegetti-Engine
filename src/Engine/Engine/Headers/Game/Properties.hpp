@@ -19,7 +19,7 @@ namespace Game
 		Renderer::RenderServer* renderServer;
 	};
 
-	Properties* mergeProperties(std::vector<Properties*> properties, std::string new_title);
+	Properties* mergeProperties(std::vector<Properties*>& properties, std::string new_title);
 }
 
 #endif
