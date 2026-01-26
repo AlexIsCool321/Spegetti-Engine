@@ -3,4 +3,6 @@
 
 #include <System/Init.hpp>
 
+#include <System/Window.hpp>
+
 #endif
