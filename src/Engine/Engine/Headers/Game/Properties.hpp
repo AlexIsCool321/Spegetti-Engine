@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <Noodle/Noodle.hpp>
+#include <Renderer/Renderer.hpp>
 
 namespace Game
 {
@@ -13,10 +14,12 @@ namespace Game
 		Properties();
 
 		std::string title;
+
 		Noodle::Registry* entityRegistry;
+		Renderer::RenderServer* renderServer;
 	};
 
-	Properties* mergeProperties(std::vector<Properties*> properties, std::string new_title);
+	Properties* mergeProperties(std::vector<Properties*>& properties, std::string new_title);
 }
 
 #endif

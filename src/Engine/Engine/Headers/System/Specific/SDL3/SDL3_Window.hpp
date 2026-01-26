@@ -22,6 +22,9 @@ namespace System
 		void SwapBuffers();
 
 		bool IsOpen();
+
+		void Rename(const char* title);
+		const char* GetName();
 	};
 }
 
