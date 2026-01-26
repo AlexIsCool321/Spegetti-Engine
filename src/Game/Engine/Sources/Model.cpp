@@ -1,7 +1,5 @@
 #include <Engine/Model.hpp>
 
-#include <Logging/Logging.hpp>
-
 namespace Engine
 {
 	void Model::OnCreate()
