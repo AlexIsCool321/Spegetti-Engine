@@ -1,21 +1,21 @@
 #include <Engine/Model.hpp>
 
-#include <iostream>
+#include <Logging/Logging.hpp>
 
 namespace Engine
 {
 	void Model::OnCreate()
 	{
-		std::cout << "Model Created!" << std::endl;
+		Logging::Log("Model Created!");
 	}
 
 	void Model::OnUpdate()
 	{
-		std::cout << "Model Updated!" << std::endl;
+		Logging::Log("Model Updated!");
 	}
 
 	void Model::OnDestroy()
 	{
-		std::cout << "Model Destroyed!" << std::endl;
+		Logging::Log("Model Destroyed!");
 	}
 }
