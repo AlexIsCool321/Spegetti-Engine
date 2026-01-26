@@ -16,9 +16,14 @@ namespace Renderer
 {
 	class RenderServer
 	{
+	private:
+		System::Window* m_window;
+
 	public:
-		RenderServer(System::Window& window);
+		RenderServer();
 		virtual ~RenderServer();
+
+		virtual void AssignWindow(System::Window* window);
 
 		virtual unsigned short CreateShader(const char* type);
 

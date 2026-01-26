@@ -5,7 +5,9 @@ namespace Game
 	Properties::Properties()
 	{
 		this->title = "";
+		
 		this->entityRegistry = new Noodle::Registry();
+		this->renderServer = new Renderer::RenderServer();
 	}
 
 

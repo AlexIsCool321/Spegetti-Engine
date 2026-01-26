@@ -52,4 +52,15 @@ namespace System
 	{
 		return this->m_running;
 	}
+
+	
+	void SDL3_Window::Rename(const char* title)
+	{
+		SDL_SetWindowTitle(this->m_window, title);
+	}
+
+	const char* SDL3_Window::GetName()
+	{
+		return SDL_GetWindowTitle(this->m_window);
+	}
 }

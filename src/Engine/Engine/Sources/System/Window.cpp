@@ -32,6 +32,17 @@ namespace System
 	}
 
 
+	void Window::Rename(const char* title)
+	{
+
+	}
+
+	const char* Window::GetName()
+	{
+		return "";
+	}
+
+
 
 	Window* CreateWindow(unsigned int width, unsigned int height, const char* title)
 	{

@@ -2,14 +2,20 @@
 
 namespace Renderer
 {
-	RenderServer::RenderServer(System::Window& window)
+	RenderServer::RenderServer()
 	{
-
+		this->m_window = nullptr;
 	}
 
 	RenderServer::~RenderServer()
 	{
 
+	}
+
+
+	void RenderServer::AssignWindow(System::Window* window)
+	{
+		this->m_window = window;
 	}
 
 

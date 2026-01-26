@@ -13,6 +13,9 @@ namespace System
 		virtual void SwapBuffers();
 
 		virtual bool IsOpen();
+
+		virtual void Rename(const char* title);
+		virtual const char* GetName();
 	};
 
 	Window* CreateWindow(unsigned int width, unsigned int height, const char* title);
