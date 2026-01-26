@@ -1,6 +1,6 @@
 #include <Noodle/Registry.hpp>
 
-#include <iostream>
+#include <Logging/Logging.hpp>
 
 namespace Noodle
 {
@@ -20,7 +20,7 @@ namespace Noodle
 		std::function<Entity*()> CreateEntity = m_entityRegister[type.c_str()];
 		if (!CreateEntity)
 		{
-			std::cout << "ERROR : Entity [ " << type << " ] not found in registry!" << std::endl;
+			Logging::Error("Entity [ %s ] not found in registry!", type);
 			return nullptr;
 		}
 
@@ -72,10 +72,6 @@ namespace Noodle
 			for (unsigned int j = 0; j < registers[i]->m_entities.size(); j++)
 			{
 				result->m_entities.push_back(registers[i]->m_entities[j]);
-			}
-
-			for (const auto& pair : registers[i]->m_entityRegister) {
-				std::cout << pair.first << std::endl;
 			}
 		}
 

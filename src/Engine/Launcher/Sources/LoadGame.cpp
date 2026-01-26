@@ -1,7 +1,8 @@
 #include <Launcher/LoadGame.hpp>
 
+#include <Logging/Logging.hpp>
+
 #include <dlfcn.h>
-#include <iostream>
 
 namespace Launcher
 {
@@ -14,7 +15,7 @@ namespace Launcher
 		void* handle = dlopen(path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
 		if (!handle)
 		{
-			std::cout << "ERROR : FAILED TO OPEN [ " << path << " ]! : [ " << dlerror() << " ]" << std::endl;
+			Logging::Error("FAILED TO OPEN [ %s ]! : [ %s ]", path.c_str(), dlerror());
 			return new Game::Properties();
 		}
 
@@ -25,14 +26,14 @@ namespace Launcher
 		const char* dlsym_error = dlerror();
 		if (dlsym_error)
 		{
-			std::cout << "ERROR : FAILED TO LOAD SYMBOL! : [ " << dlsym_error << " ]" << std::endl;
+			Logging::Error("FAILED TO LOAD SYMBOL! : [ %s ]", dlsym_error);
 			dlclose(handle);
 			return new Game::Properties();
 		}
 
 		Game::Properties* properties = init();
 
-		std::cout << "LOG : Loaded [ " << properties->title << " ]." << std::endl;
+		Logging::Log("LOG : Loaded [ %s ].", properties->title);
 
 		return properties;
 	}
