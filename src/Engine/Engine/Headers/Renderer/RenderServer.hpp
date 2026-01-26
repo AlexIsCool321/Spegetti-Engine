@@ -8,7 +8,7 @@ namespace Renderer
 	class RenderServer
 	{
 	public:
-		RenderServer(System::Window* window);
+		RenderServer(System::Window& window);
 		virtual ~RenderServer();
 	};
 }
