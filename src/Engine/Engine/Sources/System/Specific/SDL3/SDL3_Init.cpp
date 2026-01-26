@@ -1,6 +1,6 @@
 #include <System/Specific/SDL3/SDL3_Init.hpp>
 
-#include <iostream>
+#include <Logging/Logging.hpp>
 
 #include <SDL3/SDL.h>
 
@@ -14,13 +14,13 @@ namespace System
 			return;
 		}
 
-		std::cout << "LOG : SDL3 Initialized Successfully!" << std::endl;
+		Logging::Log("Initialized SDL3 Successfully!");
 	}
 
 	void SDL3_Terminate()
 	{
 		SDL_Quit();
 
-		std::cout << "LOG : SDL3 Terminated Successfully!" << std::endl;
+		Logging::Log("Terminated SDL3 Successfully!");
 	}
 }
