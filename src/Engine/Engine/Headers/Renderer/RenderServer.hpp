@@ -5,6 +5,8 @@
 
 #include <vector>
 
+#include <Renderer/Shader.hpp>
+
 #include <Renderer/Vertex.hpp>
 #include <Renderer/Mesh.hpp>
 
@@ -16,7 +18,9 @@ namespace Renderer
 		RenderServer(System::Window& window);
 		virtual ~RenderServer();
 
-		virtual Mesh* CreateMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int shader);
+		virtual unsigned short CreateShader(const char* type);
+
+		virtual Mesh* CreateMesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned short shader);
 	};
 }
 
