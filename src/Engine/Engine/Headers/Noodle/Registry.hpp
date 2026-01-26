@@ -17,7 +17,7 @@ namespace Noodle
 		std::map<std::string, std::function<Entity*()>> m_entityRegister;
 		std::vector<Entity*> m_entities;
 
-		friend Registry* mergeRegistries(std::vector<Registry*> registries);
+		friend Registry* mergeRegistries(std::vector<Registry*>& registries);
 
 	public:
 		Registry();
@@ -35,7 +35,7 @@ namespace Noodle
 		void ClearEntities();
 	};
 
-	Registry* mergeRegistries(std::vector<Registry*> registries);
+	Registry* mergeRegistries(std::vector<Registry*>& registries);
 }
 
 #endif

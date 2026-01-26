@@ -61,7 +61,7 @@ namespace Noodle
 	}
 
 
-	Registry* mergeRegistries(std::vector<Registry*> registers)
+	Registry* mergeRegistries(std::vector<Registry*>& registers)
 	{
 		Registry* result = new Registry();
 		
@@ -73,6 +73,11 @@ namespace Noodle
 			{
 				result->m_entities.push_back(registers[i]->m_entities[j]);
 			}
+		}
+
+		for (Registry* TempRegister : registers)
+		{
+			delete TempRegister;
 		}
 
 		return result;
