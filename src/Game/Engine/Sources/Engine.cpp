@@ -2,15 +2,18 @@
 
 #include <Engine/Model.hpp>
 
-Game::Properties* Global_Properties = nullptr;
+namespace Engine
+{
+	Game::Properties* Global_Properties = nullptr;
+}
 
 Properties* Init()
 {
-	Global_Properties = new Properties();
+	Engine::Global_Properties = new Properties();
 		
-	Global_Properties->title = "Engine";
+	Engine::Global_Properties->title = "Engine";
 
-	Global_Properties->entityRegistry->RegisterEntity<Engine::Model>("Model");
+	Engine::Global_Properties->entityRegistry->RegisterEntity<Engine::Model>("Model");
 
-	return Global_Properties;
+	return Engine::Global_Properties;
 }
