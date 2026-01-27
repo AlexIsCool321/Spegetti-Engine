@@ -9,5 +9,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/
 target_link_libraries(${PROJECT_NAME} PUBLIC Engine::library)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
+	FOLDER "Engine"
+	
 	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/../Out"
 )

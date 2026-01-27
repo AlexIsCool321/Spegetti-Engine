@@ -11,3 +11,13 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(SDL3)
+
+set_target_properties(SDL_uclibc PROPERTIES
+    FOLDER "Third Party/SDL"
+)
+set_target_properties(SDL3_test PROPERTIES
+    FOLDER "Third Party/SDL"
+)
+set_target_properties(SDL3-shared PROPERTIES
+    FOLDER "Third Party/SDL"
+)
