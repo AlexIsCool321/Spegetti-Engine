@@ -12,6 +12,7 @@ namespace Game
 	struct Properties
 	{
 		Properties();
+		~Properties();
 
 		std::string title;
 
