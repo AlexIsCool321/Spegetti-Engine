@@ -9,3 +9,7 @@ foreach(DIR IN LISTS SUBDIRS)
 endforeach()
 
 add_custom_target(${PROJECT_NAME})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    FOLDER "Games"
+)

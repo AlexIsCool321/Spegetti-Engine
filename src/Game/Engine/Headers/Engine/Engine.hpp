@@ -8,7 +8,10 @@ using namespace Game;
 
 extern "C"
 {
+	Properties* Global_Properties;
+
 	Properties* Init();
+	void UpdateProperties(Properties* properties);
 }
 
 #endif

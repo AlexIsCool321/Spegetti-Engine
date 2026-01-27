@@ -8,7 +8,9 @@ using namespace Game;
 
 extern "C"
 {
-	Properties* Init();
-}
+	Properties* Global_Properties;
 
+	Properties* Init();
+	void UpdateProperties(Properties* properties);
+}
 #endif
