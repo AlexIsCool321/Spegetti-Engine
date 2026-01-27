@@ -1,9 +1,10 @@
 #include <iostream>
-
-#include <Launcher/LoadGame.hpp>
 #include <vector>
 
-#include <System/System.hpp>
+#include <Core/Core.hpp>
+
+#include <Launcher/Launcher.hpp>
+using namespace Launcher;
 
 int main()
 {
@@ -13,10 +14,13 @@ int main()
 
 
 	// Load Game
+	GameClient* engine = CreateGameClient("Engine");
+	GameClient* client = CreateGameClient("Demo");
+
 	std::vector<Game::Properties*> game_properties;
 
-	game_properties.push_back(Launcher::LoadGame("Engine"));
-	game_properties.push_back(Launcher::LoadGame("Demo"));
+	game_properties.push_back(engine->GetPropreties());
+	game_properties.push_back(client->GetPropreties());
 
 	Game::Properties* properties = Game::mergeProperties(game_properties, "Demo");
 
@@ -42,6 +46,11 @@ int main()
 	System::Terminate();
 
 	properties->entityRegistry->ClearEntities();
+
+	delete properties;
+
+	delete engine;
+	delete client;
 
 	return 0;
 }

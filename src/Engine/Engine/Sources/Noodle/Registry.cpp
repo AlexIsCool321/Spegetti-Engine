@@ -11,6 +11,8 @@ namespace Noodle
 
 	Registry::~Registry()
 	{
+		this->ClearEntities();
+
 		this->m_entityRegister.clear();
 	}
 
@@ -73,11 +75,6 @@ namespace Noodle
 			{
 				result->m_entities.push_back(registers[i]->m_entities[j]);
 			}
-		}
-
-		for (Registry* TempRegister : registers)
-		{
-			delete TempRegister;
 		}
 
 		return result;
