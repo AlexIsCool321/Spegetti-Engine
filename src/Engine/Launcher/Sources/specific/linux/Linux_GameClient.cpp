@@ -35,14 +35,14 @@ namespace Launcher
 
 		this->m_properties = init();
 
-		Logging::Log("LOG : Loaded [ %s ].", this->m_properties->title);
+		Logging::Log("LOG : Loaded [ %s ].", this->m_properties->title.c_str());
 	}
 
 	Linux_GameClient::~Linux_GameClient()
 	{
 		dlclose(this->m_handle);
 
-		Logging::Log("LOG : Unloaded [ %s ].", this->m_properties->title);
+		Logging::Log("LOG : Unloaded [ %s ].", this->m_properties->title.c_str());
 
 		delete this->m_properties;
 	}
