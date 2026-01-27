@@ -41,5 +41,9 @@ namespace Launcher
 	Linux_GameClient::~Linux_GameClient()
 	{
 		dlclose(this->m_handle);
+
+		Logging::Log("LOG : Unloaded [ %s ].", this->m_properties->title);
+
+		delete this->m_properties;
 	}
 }
