@@ -1,21 +1,40 @@
 #include <Logging/Requests.hpp>
 
-#include <iostream>
+#include <cstdarg>
+#include <cstdio>
 
 namespace Logging
 {
 	void Log(const char* message, ...)
 	{
-		std::cout << "LOG : " << message << std::endl;
+		printf("LOG : ");
+		
+		va_list args;
+		va_start(args, message);
+		vprintf(message, args);
+		printf("\n");
+		va_end(args);
 	}
 
 	void Warn(const char* message, ...)
 	{
-		std::cout << "WARN : " << message << std::endl;
+		printf("WARN : ");
+		
+		va_list args;
+		va_start(args, message);
+		vprintf(message, args);
+		printf("\n");
+		va_end(args);
 	}
 
 	void Error(const char* message, ...)
 	{
-		std::cout << "ERROR : " << message << std::endl;
+		printf("ERROR : ");
+		
+		va_list args;
+		va_start(args, message);
+		vprintf(message, args);
+		printf("\n");
+		va_end(args);
 	}
 }
