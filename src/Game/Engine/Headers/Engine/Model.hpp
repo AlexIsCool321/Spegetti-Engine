@@ -1,11 +1,11 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
-#include <Core/Core.hpp>
+#include <Engine/Engine.hpp>
 
 namespace Engine
 {
-	class Model : public Noodle::Entity
+	class Model : public Entity
 	{
 	private:
 		Renderer::Model* m_model;
