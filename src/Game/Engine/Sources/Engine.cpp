@@ -1,22 +1,16 @@
 #include <Engine/Engine.hpp>
 
-extern "C"
+#include <Engine/Model.hpp>
+
+Game::Properties* Global_Properties = nullptr;
+
+Properties* Init()
 {
-	Properties* Init()
-	{
-		Properties* properties = new Game::Properties();
+	Global_Properties = new Properties();
 		
-		properties->title = "Engine";
+	Global_Properties->title = "Engine";
 
-		properties->entityRegistry = new Noodle::Registry();
-		properties->entityRegistry->RegisterEntity<Engine::Model>("Model");
+	Global_Properties->entityRegistry->RegisterEntity<Engine::Model>("Model");
 
-		Global_Properties = properties;
-		return properties;
-	}
-
-	void UpdateProperties(Game::Properties* properties)
-	{
-		Global_Properties = properties;
-	}
+	return Global_Properties;
 }

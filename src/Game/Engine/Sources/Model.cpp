@@ -4,16 +4,16 @@ namespace Engine
 {
 	void Model::OnCreate()
 	{
-		Logging::Log("Model Created!");
+		Log("Created Model");
 	}
 
 	void Model::OnUpdate()
 	{
-		Logging::Log("Model Updated!");
+
 	}
 
 	void Model::OnDestroy()
 	{
-		Logging::Log("Model Destroyed!");
+		Log("Destroyed Model");
 	}
 }
