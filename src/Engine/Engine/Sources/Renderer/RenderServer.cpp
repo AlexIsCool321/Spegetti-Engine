@@ -53,4 +53,15 @@ namespace Renderer
 	{
 		return new Model();
 	}
+
+
+	Camera* RenderServer::GetCurrentCamera()
+	{
+		return this->m_currentCamera;
+	}
+
+	void RenderServer::SetCurrentCamera(Camera* camera)
+	{
+		this->m_currentCamera = camera;
+	}
 }

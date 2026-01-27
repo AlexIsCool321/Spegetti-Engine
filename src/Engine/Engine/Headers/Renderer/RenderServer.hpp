@@ -12,12 +12,16 @@
 
 #include <Renderer/Model.hpp>
 
+#include <Renderer/Camera.hpp>
+
 namespace Renderer
 {
 	class RenderServer
 	{
 	private:
 		System::Window* m_window;
+
+		Renderer::Camera* m_currentCamera;
 
 	public:
 		RenderServer();
@@ -33,6 +37,9 @@ namespace Renderer
 		virtual Model* CreateModel(std::vector<Mesh*> meshes);
 
 		virtual Model* LoadModel(const char* name);
+
+		virtual Camera* GetCurrentCamera();
+		virtual void SetCurrentCamera(Camera* camera);
 	};
 }
 
