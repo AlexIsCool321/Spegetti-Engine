@@ -1,11 +1,11 @@
 #ifndef FREECAM_HPP
 #define FREECAM_HPP
 
-#include <Noodle/Noodle.hpp>
+#include <Demo/Demo.hpp>
 
 namespace Demo
 {
-	class Freecam : public Noodle::Entity
+	class Freecam : public Entity
 	{
 	public:
 		void OnCreate();
