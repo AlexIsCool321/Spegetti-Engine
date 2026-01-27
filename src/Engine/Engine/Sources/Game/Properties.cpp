@@ -10,6 +10,12 @@ namespace Game
 		this->renderServer = new Renderer::RenderServer();
 	}
 
+	Properties::~Properties()
+	{
+		delete this->entityRegistry;
+		delete this->renderServer;
+	}
+
 
 	Properties* mergeProperties(std::vector<Properties*>& properties, std::string new_title)
 	{
@@ -23,11 +29,6 @@ namespace Game
 
 		result->entityRegistry = Noodle::mergeRegistries(registers);
 		result->title = new_title;
-
-		for (Properties* property : properties)
-		{
-			delete property;
-		}
 
 		return result;
 	}

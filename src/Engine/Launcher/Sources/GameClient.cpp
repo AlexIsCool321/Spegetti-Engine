@@ -27,6 +27,7 @@ namespace Launcher
 	{
 #ifdef __linux__
 		return new Linux_GameClient(game);
+		//return static_cast<GameClient*>(new Linux_GameClient(game));
 #endif
 
 		return nullptr;
