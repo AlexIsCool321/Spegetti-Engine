@@ -2,16 +2,19 @@
 
 #include <Demo/Freecam.hpp>
 
-Game::Properties* Global_Properties = nullptr;
+namespace Demo
+{
+	Game::Properties* Global_Properties = nullptr;
+}
 
 Game::Properties* Init()
 {
-	Global_Properties = new Game::Properties();
+	Demo::Global_Properties = new Game::Properties();
 		
-	Global_Properties->title = "Demo";
+	Demo::Global_Properties->title = "Demo";
 
-	Global_Properties->entityRegistry = new Noodle::Registry();
-	Global_Properties->entityRegistry->RegisterEntity<Demo::Freecam>("Freecam");
+	Demo::Global_Properties->entityRegistry = new Noodle::Registry();
+	Demo::Global_Properties->entityRegistry->RegisterEntity<Demo::Freecam>("Freecam");
 
-	return Global_Properties;
+	return Demo::Global_Properties;
 } 

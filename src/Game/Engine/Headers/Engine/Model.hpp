@@ -14,6 +14,8 @@ namespace Engine
 		void OnCreate();
 		void OnUpdate();
 		void OnDestroy();
+
+		void LoadModel(const char* path);
 	};
 }
 
