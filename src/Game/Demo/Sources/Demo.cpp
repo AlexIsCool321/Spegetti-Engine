@@ -1,22 +1,17 @@
 #include <Demo/Demo.hpp>
 
-extern "C"
+#include <Demo/Freecam.hpp>
+
+Game::Properties* Global_Properties = nullptr;
+
+Game::Properties* Init()
 {
-	Game::Properties* Init()
-	{
-		Game::Properties* properties = new Game::Properties();
+	Global_Properties = new Game::Properties();
 		
-		properties->title = "Demo";
+	Global_Properties->title = "Demo";
 
-		properties->entityRegistry = new Noodle::Registry();
-		properties->entityRegistry->RegisterEntity<Demo::Freecam>("Freecam");
+	Global_Properties->entityRegistry = new Noodle::Registry();
+	Global_Properties->entityRegistry->RegisterEntity<Demo::Freecam>("Freecam");
 
-		Global_Properties = properties;
-		return properties;
-	}
-
-	void UpdateProperties(Game::Properties* properties)
-	{
-		Global_Properties = properties;
-	}
-}
+	return Global_Properties;
+} 

@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-	Game::Properties* Global_Properties;
+	extern Game::Properties* Global_Properties;
 }
 
 #endif

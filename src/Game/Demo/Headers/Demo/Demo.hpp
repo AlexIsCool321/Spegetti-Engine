@@ -1,16 +1,18 @@
 #ifndef DEMO_HPP
 #define DEMO_HPP
 
-#include <Game/Game.hpp>
+#include <Core/Core.hpp>
 using namespace Game;
+using namespace Logging;
+using namespace Noodle;
+using namespace Renderer;
+using namespace System;
 
-#include <Demo/Freecam.hpp>
+#include <Demo/Global_Properties.hpp>
 
 extern "C"
 {
-	Properties* Global_Properties;
-
 	Properties* Init();
-	void UpdateProperties(Properties* properties);
 }
+
 #endif

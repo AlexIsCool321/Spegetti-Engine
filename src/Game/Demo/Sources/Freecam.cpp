@@ -11,7 +11,7 @@ namespace Demo
 
 	void Freecam::OnUpdate()
 	{
-		Logging::Log("Freecam Updated!");
+		//Logging::Log("Freecam Updated!");
 	}
 
 	void Freecam::OnDestroy()
