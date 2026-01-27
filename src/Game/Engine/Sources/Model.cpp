@@ -4,16 +4,16 @@ namespace Engine
 {
 	void Model::OnCreate()
 	{
-		Logging::Log("Model Created!");
+		this->m_model = Global_Properties->renderServer->CreateEmptyModel();
 	}
 
 	void Model::OnUpdate()
 	{
-		Logging::Log("Model Updated!");
+		this->m_model->Draw();
 	}
 
 	void Model::OnDestroy()
 	{
-		Logging::Log("Model Destroyed!");
+		delete this->m_model;
 	}
 }
