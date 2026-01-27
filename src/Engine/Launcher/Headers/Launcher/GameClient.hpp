@@ -16,5 +16,7 @@ namespace Launcher
 
 		virtual Game::Properties* GetPropreties();
 	};
+
+	GameClient* CreateGameClient(const char* game);
 }
 #endif
