@@ -12,7 +12,6 @@ int main()
 
 	System::Window* window = System::CreateWindow(800, 600, "Game");
 
-
 	// Load Game
 	GameClient* engine = CreateGameClient("Engine");
 	GameClient* client = CreateGameClient("Demo");
@@ -26,6 +25,8 @@ int main()
 
 	
 	window->Rename(properties->title.c_str());
+
+	properties->renderServer = Renderer::createRenderServer(Renderer::API_TYPE::OPENGL);
 	properties->renderServer->AssignWindow(window);
 
 

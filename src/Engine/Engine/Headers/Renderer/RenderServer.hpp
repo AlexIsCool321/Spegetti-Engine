@@ -1,6 +1,7 @@
 #ifndef RENDERER_RENDERSERVER_HPP
 #define RENDERER_RENDERSERVER_HPP
 
+#include <Renderer/API_Type.hpp>
 #include <System/Window.hpp>
 
 #include <vector>
@@ -18,7 +19,7 @@ namespace Renderer
 {
 	class RenderServer
 	{
-	private:
+	protected:
 		System::Window* m_window;
 
 		Renderer::Camera* m_currentCamera;
@@ -41,6 +42,8 @@ namespace Renderer
 		virtual Camera* GetCurrentCamera();
 		virtual void SetCurrentCamera(Camera* camera);
 	};
+
+	RenderServer* createRenderServer(API_TYPE type);
 }
 
 #endif

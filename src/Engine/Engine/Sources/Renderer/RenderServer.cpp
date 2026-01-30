@@ -1,10 +1,15 @@
 #include <Renderer/RenderServer.hpp>
 
+#include <Renderer/specific/GL/GL_RenderServer.hpp>
+
+#include <Logging/Logging.hpp>
+
 namespace Renderer
 {
 	RenderServer::RenderServer()
 	{
 		this->m_window = nullptr;
+		this->m_currentCamera = nullptr;
 	}
 
 	RenderServer::~RenderServer()
@@ -63,5 +68,22 @@ namespace Renderer
 	void RenderServer::SetCurrentCamera(Camera* camera)
 	{
 		this->m_currentCamera = camera;
+	}
+
+
+	RenderServer* createRenderServer(API_TYPE type)
+	{
+		switch (type)
+		{
+			case OPENGL:
+			{
+				return new GL::GL_RenderServer();
+			}
+
+			default:
+			{
+				return nullptr;
+			}
+		}
 	}
 }

@@ -32,7 +32,7 @@ namespace Launcher
 			dlclose(this->m_handle);
 			return;
 		}
-
+		
 		this->m_properties = init();
 
 		Logging::Log("LOG : Loaded [ %s ].", this->m_properties->title.c_str());

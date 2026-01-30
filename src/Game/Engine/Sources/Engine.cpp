@@ -9,9 +9,12 @@ namespace Engine
 
 Properties* Init()
 {
-	Engine::Global_Properties = new Properties();
-		
+	Engine::Global_Properties = new Game::Properties();
+	
 	Engine::Global_Properties->title = "Engine";
+
+	Engine::Global_Properties->renderServer = Renderer::createRenderServer(Renderer::API_TYPE::OPENGL);
+	Engine::Global_Properties->entityRegistry = new Noodle::Registry();
 
 	Engine::Global_Properties->entityRegistry->RegisterEntity<Engine::Model>("Model");
 

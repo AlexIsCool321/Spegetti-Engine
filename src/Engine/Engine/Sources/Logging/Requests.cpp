@@ -1,7 +1,9 @@
 #include <Logging/Requests.hpp>
 
-#include <cstdarg>
-#include <cstdio>
+#include <stdarg.h>
+#include <stdio.h>
+
+#include <ctype.h>
 
 namespace Logging
 {
@@ -30,11 +32,20 @@ namespace Logging
 	void Error(const char* message, ...)
 	{
 		printf("ERROR : ");
-		
+
+		char buffer[1024];
+
 		va_list args;
 		va_start(args, message);
-		vprintf(message, args);
-		printf("\n");
+		vsnprintf(buffer, sizeof(buffer), message, args);
 		va_end(args);
+
+		for (int i = 0; buffer[i] != '\0'; i++)
+		{
+			unsigned char c = (unsigned char)buffer[i];
+			buffer[i] = toupper(c);
+		}
+
+		printf("%s\n", buffer);
 	}
 }

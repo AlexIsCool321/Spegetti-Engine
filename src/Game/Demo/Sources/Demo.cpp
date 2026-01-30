@@ -10,8 +10,11 @@ namespace Demo
 Game::Properties* Init()
 {
 	Demo::Global_Properties = new Game::Properties();
-		
+
 	Demo::Global_Properties->title = "Demo";
+
+	Demo::Global_Properties->renderServer = Renderer::createRenderServer(Renderer::API_TYPE::OPENGL);
+	Demo::Global_Properties->entityRegistry = new Noodle::Registry();
 
 	Demo::Global_Properties->entityRegistry = new Noodle::Registry();
 	Demo::Global_Properties->entityRegistry->RegisterEntity<Demo::Freecam>("Freecam");
