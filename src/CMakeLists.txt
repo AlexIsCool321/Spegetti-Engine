@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.10)
 project("Spegetti Engine")
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+set(LANGUAGE C_STANDARD)
 set(USE_FOLDERS ON)
 
 add_subdirectory("Third Party")
+
 add_subdirectory("Engine")
-add_subdirectory("Game")
+add_subdirectory("Plugins")
+add_subdirectory("Launcher")

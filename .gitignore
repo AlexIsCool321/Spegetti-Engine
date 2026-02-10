@@ -3,7 +3,7 @@
 !*/
 
 *.so
-*.so*
 
 .vscode/
+.cache/
 build/
