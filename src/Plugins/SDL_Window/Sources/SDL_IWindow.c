@@ -77,6 +77,21 @@ void PLUGIN_UpdateWindow(void** args)
 	}
 }
 
+void PLUGIN_SwapWindowBuffers(void** args)
+{
+	PLUGIN_SDL_Window* window;
+
+	{
+		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+
+		if (!args[0]) return;
+
+		window = (PLUGIN_SDL_Window*)args[0];
+	}
+
+	SDL_UpdateWindowSurface(window->m_SDLWindow);
+}
+
 
 void PLUGIN_DestroyWindow(void** args)
 {
