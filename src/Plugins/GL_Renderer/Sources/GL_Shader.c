@@ -13,16 +13,13 @@ unsigned short* PLUGIN_CreateShader(void** args)
 	const char* fragmentShaderSource;
 
 	{
-		if (!args[0]) printf("ERROR [PLUGIN] : VERTEX SHADER LENGTH IS NULL!\n");
-		if (!args[1]) printf("ERROR [PLUGIN] : VERTEX SHADER IS NULL!\n");
+		if (!args[0]) printf("ERROR [PLUGIN] : VERTEX SHADER IS NULL!\n");
+		if (!args[1]) printf("ERROR [PLUGIN] : FRAGMENT SHADER IS NULL!\n");
 
-		if (!args[2]) printf("ERROR [PLUGIN] : FRAGMENT SHADER LENGTH IS NULL!\n");
-		if (!args[3]) printf("ERROR [PLUGIN] : FRAGMENT SHADER IS NULL!\n");
+		if (!args[0] || !args[1]) return 0;
 
-		if (!args[0] || !args[1] || !args[2] || !args[3]) return 0;
-
-		vertexShaderSource		= (const char*)args[0];
-		fragmentShaderSource	= (const char*)args[2];
+		vertexShaderSource		= *(const char**)args[0];
+		fragmentShaderSource	= *(const char**)args[1];
 	}
 
 	int success;
