@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 	LoadPlugIn("plugins", "SDL_Window");
 	LoadPlugIn("plugins", "GL_Renderer");
 
-	Init_System();
+	InitSystem();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
 
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 
 	DestroyMesh(mesh);
 
-	Terminate_System();
+	TerminateSystem();
 
 	return 0;
 }

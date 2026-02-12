@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-void PLUGIN_Init_System(void** args)
+void PLUGIN_InitSystem(void** args)
 {
 	if (!SDL_Init(SDL_INIT_VIDEO))
 	{
@@ -15,7 +15,7 @@ void PLUGIN_Init_System(void** args)
 	printf("Initialized SDL3 Successfully!\n");
 }
 
-void PLUGIN_Terminate_System(void** args)
+void PLUGIN_TerminateSystem(void** args)
 {
 	SDL_Quit();
 
