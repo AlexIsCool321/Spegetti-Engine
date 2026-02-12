@@ -33,15 +33,16 @@ PlugIn* LINUX_LoadPlugIn(const char* pPath, const char* pName)
 
 	return result;
 }
-   
+
+typedef void* (*pluginFunction)(void**);
+
 uint8_t LINUX_CallPlugInFunction(PlugIn* pPlugIn, void** result, const char* pName, void** args)
 {
 	void* addr = dlsym(pPlugIn->m_handle, pName);
 	if (!addr) return 0;
 
-	typedef void* (*func_t)(void**);
-	func_t func = (func_t)addr;
+	pluginFunction func = (pluginFunction)addr;
 
-	*result = func(args);
+	(*result) = func(args);
 	return 1;
 }

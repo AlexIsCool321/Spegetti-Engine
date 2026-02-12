@@ -42,10 +42,7 @@ void* CallPlugInFunction(const char* pName, void** args)
 		if (!plugins[i]) continue;
 
 #ifdef __linux__
-		if (LINUX_CallPlugInFunction(plugins[i], &result, pName, args))
-		{
-			successful = 1;
-		}
+		if (LINUX_CallPlugInFunction(plugins[i], &result, pName, args)) successful = 1;
 #endif
 	}
 

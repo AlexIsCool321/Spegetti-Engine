@@ -8,4 +8,6 @@ typedef struct
 	Vec3 position;
 } Vertex;
 
+Vertex CreateVertex(Vec3 position);
+
 #endif

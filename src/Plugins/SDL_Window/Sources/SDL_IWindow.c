@@ -7,9 +7,21 @@
 
 IWindow* PLUGIN_CreateWindow(void** args)
 {
-	unsigned int width = *(unsigned int*)args[0];
-	unsigned int height = *(unsigned int*)args[1];
-	const char* title = *(const char**)args[2];
+	unsigned int width;
+	unsigned int height;
+	const char* title;
+
+	{
+		if (!args[0]) printf("ERROR [PLUGIN] : WIDTH IS NULL!\n");
+		if (!args[1]) printf("ERROR [PLUGIN] : HIEGHT IS NULL!\n");
+		if (!args[2]) printf("ERROR [PLUGIN] : TITLE IS NULL!\n");
+
+		if (!args[0] || !args[1] || !args[2]) return NULL;
+
+		width	=	*(unsigned int*)	args[0];
+		height	=	*(unsigned int*)	args[1];
+		title	=	*(const char**)		args[2];
+	}
 
 	PLUGIN_SDL_Window* result = (PLUGIN_SDL_Window*)malloc(sizeof(PLUGIN_SDL_Window));
 	result->base.m_open = 1;
@@ -17,7 +29,7 @@ IWindow* PLUGIN_CreateWindow(void** args)
 	result->m_SDLWindow = SDL_CreateWindow(title, width, height, SDL_WINDOW_RESIZABLE);
 	if (!result->m_SDLWindow)
 	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "ERROR : FAILED TO CREATE SDL WINDO! : [ %s ]", SDL_GetError());
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "ERROR [PLUGIN] : FAILED TO CREATE SDL WINDOW! : [ %s ]", SDL_GetError());
 		SDL_Quit();
 		return NULL;
 	}
@@ -33,11 +45,14 @@ IWindow* PLUGIN_CreateWindow(void** args)
 
 void PLUGIN_UpdateWindow(void** args)
 {
-	PLUGIN_SDL_Window* window = (PLUGIN_SDL_Window*)args[0];
-	if (!window)
+	PLUGIN_SDL_Window* window;
+
 	{
-		printf("ERROR : WINDOW IS NULL!");
-		return;
+		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+
+		if (!args[0]) return;
+
+		window = (PLUGIN_SDL_Window*)args[0];
 	}
 
 	SDL_Event event;
@@ -65,11 +80,14 @@ void PLUGIN_UpdateWindow(void** args)
 
 void PLUGIN_DestroyWindow(void** args)
 {
-	PLUGIN_SDL_Window* window = (PLUGIN_SDL_Window*)args[0];
-	if (!window)
+	PLUGIN_SDL_Window* window;
+
 	{
-		printf("ERROR : WINDOW IS NULL!");
-		return;
+		if (!args[0]) printf("WARN [PLUGIN] : Window is already NULL.\n");
+
+		if (!args[0]) return;
+
+		window = (PLUGIN_SDL_Window*)args[0];
 	}
 
 	SDL_DestroyWindow(window->m_SDLWindow);

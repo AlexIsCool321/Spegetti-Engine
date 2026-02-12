@@ -12,6 +12,8 @@ typedef struct
 IWindow* CreateWindow(unsigned int width, unsigned int height, const char* title);
 
 void UpdateWindow(IWindow* window);
+void SwapWindowBuffers(IWindow* window);
+
 uint8_t IsWindowOpen(IWindow* window);
 
 void DestroyWindow(IWindow* window);

@@ -8,4 +8,6 @@ typedef struct
 	float z;
 } Vec3;
 
+Vec3 CreateVec3(float x, float y, float z);
+
 #endif
