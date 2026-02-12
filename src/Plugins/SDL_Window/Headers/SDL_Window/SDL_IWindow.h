@@ -11,7 +11,9 @@ typedef struct
 	IWindow base;
 
 	SDL_Window* m_SDLWindow;
-	SDL_GLContext m_Context;
+
+	SDL_Surface* m_SDLSurface;
+	SDL_Renderer* m_SDLRenderer;
 } PLUGIN_SDL_Window;
 
 IWindow* PLUGIN_CreateWindow(void** args);
