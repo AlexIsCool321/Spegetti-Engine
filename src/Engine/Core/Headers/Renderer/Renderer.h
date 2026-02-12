@@ -1,6 +1,8 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <Renderer/Init.h>
+
 #include <Renderer/Vertex.h>
 #include <Renderer/Shader.h>
 

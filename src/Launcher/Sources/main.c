@@ -1,6 +1,5 @@
 #include <Core/Core.h>
 #include <PlugNPlay/PlugNPlay.h>
-#include <stdio.h>
 
 int main(int argc, char** argv)
 {
@@ -8,6 +7,7 @@ int main(int argc, char** argv)
 	LoadPlugIn("plugins", "GL_Renderer");
 
 	InitSystem();
+	InitRenderer();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
 
@@ -56,6 +56,7 @@ int main(int argc, char** argv)
 	DestroyMesh(mesh);
 
 	TerminateSystem();
+	TerminateRenderer();
 
 	return 0;
 }
