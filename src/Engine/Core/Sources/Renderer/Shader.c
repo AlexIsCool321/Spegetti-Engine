@@ -14,9 +14,17 @@ unsigned short CreateShader(const char* vertex_shader, const char* framgment_sha
 		if (!vertex_shader || !framgment_shader) return 0;
 	}
 	
-	void* args[2] =
+	unsigned int vertexShaderLength		= strlen(vertex_shader);
+	unsigned int fragmentShaderLength	= strlen(framgment_shader);
+
+	char vertexSource[vertexShaderLength];
+	memcpy(vertexSource, vertex_shader, vertexShaderLength);
+
+	//printf("%s\n", vertexSource);
+
+	void* args[4] =
 	{
-		&vertex_shader, &framgment_shader
+		vertex_shader, &vertexShaderLength, framgment_shader, &fragmentShaderLength
 	};
 
 	unsigned short* result = (unsigned short*)CallPlugInFunction("PLUGIN_CreateShader", args);

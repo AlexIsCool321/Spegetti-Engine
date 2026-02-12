@@ -34,12 +34,32 @@ IWindow* PLUGIN_CreateWindow(void** args)
 		return NULL;
 	}
 
+	result->m_Context = SDL_GL_CreateContext(result->m_SDLWindow);
+
 	SDL_ShowWindow(result->m_SDLWindow);
 
 	SDL_Surface* surface = SDL_GetWindowSurface(result->m_SDLWindow);
 	SDL_UpdateWindowSurface(result->m_SDLWindow);
 
 	return (IWindow*)result;
+}
+
+
+LoadProcAddress* PLUGIN_GetWindowLoadProcAddress(void** args)
+{
+	PLUGIN_SDL_Window* window;
+
+	{
+		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+
+		if (!args[0]) return NULL;
+
+		window = (PLUGIN_SDL_Window*)args[0];
+	}
+
+	LoadProcAddress* result = CreateAddress(SDL_GL_GetProcAddress);
+
+	return result;
 }
 
 
@@ -104,6 +124,9 @@ void PLUGIN_DestroyWindow(void** args)
 
 		window = (PLUGIN_SDL_Window*)args[0];
 	}
+
+	SDL_GL_DestroyContext(window->m_Context);
+	window->m_Context = NULL;
 
 	SDL_DestroyWindow(window->m_SDLWindow);
 	window->m_SDLWindow = NULL;

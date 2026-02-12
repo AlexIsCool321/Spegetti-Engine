@@ -22,6 +22,23 @@ IWindow* CreateWindow(unsigned int width, unsigned int height, const char* title
 }
 
 
+LoadProcAddress* GetWindowLoadProcAddress(IWindow* window)
+{
+	{
+		if (!window) printf("ERROR : WINDOW IS NULL!\n");
+
+		if (!window) return NULL;
+	}
+
+	void* args[1] =
+	{
+		window
+	};
+
+	return (LoadProcAddress*)CallPlugInFunction("PLUGIN_GetWindowLoadProcAddress", args);
+}
+
+
 void UpdateWindow(IWindow* window)
 {
 	{

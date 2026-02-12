@@ -7,9 +7,11 @@ int main(int argc, char** argv)
 	LoadPlugIn("plugins", "GL_Renderer");
 
 	InitSystem();
-	InitRenderer();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
+
+	LoadProcAddress* loadProcAddress = GetWindowLoadProcAddress(window);
+	InitRenderer(loadProcAddress);
 
 	Vertex vertices[3] =
 	{

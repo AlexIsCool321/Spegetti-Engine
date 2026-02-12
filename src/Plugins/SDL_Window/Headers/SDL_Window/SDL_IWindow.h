@@ -2,18 +2,24 @@
 #define SDL_IWINDOW_H
 
 #include <System/IWindow.h>
+#include <Renderer/LoadProcAddress.h>
 
 #include <SDL3/SDL.h>
 
 typedef struct
 {
 	IWindow base;
+
 	SDL_Window* m_SDLWindow;
+	SDL_GLContext m_Context;
 } PLUGIN_SDL_Window;
 
 IWindow* PLUGIN_CreateWindow(void** args);
 
+LoadProcAddress* PLUGIN_GetWindowLoadProcAddress(void** args);
+
 void PLUGIN_UpdateWindow(void** args);
+void PLUGIN_SwapWindowBuffers(void** args);
 
 void PLUGIN_DestroyWindow(void** args);
 

@@ -12,12 +12,12 @@ void PLUGIN_InitSystem(void** args)
 		return;
 	}
 
-	printf("Initialized SDL3 Successfully!\n");
+	printf("LOG : Initialized SDL3 Successfully!\n");
 }
 
 void PLUGIN_TerminateSystem(void** args)
 {
 	SDL_Quit();
 
-	printf("Terminated SDL3 Successfully!\n");
+	printf("LOG : Terminated SDL3 Successfully!\n");
 }
