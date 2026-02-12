@@ -11,6 +11,7 @@
 PlugIn* LINUX_LoadPlugIn(const char* pPath, const char* pName)
 {
 	PlugIn* result = (PlugIn*)malloc(sizeof(PlugIn));
+	memcpy(result->m_name, pName, sizeof(result->m_name));
 
 	char newPath[512];
 	snprintf(newPath, 512, "./%s/lib%s.so", pPath, pName);
@@ -45,4 +46,14 @@ uint8_t LINUX_CallPlugInFunction(PlugIn* pPlugIn, void** result, const char* pNa
 
 	(*result) = func(args);
 	return 1;
+}
+
+void LINUX_UnloadPlugIn(PlugIn* pPlugIn)
+{
+	uint8_t succses = dlclose(pPlugIn->m_handle);
+
+	if (succses)
+	{
+		printf("WARN : Failed to unload plugIn [ %s ]. : [ %s ]\n", pPlugIn->m_name, dlerror());
+	}
 }

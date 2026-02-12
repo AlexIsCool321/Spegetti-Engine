@@ -58,5 +58,7 @@ int main(int argc, char** argv)
 	TerminateSystem();
 	TerminateRenderer();
 
+	UnloadAllPlugIns();
+
 	return 0;
 }

@@ -8,4 +8,6 @@ PlugIn* LINUX_LoadPlugIn(const char* pPath, const char* pName);
 
 uint8_t LINUX_CallPlugInFunction(PlugIn* pPlugIn, void** result, const char* pName, void** args);
 
+void LINUX_UnloadPlugIn(PlugIn* pPlugIn);
+
 #endif

@@ -54,3 +54,15 @@ void* CallPlugInFunction(const char* pName, void** args)
 
 	return result;
 }
+
+void UnloadAllPlugIns()
+{
+	for (uint8_t i = 0; i < pluginIndex; i++)
+	{
+		if (!plugins[i]) continue;
+
+#ifdef __linux__
+		LINUX_UnloadPlugIn(plugins[i]);
+#endif
+	}
+}
