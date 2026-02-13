@@ -1,5 +1,9 @@
 #include <Renderer/CreateContex.h>
 
+#include <PlugNPlay/PlugNPlay.h>
+
+#include <stdio.h>
+
 void CreateContex(IWindow* pWindow)
 {
 	{

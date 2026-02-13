@@ -11,7 +11,6 @@ typedef struct
 
 	SDL_Window* m_SDLWindow;
 
-	SDL_Surface* m_SDLSurface;
 	SDL_Renderer* m_SDLRenderer;
 } PLUGIN_SDL_Window;
 

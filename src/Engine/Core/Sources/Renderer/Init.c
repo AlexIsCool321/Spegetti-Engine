@@ -1,5 +1,7 @@
 #include <Renderer/Init.h>
 
+#include <PlugNPlay/PlugNPlay.h>
+
 #include <stdlib.h>
 
 void InitRenderer()

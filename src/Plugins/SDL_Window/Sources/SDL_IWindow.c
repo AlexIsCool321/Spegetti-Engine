@@ -30,18 +30,21 @@ IWindow* PLUGIN_CreateWindow(void** args)
 	if (!result->m_SDLWindow)
 	{
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "ERROR [PLUGIN] : FAILED TO CREATE SDL WINDOW! : [ %s ]", SDL_GetError());
+		free(result);
 		return NULL;
 	}
-
-	SDL_ShowWindow(result->m_SDLWindow);
-
-	result->m_SDLSurface = SDL_GetWindowSurface(result->m_SDLWindow);
-	result->m_SDLRenderer = SDL_CreateSoftwareRenderer(result->m_SDLSurface);
+	
+	result->m_SDLRenderer = SDL_CreateRenderer(result->m_SDLWindow, "software");
 	if (!result->m_SDLRenderer)
 	{
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "ERROR : FAILED TO CREATE SDL RENDERER! : [ %s ]", SDL_GetError());
+		free(result);
 		return NULL;
 	}
+
+	SDL_SetRenderVSync(result->m_SDLRenderer, 1);
+
+	SDL_ShowWindow(result->m_SDLWindow);
 
 	return (IWindow*)result;
 }
@@ -61,9 +64,7 @@ void PLUGIN_UpdateWindow(void** args)
 
 	SDL_Event event;
 	SDL_zero(event);
-
-	SDL_Surface* gScreenSurface = SDL_GetWindowSurface(window->m_SDLWindow);
-
+	
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -81,7 +82,6 @@ void PLUGIN_UpdateWindow(void** args)
 
 			case SDL_EVENT_WINDOW_RESIZED:
 			{
-				window->m_SDLSurface = SDL_GetWindowSurface(window->m_SDLWindow);
 				break;
 			}
 		}
@@ -100,7 +100,7 @@ void PLUGIN_SwapWindowBuffers(void** args)
 		window = (PLUGIN_SDL_Window*)args[0];
 	}
 
-	SDL_UpdateWindowSurface(window->m_SDLWindow);
+	SDL_RenderPresent(window->m_SDLRenderer);
 }
 
 
@@ -116,7 +116,10 @@ void PLUGIN_DestroyWindow(void** args)
 		window = (PLUGIN_SDL_Window*)args[0];
 	}
 
-	SDL_DestroyWindow(window->m_SDLWindow);
+	SDL_DestroyRenderer(window->m_SDLRenderer);
+	window->m_SDLRenderer = NULL;
+
+	SDL_DestroyWindow(window->m_SDLWindow);   
 	window->m_SDLWindow = NULL;
 
 	window->base.m_open = 0;
