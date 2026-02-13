@@ -3,8 +3,6 @@
 
 #include <stdint.h>
 
-#include <Renderer/LoadProcAddress.h>
-
 typedef struct
 {
 	uint8_t m_open;
@@ -12,8 +10,6 @@ typedef struct
 
 
 IWindow* CreateWindow(unsigned int width, unsigned int height, const char* title);
-
-LoadProcAddress* GetWindowLoadProcAddress(IWindow* window);
 
 void UpdateWindow(IWindow* window);
 void SwapWindowBuffers(IWindow* window);

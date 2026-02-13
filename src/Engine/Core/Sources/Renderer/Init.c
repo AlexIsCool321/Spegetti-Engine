@@ -1,23 +1,10 @@
 #include <Renderer/Init.h>
-#include <PlugNPlay/PlugNPlay.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 
-void InitRenderer(LoadProcAddress* loadProcAddres)
+void InitRenderer()
 {
-	{
-		if (!loadProcAddres) printf("ERROR : PROCUDER ADDRESS IS NULL!\n");
-
-		if (!loadProcAddres) return;
-	}
-
-	void* args[1] =
-	{
-		loadProcAddres
-	};
-
-	CallPlugInFunction("PLUGIN_InitRenderer", args);
+	CallPlugInFunction("PLUGIN_InitRenderer", NULL);
 }
 
 void TerminateRenderer()

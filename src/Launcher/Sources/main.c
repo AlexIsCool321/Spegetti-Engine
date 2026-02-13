@@ -4,14 +4,13 @@
 int main(int argc, char** argv)
 {
 	LoadPlugIn("plugins", "SDL_Window");
-	LoadPlugIn("plugins", "GL_Renderer");
+	LoadPlugIn("plugins", "SDL_GL_Renderer");
 
 	InitSystem();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
 
-	LoadProcAddress* loadProcAddress = GetWindowLoadProcAddress(window);
-	InitRenderer(loadProcAddress);
+	InitRenderer();
 
 	Vertex vertices[3] =
 	{

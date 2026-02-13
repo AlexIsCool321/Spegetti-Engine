@@ -2,7 +2,6 @@
 #define SDL_IWINDOW_H
 
 #include <System/IWindow.h>
-#include <Renderer/LoadProcAddress.h>
 
 #include <SDL3/SDL.h>
 
@@ -17,8 +16,6 @@ typedef struct
 } PLUGIN_SDL_Window;
 
 IWindow* PLUGIN_CreateWindow(void** args);
-
-LoadProcAddress* PLUGIN_GetWindowLoadProcAddress(void** args);
 
 void PLUGIN_UpdateWindow(void** args);
 void PLUGIN_SwapWindowBuffers(void** args);

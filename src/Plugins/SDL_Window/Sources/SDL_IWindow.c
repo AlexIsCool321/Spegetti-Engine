@@ -47,24 +47,6 @@ IWindow* PLUGIN_CreateWindow(void** args)
 }
 
 
-LoadProcAddress* PLUGIN_GetWindowLoadProcAddress(void** args)
-{
-	PLUGIN_SDL_Window* window;
-
-	{
-		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
-
-		if (!args[0]) return NULL;
-
-		window = (PLUGIN_SDL_Window*)args[0];
-	}
-
-	LoadProcAddress* result = CreateAddress(SDL_GL_GetProcAddress);
-
-	return result;
-}
-
-
 void PLUGIN_UpdateWindow(void** args)
 {
 	PLUGIN_SDL_Window* window;
@@ -91,6 +73,12 @@ void PLUGIN_UpdateWindow(void** args)
 				window->base.m_open = 0;
 				break;
 			}
+			case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+			{
+				window->base.m_open = 0;
+				break;
+			}
+
 			case SDL_EVENT_WINDOW_RESIZED:
 			{
 				window->m_SDLSurface = SDL_GetWindowSurface(window->m_SDLWindow);
