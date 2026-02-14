@@ -4,20 +4,20 @@
 
 #include <stdio.h>
 
-void AttachSurfaceToWindow(IWindow* pWindow, Surface* pSurface)
+void AttachSurfaceAndInstanceToWindow(IWindow* pWindow, Surface* pSurface, Instance* pInstace)
 {
 	{
 		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
-		if (!pSurface) printf("ERROR : SURFACE IS NULL!\n");;
 
-		if (!pWindow || !pSurface) return;
+		if (!pWindow) return;
 	}
 
-	void* args[2] =
+	void* args[3] =
 	{
 		pWindow,
-		pSurface
+		pSurface,
+		pInstace
 	};
 
-	CallPlugInFunction("PLUGIN_AttachSurfaceToWindow", args);
+	CallPlugInFunction("PLUGIN_AttachSurfaceAndInstanceToWindow", args);
 }
