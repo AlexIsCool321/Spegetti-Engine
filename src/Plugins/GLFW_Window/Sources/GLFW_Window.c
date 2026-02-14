@@ -79,7 +79,7 @@ void PLUGIN_DestroyWindow(void** args)
 	GLFW_Window* window;
 	
 	{
-		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+		if (!args[0]) printf("WARN [PLUGIN] : Window is already NULL.\n");
 
 		if (!args[0]) return;
 

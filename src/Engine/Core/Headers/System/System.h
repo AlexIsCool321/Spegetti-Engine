@@ -2,6 +2,8 @@
 #define SYSTEM_H
 
 #include <System/Init.h>
+
 #include <System/IWindow.h>
+#include <System/Contex.h>
 
 #endif
