@@ -17,6 +17,8 @@ int main(int argc, char** argv)
 	void* address = GetWindowProcedureAddress(window);
 	InitRenderer(address);
 
+	uint8_t shader = CreateShader("", "");
+
 	for(;;)
 	{
 		UpdateWindow(window);

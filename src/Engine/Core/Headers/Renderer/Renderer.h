@@ -6,4 +6,6 @@
 #include <Renderer/Surface.h>
 #include <Renderer/Instance.h>
 
+#include <Renderer/Shader.h>
+
 #endif
