@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-void PLUGIN_Init_System(void** args)
+void PLUGIN_InitSystem(void** args)
 {
 	if (!glfwInit())
 	{
@@ -20,7 +20,7 @@ void PLUGIN_Init_System(void** args)
 	printf("LOG [PLUGIN] : Initialized GLFW Successfully!\n");
 }
 
-void PLUGIN_Terminate_System(void** args)
+void PLUGIN_TerminateSystem(void** args)
 {
 	glfwTerminate();
 

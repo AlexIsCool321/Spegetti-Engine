@@ -3,12 +3,12 @@
 
 #include <stdlib.h>
 
-void Init_System()
+void InitSystem()
 {
-	CallPlugInFunction("PLUGIN_Init_System", NULL);
+	CallPlugInFunction("PLUGIN_InitSystem", NULL);
 }
 
-void Terminate_System()
+void TerminateSystem()
 {
-	CallPlugInFunction("PLUGIN_Terminate_System", NULL);
+	CallPlugInFunction("PLUGIN_TerminateSystem", NULL);
 }
