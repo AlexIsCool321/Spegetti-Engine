@@ -13,6 +13,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	FOLDER "Plugins"
 	
 	LIBRARY_OUTPUT_DIRECTORY	"${CMAKE_SOURCE_DIR}/../OUT/plugins"
+	RUNTIME_OUTPUT_DIRECTORY	"${CMAKE_SOURCE_DIR}/../OUT/plugins"
 )
 
 add_library(${PROJECT_NAME}::library ALIAS ${PROJECT_NAME})
