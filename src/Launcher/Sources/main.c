@@ -14,6 +14,8 @@ int main(int argc, char** argv)
 	IWindow* window = CreateWindow(800, 600, "Window");
 	AttachSurfaceAndInstanceToWindow(window, surface, instance);
 
+	InitRenderer();
+
 	for(;;)
 	{
 		if (!IsWindowOpen(window)) break;
@@ -24,6 +26,7 @@ int main(int argc, char** argv)
 	DestroyWindow(window);
 
 	Terminate_System();
+	TerminateRenderer();
 
 	UnloadAllPlugIns();
 
