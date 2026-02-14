@@ -1,5 +1,7 @@
 #include <Renderer/Mesh.h>
 
+#include <PlugNPlay/PlugNPlay.h>
+
 Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pIndices, unsigned int pIndicesSize, unsigned int shader)
 {
 	void* args[5] =
