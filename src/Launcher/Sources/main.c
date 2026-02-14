@@ -1,6 +1,5 @@
 #include <Core/Core.h>
 #include <PlugNPlay/PlugNPlay.h>
-#include <stdio.h>
 
 int main(int argc, char** argv)
 {
