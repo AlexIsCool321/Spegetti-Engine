@@ -4,6 +4,8 @@
 typedef struct
 {
 	void* m_handle;
+	
+	const char* m_name;
 } PlugIn;
 
 extern PlugIn* plugins[64];

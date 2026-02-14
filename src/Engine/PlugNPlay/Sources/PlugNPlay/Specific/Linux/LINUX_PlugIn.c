@@ -12,17 +12,19 @@ PlugIn* LINUX_LoadPlugIn(const char* pPath, const char* pName)
 {
 	PlugIn* result = (PlugIn*)malloc(sizeof(PlugIn));
 
+	result->m_name = pName;
+
 	char newPath[512];
 	snprintf(newPath, 512, "./%s/lib%s.so", pPath, pName);
 
 	printf("LOG : Loading [ %s ]!\n", newPath);
 
-	result->m_handle = dlopen(newPath, RTLD_GLOBAL | RTLD_NOW);
+	void* handle = dlopen(newPath, RTLD_NOW | RTLD_LOCAL);
 	if (!result->m_handle)
 	{
-		printf("ERROR : FAILED TO LOAD [ %s ]!\n", newPath);
-		printf("LOG : %s\n", dlerror());
-
+		printf("ERROR : FAILED TO LOAD [ %s ]! : [ %s ]\n", newPath, dlerror());
+		
+		free(result);
 		return NULL;
 	}
 
@@ -44,4 +46,27 @@ uint8_t LINUX_CallPlugInFunction(PlugIn* pPlugIn, void** result, const char* pNa
 
 	*result = func(args);
 	return 1;
+}
+
+void LINUX_UnloadPlugIn(PlugIn* pPlugIn)
+{
+	if (!pPlugIn)
+	{
+		printf("WARN : Plugin is NULL.\n");
+		return;
+	}
+	printf("LOG : Unloading [ %s ]", pPlugIn->m_name);
+
+	if (!dlclose(pPlugIn->m_handle))
+	{
+		printf("ERROR : FAILED TO UNLOAD [ %s ]! : [ %s ]\n", pPlugIn->m_name, dlerror());
+		free(pPlugIn);
+		pPlugIn = NULL;
+		return;
+	}
+
+	free(pPlugIn);
+	pPlugIn = NULL;
+
+	printf("LOG : Successfuly unloaded [ %S ]!", pPlugIn->m_name);
 }
