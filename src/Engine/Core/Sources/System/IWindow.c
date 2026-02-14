@@ -2,6 +2,7 @@
 
 #include <PlugNPlay/PlugNPlay.h>
 
+#include <stdio.h>
 #include <stdlib.h>
 
 IWindow* CreateWindow(unsigned int width, unsigned int height, const char* title)
@@ -31,7 +32,16 @@ uint8_t IsWindowOpen(IWindow* window)
 {
 	if (!window) return 0;
 
-	return window->m_open;
+	void* args[1] =
+	{
+		window
+	};
+
+	intptr_t result = (intptr_t)CallPlugInFunction("PLUGIN_IsWindowOpen", args);
+
+	uint8_t open = (uint8_t)result;
+	
+	return open;
 }
 
 

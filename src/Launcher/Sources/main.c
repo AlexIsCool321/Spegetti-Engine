@@ -4,14 +4,16 @@
 
 int main(int argc, char** argv)
 {
-	LoadPlugIn("plugins", "SDL_Window");
+	LoadPlugIn("plugins", "GLFW_Window");
 
 	Init_System();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
 
-	while(IsWindowOpen(window))
+	for(;;)
 	{
+		if (!IsWindowOpen(window)) break;
+		
 		UpdateWindow(window);
 	}
 

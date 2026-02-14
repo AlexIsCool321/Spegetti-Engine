@@ -5,7 +5,7 @@
 
 typedef struct
 {
-	uint8_t m_open;
+
 } IWindow;
 
 
