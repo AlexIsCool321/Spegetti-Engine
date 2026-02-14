@@ -32,6 +32,23 @@ void UpdateWindow(IWindow* pWindow)
 	CallPlugInFunction("PLUGIN_UpdateWindow", args);
 }
 
+void SwapWindowBuffers(IWindow* pWindow)
+{
+	{
+		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
+
+		if (!pWindow) return;
+	}
+
+	void* args[1] =
+	{
+		pWindow
+	};
+
+	CallPlugInFunction("PLUGIN_SwapWindowBuffers", args);
+}
+
+
 uint8_t IsWindowOpen(IWindow* pWindow)
 {
 	{

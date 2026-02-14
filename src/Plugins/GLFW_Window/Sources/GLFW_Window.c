@@ -53,9 +53,24 @@ void PLUGIN_UpdateWindow(void** pArgs)
 		window = (GLFW_Window*)pArgs[0];
 	}
 
-	glfwSwapBuffers(window->m_window);
-    glfwPollEvents();
+	glfwPollEvents();
 }
+
+void PLUGIN_SwapWindowBuffers(void** pArgs)
+{
+	GLFW_Window* window;
+	
+	{
+		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+
+		if (!pArgs[0]) return;
+
+		window = (GLFW_Window*)pArgs[0];
+	}
+
+	glfwSwapBuffers(window->m_window);
+}
+
 
 void* PLUGIN_IsWindowOpen(void** pArgs)
 {

@@ -12,6 +12,8 @@ typedef struct
 IWindow* CreateWindow(unsigned int pWidth, unsigned int pHeight, const char* pTitle);
 
 void UpdateWindow(IWindow* pWindow);
+void SwapWindowBuffers(IWindow* pWindow);
+
 uint8_t IsWindowOpen(IWindow* pWindow);
 
 void* GetWindowProcedureAddress(IWindow* pWindow);
