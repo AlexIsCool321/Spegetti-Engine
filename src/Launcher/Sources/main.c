@@ -4,7 +4,7 @@
 int main(int argc, char** argv)
 {
 	LoadPlugIn("plugins", "GLFW_Window");
-	LoadPlugIn("plugins", "GL_Renderer");
+	LoadPlugIn("plugins", "MGL_Renderer");
 
 	InitSystem();
 
@@ -14,7 +14,8 @@ int main(int argc, char** argv)
 	IWindow* window = CreateWindow(800, 600, "Window");
 	AttachSurfaceAndInstanceToWindow(window, surface, instance);
 
-	InitRenderer();
+	void* address = GetWindowProcedureAddress(window);
+	InitRenderer(address);
 
 	for(;;)
 	{

@@ -9,11 +9,13 @@ typedef struct
 } IWindow;
 
 
-IWindow* CreateWindow(unsigned int width, unsigned int height, const char* title);
+IWindow* CreateWindow(unsigned int pWidth, unsigned int pHeight, const char* pTitle);
 
-void UpdateWindow(IWindow* window);
-uint8_t IsWindowOpen(IWindow* window);
+void UpdateWindow(IWindow* pWindow);
+uint8_t IsWindowOpen(IWindow* pWindow);
 
-void DestroyWindow(IWindow* window);
+void* GetWindowProcedureAddress(IWindow* pWindow);
+
+void DestroyWindow(IWindow* pWindow);
 
 #endif
