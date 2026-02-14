@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-uint8_t CreateShader(const char* pVertex, const char* pFragment)
+unsigned int CreateShader(const char* pVertex, const char* pFragment)
 {
 	{
 		if (!pVertex)	printf("ERROR : VERTEX SHADER IS NULL!\n");
@@ -20,5 +20,5 @@ uint8_t CreateShader(const char* pVertex, const char* pFragment)
 	};
 
 	intptr_t result = (intptr_t)CallPlugInFunction("PLUGIN_CreateShader", args);
-	return (uint8_t)result;
+	return (unsigned int)result;
 }
