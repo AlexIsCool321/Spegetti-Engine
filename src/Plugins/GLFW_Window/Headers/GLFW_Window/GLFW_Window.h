@@ -10,11 +10,13 @@ typedef struct
 	GLFWwindow* m_window;
 } GLFW_Window;
 
-void* PLUGIN_CreateWindow(void** args);
+void* PLUGIN_CreateWindow(void** pArgs);
 
-void PLUGIN_UpdateWindow(void** args);
-void* PLUGIN_IsWindowOpen(void** args);
+void PLUGIN_UpdateWindow(void** pArgs);
+void* PLUGIN_IsWindowOpen(void** pArgs);
 
-void PLUGIN_DestroyWindow(void** args);
+void* PLUGIN_GetWindowProcedureAddress(void** pArgs);
+
+void PLUGIN_DestroyWindow(void** pArgs);
 
 #endif
