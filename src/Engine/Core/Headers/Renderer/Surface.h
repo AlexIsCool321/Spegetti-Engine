@@ -3,7 +3,9 @@
 
 typedef struct
 {
-	
+
 } Surface;
+
+Surface* CreateSurface();
 
 #endif

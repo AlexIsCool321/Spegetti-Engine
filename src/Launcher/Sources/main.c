@@ -7,10 +7,11 @@ int main(int argc, char** argv)
 
 	Init_System();
 
-	
+	Surface* surface = CreateSurface();
+	Instance* instance = CreateInstance();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
-	CreateWindowContex(window);
+	AttachSurfaceAndInstanceToWindow(window, surface, instance);
 
 	for(;;)
 	{
