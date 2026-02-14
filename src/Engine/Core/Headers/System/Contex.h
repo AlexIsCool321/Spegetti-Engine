@@ -2,7 +2,8 @@
 #define SYSTEM_CONTEX_H
 
 #include <System/IWindow.h>
+#include <Renderer/Surface.h>
 
-void CreateWindowContex(IWindow* window);
+void AttachSurfaceToWindow(IWindow* pWindow, Surface* pSurface);
 
 #endif

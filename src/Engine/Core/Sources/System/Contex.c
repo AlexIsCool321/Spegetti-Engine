@@ -2,14 +2,22 @@
 
 #include <PlugNPlay/PlugNPlay.h>
 
-void CreateWindowContex(IWindow* window)
-{
-	if (!window) return;
+#include <stdio.h>
 
-	void* args[1] =
+void AttachSurfaceToWindow(IWindow* pWindow, Surface* pSurface)
+{
 	{
-		window
+		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
+		if (!pSurface) printf("ERROR : SURFACE IS NULL!\n");;
+
+		if (!pWindow || !pSurface) return;
+	}
+
+	void* args[2] =
+	{
+		pWindow,
+		pSurface
 	};
 
-	CallPlugInFunction("PLUGIN_CreateWindowContex", args);
+	CallPlugInFunction("PLUGIN_AttachSurfaceToWindow", args);
 }

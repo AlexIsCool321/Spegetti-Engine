@@ -1,5 +1,5 @@
-#ifndef GLFW_WINDOW_H
-#define GLFW_WINDOW_H
+#ifndef GLFW_WINDOW_WINDOW_H
+#define GLFW_WINDOW_WINDOW_H
 
 #include <System/IWindow.h>
 
