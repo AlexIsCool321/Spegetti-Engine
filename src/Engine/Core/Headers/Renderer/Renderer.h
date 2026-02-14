@@ -7,5 +7,8 @@
 #include <Renderer/Instance.h>
 
 #include <Renderer/Shader.h>
+#include <Renderer/Vertex.h>
+
+#include <Renderer/Mesh.h>
 
 #endif
