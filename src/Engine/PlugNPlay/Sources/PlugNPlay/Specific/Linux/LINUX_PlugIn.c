@@ -1,3 +1,5 @@
+#ifdef __linux__
+
 #include <PlugNPlay/Specific/Linux/LINUX_PlugIn.h>
 
 #include <stdlib.h>
@@ -70,3 +72,5 @@ void LINUX_UnloadPlugIn(PlugIn* pPlugIn)
 
 	printf("LOG : Successfuly unloaded [ %S ]!", pPlugIn->m_name);
 }
+
+#endif

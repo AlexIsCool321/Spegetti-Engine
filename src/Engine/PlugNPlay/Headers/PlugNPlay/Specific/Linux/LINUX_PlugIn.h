@@ -1,3 +1,5 @@
+#ifdef __linux__
+
 #ifndef PLUGNPLAY_LINUX_LOADPLUGIN_H
 #define PLUGNPLAY_LINUX_LOADPLUGIN_H
 
@@ -9,5 +11,7 @@ PlugIn* LINUX_LoadPlugIn(const char* pPath, const char* pName);
 uint8_t LINUX_CallPlugInFunction(PlugIn* pPlugIn, void** result, const char* pName, void** args);
 
 void LINUX_UnloadPlugIn(PlugIn* pPlugIn);
+
+#endif
 
 #endif
