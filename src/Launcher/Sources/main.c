@@ -22,9 +22,11 @@ int main(int argc, char** argv)
 
 	for(;;)
 	{
-		if (!IsWindowOpen(window)) break;
-		
 		UpdateWindow(window);
+
+		if (!IsWindowOpen(window)) break;
+
+		SwapWindowBuffers(window);
 	}
 
 	DestroyWindow(window);

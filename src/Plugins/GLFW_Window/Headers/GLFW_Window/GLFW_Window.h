@@ -13,6 +13,8 @@ typedef struct
 void* PLUGIN_CreateWindow(void** pArgs);
 
 void PLUGIN_UpdateWindow(void** pArgs);
+void PLUGIN_SwapWindowBuffers(void** pArgs);
+
 void* PLUGIN_IsWindowOpen(void** pArgs);
 
 void* PLUGIN_GetWindowProcedureAddress(void** pArgs);
