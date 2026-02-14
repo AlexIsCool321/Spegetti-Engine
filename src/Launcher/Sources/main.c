@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-	LoadPlugIn("plugins", "SDL_Window");
+	LoadPlugIn("plugins", "GLFW_Window");
 
 	Init_System();
 
