@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-uint8_t CreateShader(const char* pVertex, const char* pFragment);
+unsigned int CreateShader(const char* pVertex, const char* pFragment);
 
 #endif
