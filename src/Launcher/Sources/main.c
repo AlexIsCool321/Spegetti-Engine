@@ -4,6 +4,7 @@
 int main(int argc, char** argv)
 {
 	LoadPlugIn("plugins", "GLFW_Window");
+	LoadPlugIn("plugins", "GL_Renderer");
 
 	InitSystem();
 
