@@ -11,9 +11,6 @@ int main(int argc, char** argv)
 	Surface* surface = CreateSurface();
 	Instance* instance = CreateInstance();
 
-	Surface* surface = CreateSurface();
-	Instance* instance = CreateInstance();
-
 	IWindow* window = CreateWindow(800, 600, "Window");
 	AttachSurfaceAndInstanceToWindow(window, surface, instance);
 
