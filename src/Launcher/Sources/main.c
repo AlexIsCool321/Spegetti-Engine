@@ -20,5 +20,7 @@ int main(int argc, char** argv)
 
 	Terminate_System();
 
+	UnloadAllPlugIns();
+
 	return 0;
 }

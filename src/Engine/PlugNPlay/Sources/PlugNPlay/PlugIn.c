@@ -1,7 +1,7 @@
 #include <PlugNPlay/PlugIn.h>
 
 #ifdef __linux__
-#include <PlugNPlay/Specific/Linux/LINUX_PlugIn.h>
+	#include <PlugNPlay/Specific/Linux/LINUX_PlugIn.h>
 #endif
 
 #include <stdio.h>
@@ -51,9 +51,30 @@ void* CallPlugInFunction(const char* pName, void** args)
 
 	if (!successful)
 	{
-		printf("WARN : No plugin function! : [ %s ]\n", pName);
+		printf("WARN : No plugin has an implemntation for [ %s ]!\n", pName);
 		return NULL;
 	}
 
 	return result;
+}
+
+void UnloadPlugIn(PlugIn* pPlugIn)
+{
+#ifdef __linux__
+	LINUX_UnloadPlugIn(pPlugIn);
+#endif
+}
+
+
+
+void UnloadAllPlugIns()
+{
+	printf("LOG : Unloading ALL Plugins!\n");
+
+	for (uint8_t i = 0; i < pluginIndex; i++)
+	{
+		UnloadPlugIn(plugins[i]);
+	}
+
+	printf("LOG : Unloaded ALL Plugins Successfully!\n");
 }

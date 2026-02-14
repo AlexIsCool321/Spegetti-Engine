@@ -15,11 +15,11 @@ PlugIn* LINUX_LoadPlugIn(const char* pPath, const char* pName)
 	result->m_name = pName;
 
 	char newPath[512];
-	snprintf(newPath, 512, "./%s/lib%s.so", pPath, pName);
+	snprintf(newPath, sizeof(newPath), "./%s/lib%s.so", pPath, pName);
 
 	printf("LOG : Loading [ %s ]!\n", newPath);
 
-	void* handle = dlopen(newPath, RTLD_NOW | RTLD_LOCAL);
+	result->m_handle = dlopen(newPath, RTLD_NOW | RTLD_LOCAL);   
 	if (!result->m_handle)
 	{
 		printf("ERROR : FAILED TO LOAD [ %s ]! : [ %s ]\n", newPath, dlerror());

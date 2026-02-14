@@ -14,4 +14,9 @@ PlugIn* LoadPlugIn(const char* pPath, const char* pName);
 
 void* CallPlugInFunction(const char* pName, void** args);
 
+void UnloadPlugIn(PlugIn* pPlugIn);
+
+
+void UnloadAllPlugIns();
+
 #endif
