@@ -10,8 +10,10 @@ int main(int argc, char** argv)
 
 	IWindow* window = CreateWindow(800, 600, "Window");
 
-	while(IsWindowOpen(window))
+	for(;;)
 	{
+		if (!IsWindowOpen(window)) break;
+		
 		UpdateWindow(window);
 	}
 
