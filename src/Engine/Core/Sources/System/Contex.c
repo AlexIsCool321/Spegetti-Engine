@@ -2,8 +2,6 @@
 
 #include <PlugNPlay/PlugNPlay.h>
 
-#include <PlugNPlay/PlugNPlay.h>
-
 void CreateWindowContex(IWindow* window)
 {
 	if (!window) return;
