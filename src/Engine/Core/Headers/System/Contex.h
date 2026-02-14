@@ -7,4 +7,5 @@
 #include <Renderer/Instance.h>
 
 void AttachSurfaceAndInstanceToWindow(IWindow* pWindow, Surface* pSurface, Instance* pInstace);
+
 #endif
