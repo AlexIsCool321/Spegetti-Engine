@@ -1,5 +1,5 @@
-#ifndef RENDERER_CONTEX_H
-#define RENDERER_CONTEX_H
+#ifndef SYSTEM_CONTEX_H
+#define SYSTEM_CONTEX_H
 
 #include <System/IWindow.h>
 
