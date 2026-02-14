@@ -1,4 +1,4 @@
-project("GL_Renderer")
+project("MGL_Renderer")
 
 file(GLOB_RECURSE SOURCE "*.c" "*.h")
 
