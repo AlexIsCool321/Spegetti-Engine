@@ -29,13 +29,13 @@ void* PLUGIN_CreateWindow(void** args)
 		return NULL;
 	}
 
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	result->m_window = glfwCreateWindow(width, height, title, NULL, NULL);
 	if (!result->m_window)
 	{
 		printf("ERROR [PLUGIN] : FAILED TO CREATE GLFW WINDO!\n");
 		return NULL;
 	}
-	glfwMakeContextCurrent(result->m_window);
 
 	return (IWindow*)result;
 }
