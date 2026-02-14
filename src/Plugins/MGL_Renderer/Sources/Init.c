@@ -25,10 +25,10 @@ void PLUGIN_InitRenderer(void** pArgs)
 		return;
 	}
 
-	printf("INI");
+	printf("Initialized OpenGL Successfully!\n");
 }
 
 void PLUGIN_TerminateRenderer(void** pArgs)
 {
-
+	printf("Terminated OpenGL Successfully!\n");
 }
