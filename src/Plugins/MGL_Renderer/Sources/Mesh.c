@@ -1,6 +1,9 @@
 #include <MGL_Renderer/Mesh.h>
 
 #include <Renderer/Mesh.h>
+#include <Renderer/Camera.h>
+
+#include <Math/Tranform.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,16 +67,24 @@ void* PLUGIN_CreateMesh(void** pArgs)
 void PLUGIN_DrawMesh(void** pArgs)
 {
 	MGL_Mesh* pMesh;
+	Camera* pCamera;
 
 	{
 		if (!pArgs[0]) printf("ERROR [PLUGIN] : MESH IS NULL!\n");
+		if (!pArgs[1]) printf("ERROR [PLUGIN] : CAMERA IS NULL!\n");
 	
-		if (!pArgs[0]) return;
+		if (!pArgs[0] || !pArgs[1]) return;
 
 		pMesh = (MGL_Mesh*)pArgs[0];
+		pCamera = (Camera*)pArgs[1];
 	}
 
 	glUseProgram(pMesh->m_shader);
+
+	Matrix view = CreateTransform(pCamera->position, pCamera->rotation, Vector3(1, 1, 1));
+
+	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "view"), 1, GL_FALSE, view.m_values);
+
 	glBindVertexArray(pMesh->m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }

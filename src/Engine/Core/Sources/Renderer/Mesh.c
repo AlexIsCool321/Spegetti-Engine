@@ -28,17 +28,19 @@ Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pInd
 	return (Mesh*)result;
 }
 
-void DrawMesh(Mesh* pMesh)
+void DrawMesh(Mesh* pMesh, Camera* pCamera)
 {
 	{
 		if (!pMesh) printf("ERROR : MESH IS NULL!\n");
+		if (!pCamera) printf("ERROR : CAMERA IS NULL!\n");
 
-		if (!pMesh) return;
+		if (!pMesh || !pCamera) return;
 	}
 
-	void* args[1] =
+	void* args[2] =
 	{
-		pMesh
+		pMesh,
+		pCamera
 	};
 
 	CallPlugInFunction("PLUGIN_DrawMesh", args);

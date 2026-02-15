@@ -22,17 +22,19 @@ Model* CreateModel(Mesh** pMeshes, uint8_t pMeshCount)
 	return (Model*)CallPlugInFunction("PLUGIN_CreateModel", args);
 }
 
-void DrawModel(Model* pModel)
+void DrawModel(Model* pModel, Camera* pCamera)
 {
 	{
 		if (!pModel) printf("ERROR : MODEL IS NULL!\n");
+		if (!pCamera) printf("ERROR : CAMERA IS NULL!\n");
 
-		if (!pModel) return;
+		if (!pModel || !pCamera) return;
 	}
 
-	void* args[1] =
+	void* args[2] =
 	{
-		pModel
+		pModel,
+		pCamera
 	};
 
 	CallPlugInFunction("PLUGIN_DrawModel", args);

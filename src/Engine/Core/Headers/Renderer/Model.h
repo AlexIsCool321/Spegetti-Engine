@@ -13,7 +13,7 @@ typedef struct
 
 Model* CreateModel(Mesh** pMeshes, uint8_t pMeshCount);
 
-void DrawModel(Model* pModel);
+void DrawModel(Model* pModel, Camera* pCamera);
 
 void DestroyModel(Model* pModel);
 

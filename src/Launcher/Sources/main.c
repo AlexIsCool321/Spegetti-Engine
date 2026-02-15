@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 	InitRenderer(address);
 
 	Model* model;
+	Camera camera = CreateCamera(Vector3(0, 0, 0), Vector3(0, 90, 0), 90.0f);
 
 	{
 		unsigned int shader;
@@ -26,9 +27,12 @@ int main(int argc, char** argv)
 			const char* vertexShaderSource =
 				"#version 330 core\n"
 				"layout (location = 0) in vec3 aPos;\n"
+
+				"uniform mat4 view;"
+
 				"void main()\n"
 				"{\n"
-				"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+				"   gl_Position = inverse(view) * vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
 				"}\0";
 			
 			const char* fragmentShaderSource =
@@ -70,7 +74,7 @@ int main(int argc, char** argv)
 
 		if (!IsWindowOpen(window)) break;
 
-		DrawModel(model);
+		DrawModel(model, &camera);
 
 		SwapWindowBuffers(window);
 	}

@@ -49,18 +49,21 @@ void* PLUGIN_CreateModel(void** pArgs)
 void PLUGIN_DrawModel(void** pArgs)
 {
 	Model* pModel;
+	Camera* pCamera;
 
 	{
 		if (!pArgs[0]) printf("ERROR [PLUGIN] : MODEL IS NULL!\n");
+		if (!pArgs[1]) printf("ERROR [PLUGIN] : CAMERA IS NULL!\n");
 
-		if (!pArgs[0]) return;
+		if (!pArgs[0] || !pArgs[1]) return;
 
 		pModel = (Model*)pArgs[0];
+		pCamera = (Camera*)pArgs[1];
 	}
 
 	for (uint8_t i = 0; i < pModel->m_meshCount; i++)
 	{
-		DrawMesh(pModel->m_meshes[i]);
+		DrawMesh(pModel->m_meshes[i], pCamera);
 	}
 }
 
