@@ -10,5 +10,6 @@
 #include <Renderer/Vertex.h>
 
 #include <Renderer/Mesh.h>
+#include <Renderer/Model.h>
 
 #endif
