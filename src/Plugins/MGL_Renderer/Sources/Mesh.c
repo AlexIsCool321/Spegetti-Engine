@@ -83,7 +83,8 @@ void PLUGIN_DrawMesh(void** pArgs)
 
 	Matrix view = CreateTransform(pCamera->position, pCamera->rotation, Vector3(1, 1, 1));
 
-	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "view"), 1, GL_FALSE, view.m_values);
+	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uView"), 1, GL_FALSE, view.m_values);
+	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uProjection"), 1, GL_FALSE, pCamera->m_projection.m_values);
 
 	glBindVertexArray(pMesh->m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);

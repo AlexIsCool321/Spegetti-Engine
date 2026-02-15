@@ -50,4 +50,6 @@ Matrix MultiplyMatricies(Matrix pA, Matrix pB)
 			SetMatrixValue(result, r, c, value);
 		}
 	}
+
+	return result;
 }

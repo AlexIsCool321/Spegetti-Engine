@@ -1,6 +1,8 @@
 #include <Core/Core.h>
 #include <PlugNPlay/PlugNPlay.h>
 
+#include <stdio.h>
+
 int main(int argc, char** argv)
 {
 	LoadPlugIn("plugins", "GLFW_Window");
@@ -18,7 +20,8 @@ int main(int argc, char** argv)
 	InitRenderer(address);
 
 	Model* model;
-	Camera camera = CreateCamera(Vector3(0, 0, 0), Vector3(0, 90, 0), 90.0f);
+
+	Camera camera = CreateCamera(Vector3(0, 0, 10), Vector3(0, 0, 0), 90.0f);
 
 	{
 		unsigned int shader;
@@ -28,11 +31,12 @@ int main(int argc, char** argv)
 				"#version 330 core\n"
 				"layout (location = 0) in vec3 aPos;\n"
 
-				"uniform mat4 view;"
+				"uniform mat4 uView;"
+				"uniform mat4 uProjection;"
 
 				"void main()\n"
 				"{\n"
-				"   gl_Position = inverse(view) * vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+				"   gl_Position = uProjection * inverse(uView) * vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
 				"}\0";
 			
 			const char* fragmentShaderSource =
