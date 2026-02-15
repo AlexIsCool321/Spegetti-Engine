@@ -59,10 +59,14 @@ int main(int argc, char** argv)
 
 		if (!IsWindowOpen(window)) break;
 
+		DrawMesh(mesh);
+
 		SwapWindowBuffers(window);
 	}
 
 	DestroyWindow(window);
+
+	DestroyMesh(mesh);
 
 	TerminateSystem();
 	TerminateRenderer();

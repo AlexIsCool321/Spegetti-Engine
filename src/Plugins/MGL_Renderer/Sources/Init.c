@@ -1,4 +1,4 @@
-#include <GL_Renderer/Init.h>
+#include <MGL_Renderer/Init.h>
 
 #include <glad/gl.h>
 

@@ -6,6 +6,9 @@
 
 void PLUGIN_InitSystem(void** args)
 {
+	// Hopefully Temparary
+	glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+
 	if (!glfwInit())
 	{
 		const char* errorLog;
@@ -16,6 +19,10 @@ void PLUGIN_InitSystem(void** args)
 		glfwTerminate();
 		return;
 	}
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	printf("LOG [PLUGIN] : Initialized GLFW Successfully!\n");
 }

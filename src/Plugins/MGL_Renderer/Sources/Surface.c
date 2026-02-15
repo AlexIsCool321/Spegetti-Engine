@@ -1,4 +1,4 @@
-#include <GL_Renderer/Surface.h>
+#include <MGL_Renderer/Surface.h>
 
 #include <stdlib.h>
 

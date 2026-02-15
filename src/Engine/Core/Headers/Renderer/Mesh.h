@@ -8,6 +8,10 @@ typedef struct
 
 } Mesh;
 
-Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pIndices, unsigned int pIndicesSize, unsigned int shader);
+Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pIndices, unsigned int pIndicesSize, unsigned int pShader);
+
+void DrawMesh(Mesh* pMesh);
+
+void DestroyMesh(Mesh* pMesh);
 
 #endif

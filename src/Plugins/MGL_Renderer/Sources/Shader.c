@@ -1,4 +1,4 @@
-#include <GL_Renderer/Shader.h>
+#include <MGL_Renderer/Shader.h>
 
 #include <glad/gl.h>
 

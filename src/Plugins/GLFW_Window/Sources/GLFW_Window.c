@@ -36,6 +36,7 @@ void* PLUGIN_CreateWindow(void** pArgs)
 		printf("ERROR [PLUGIN] : FAILED TO CREATE GLFW WINDO!\n");
 		return NULL;
 	}
+	glfwMakeContextCurrent(result->m_window);
 
 	return (IWindow*)result;
 }
