@@ -3,22 +3,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void* PLUGIN_CreateWindow(void** args)
+void* PLUGIN_CreateWindow(void** pArgs)
 {
 	unsigned int width;
 	unsigned int height;
 	const char* title;
 
 	{
-		if (!args[0]) printf("ERROR [PLUGIN] : WIDTH IS NULL!\n");
-		if (!args[1]) printf("ERROR [PLUGIN] : HEIGHT IS NULL!\n");
-		if (!args[2]) printf("ERROR [PLUGIN] : TITLE IS NULL!\n");
+		if (!pArgs[0]) printf("ERROR [PLUGIN] : WIDTH IS NULL!\n");
+		if (!pArgs[1]) printf("ERROR [PLUGIN] : HEIGHT IS NULL!\n");
+		if (!pArgs[2]) printf("ERROR [PLUGIN] : TITLE IS NULL!\n");
 
-		if (!args[0] || !args[1] || !args[2]) return NULL;
+		if (!pArgs[0] || !pArgs[1] || !pArgs[2]) return NULL;
 
-		width	= *(unsigned int*)	args[0];
-		height	= *(unsigned int*)	args[1];
-		title	= *(const char**)	args[2];
+		width	= *(unsigned int*)	pArgs[0];
+		height	= *(unsigned int*)	pArgs[1];
+		title	= *(const char**)	pArgs[2];
 	}
 
 
@@ -36,37 +36,53 @@ void* PLUGIN_CreateWindow(void** args)
 		printf("ERROR [PLUGIN] : FAILED TO CREATE GLFW WINDO!\n");
 		return NULL;
 	}
+	glfwMakeContextCurrent(result->m_window);
 
 	return (IWindow*)result;
 }
 
 
-void PLUGIN_UpdateWindow(void** args)
+void PLUGIN_UpdateWindow(void** pArgs)
 {
 	GLFW_Window* window;
 	
 	{
-		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
 
-		if (!args[0]) return;
+		if (!pArgs[0]) return;
 
-		window = (GLFW_Window*)args[0];
+		window = (GLFW_Window*)pArgs[0];
+	}
+
+	glfwPollEvents();
+}
+
+void PLUGIN_SwapWindowBuffers(void** pArgs)
+{
+	GLFW_Window* window;
+	
+	{
+		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+
+		if (!pArgs[0]) return;
+
+		window = (GLFW_Window*)pArgs[0];
 	}
 
 	glfwSwapBuffers(window->m_window);
-    glfwPollEvents();
 }
 
-void* PLUGIN_IsWindowOpen(void** args)
+
+void* PLUGIN_IsWindowOpen(void** pArgs)
 {
 	GLFW_Window* window;
 	
 	{
-		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
 
-		if (!args[0]) return 0;
+		if (!pArgs[0]) return 0;
 
-		window = (GLFW_Window*)args[0];
+		window = (GLFW_Window*)pArgs[0];
 	}
 
 	uint8_t open = !glfwWindowShouldClose(window->m_window);
@@ -74,21 +90,27 @@ void* PLUGIN_IsWindowOpen(void** args)
 }
 
 
-void PLUGIN_DestroyWindow(void** args)
+void* PLUGIN_GetWindowProcedureAddress(void** pArgs)
+{
+	return (void*)glfwGetProcAddress;
+}
+
+
+void PLUGIN_DestroyWindow(void** pArgs)
 {
 	GLFW_Window* window;
 	
 	{
-		if (!args[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+		if (!pArgs[0]) printf("WARN [PLUGIN] : Window is already NULL.\n");
 
-		if (!args[0]) return;
+		if (!pArgs[0]) return;
 
-		window = (GLFW_Window*)args[0];
+		window = (GLFW_Window*)pArgs[0];
 	}
 
 	glfwDestroyWindow(window->m_window);
 
 	free(window);
 
-	args[0] = NULL;
+	pArgs[0] = NULL;
 }

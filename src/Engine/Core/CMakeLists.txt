@@ -1,12 +1,13 @@
 project("Core")
 
-file(GLOB_RECURSE SOURCE "*.c" "*.h")
+file(GLOB_RECURSE SOURCE CONFIGURE_DEPENDS "*.c" "*.h")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE})
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Headers")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE PlugNPlay::library)
+target_link_libraries(${PROJECT_NAME} PRIVATE m)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	FOLDER "Engine"

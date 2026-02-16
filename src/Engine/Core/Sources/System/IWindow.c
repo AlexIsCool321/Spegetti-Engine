@@ -5,36 +5,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-IWindow* CreateWindow(unsigned int width, unsigned int height, const char* title)
+IWindow* CreateWindow(unsigned int pWidth, unsigned int pHeight, const char* pTitle)
 {
 	void* args[3] =
 	{
-		&width, &height, &title
+		&pWidth, &pHeight, &pTitle
 	};
 
 	return (IWindow*)CallPlugInFunction("PLUGIN_CreateWindow", args);
 }
 
 
-void UpdateWindow(IWindow* window)
+void UpdateWindow(IWindow* pWindow)
 {
-	if (!window) return;
+	{
+		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
+
+		if (!pWindow) return;
+	}
 
 	void* args[1] =
 	{
-		window
+		pWindow
 	};
 
 	CallPlugInFunction("PLUGIN_UpdateWindow", args);
 }
 
-uint8_t IsWindowOpen(IWindow* window)
+void SwapWindowBuffers(IWindow* pWindow)
 {
-	if (!window) return 0;
+	{
+		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
+
+		if (!pWindow) return;
+	}
 
 	void* args[1] =
 	{
-		window
+		pWindow
+	};
+
+	CallPlugInFunction("PLUGIN_SwapWindowBuffers", args);
+}
+
+
+uint8_t IsWindowOpen(IWindow* pWindow)
+{
+	{
+		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
+
+		if (!pWindow) return 0;
+	}
+
+	void* args[1] =
+	{
+		pWindow
 	};
 
 	intptr_t result = (intptr_t)CallPlugInFunction("PLUGIN_IsWindowOpen", args);
@@ -45,13 +70,34 @@ uint8_t IsWindowOpen(IWindow* window)
 }
 
 
-void DestroyWindow(IWindow* window)
+void* GetWindowProcedureAddress(IWindow* pWindow)
 {
-	if (!window) return;
+	{
+		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
+
+		if (!pWindow) return NULL;
+	}
 
 	void* args[1] =
 	{
-		window
+		pWindow
+	};
+
+	return CallPlugInFunction("PLUGIN_GetWindowProcedureAddress", args);
+}
+
+
+void DestroyWindow(IWindow* pWindow)
+{
+	{
+		if (!pWindow) printf("WARN : Window is already NULL.\n");
+
+		if (!pWindow) return;
+	}
+
+	void* args[1] =
+	{
+		pWindow
 	};
 
 	CallPlugInFunction("PLUGIN_DestroyWindow", args);

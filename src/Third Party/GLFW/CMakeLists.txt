@@ -1,5 +1,3 @@
-include(FetchContent)
-
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../OUT/bin)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -17,4 +15,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(GLFW)
 
-add_library(GLFW::library ALIAS glfw)   
+set_target_properties(glfw PROPERTIES FOLDER "Third Party/GLFW")
+set_target_properties(update_mappings PROPERTIES FOLDER "Third Party/GLFW")
+
+add_library(GLFW::library ALIAS glfw)

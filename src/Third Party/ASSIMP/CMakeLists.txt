@@ -1,0 +1,24 @@
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../OUT/bin)
+
+set(BUILD_SHARED_LIBS ON)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+set(ASSIMP_BUILD_SAMPLES OFF)
+set(ASSIMP_BUILD_TESTS OFF)
+set(ASSIMP_INSTALL OFF)
+set(ASSIMP_WARNINGS_AS_ERRORS OFF)
+set(ASSIMP_BUILD_DOCS OFF)
+set(ASSIMP_INJECT_DEBUG_POSTFIX OFF)
+set(ASSIMP_BUILD_ZLIB ON)
+
+FetchContent_Declare(
+	ASSIMP
+	GIT_REPOSITORY https://github.com/assimp/assimp.git
+	GIT_TAG v6.0.4
+	GIT_SHALLOW ON
+)
+
+FetchContent_MakeAvailable(ASSIMP)
+
+set_target_properties(assimp PROPERTIES FOLDER "Third Party/ASSIMP")
+
+add_library(ASSIMP::library ALIAS assimp)

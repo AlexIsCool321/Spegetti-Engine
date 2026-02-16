@@ -1,6 +1,6 @@
 project("PlugNPlay")
 
-file(GLOB_RECURSE SOURCE "*.c" "*.h")
+file(GLOB_RECURSE SOURCE CONFIGURE_DEPENDS "*.c" "*.h")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE})
 

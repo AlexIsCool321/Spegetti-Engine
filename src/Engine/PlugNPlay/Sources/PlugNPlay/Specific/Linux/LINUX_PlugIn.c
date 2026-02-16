@@ -57,7 +57,7 @@ void LINUX_UnloadPlugIn(PlugIn* pPlugIn)
 		printf("WARN : Plugin is NULL.\n");
 		return;
 	}
-	printf("LOG : Unloading [ %s ]", pPlugIn->m_name);
+	printf("LOG : Unloading [ %s ]\n", pPlugIn->m_name);
 
 	if (!dlclose(pPlugIn->m_handle))
 	{
@@ -70,7 +70,7 @@ void LINUX_UnloadPlugIn(PlugIn* pPlugIn)
 	free(pPlugIn);
 	pPlugIn = NULL;
 
-	printf("LOG : Successfuly unloaded [ %S ]!", pPlugIn->m_name);
+	printf("LOG : Successfuly unloaded [ %S ]!\n", pPlugIn->m_name);
 }
 
 #endif
