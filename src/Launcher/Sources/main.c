@@ -26,13 +26,7 @@ int main(int argc, char** argv)
 	Camera camera = CreateCamera(Vector3(0, 0, -2), Vector3(0, 0, 0), 90.0f);
 
 	{
-		const char* vertex		= ReadFile("shaders/pbr.vs");
-		printf("\n\n%s\n\n", vertex);
-
-		const char* fragment	= ReadFile("shaders/pbr.fs");
-		printf("\n\n%s\n\n", fragment);
-
-		unsigned int shader = CreateShader(vertex, fragment);
+		unsigned int shader = LoadShader("pbr");
 
 		Vertex vertices[3] =
 		{

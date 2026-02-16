@@ -43,7 +43,7 @@ const char* ReadFile(const char* pFile)
 		printf("ERROR : FAILED TO OPEN [ %s ]!\n", pFile);
 
 		fclose(reader);
-		return "";
+		return NULL;
 	}
 
 	char* result = (char*)malloc(MAX_FILESIZE);
@@ -61,7 +61,7 @@ const char* ReadFile(const char* pFile)
 			
 			free(result);
 			fclose(reader);
-			return "";
+			return NULL;
 		}
 		memcpy(result + currentFileSize, buffer, bufferSize);
 		currentFileSize += bufferSize;
