@@ -32,6 +32,10 @@ int main(int argc, char** argv)
 		if (!IsWindowOpen(window)) break;
 		ResizeScreen(GetWindowSize(window));
 
+		camera.position.x += 0.1333 * (IsKeyPressed(window, KEY_A)		- IsKeyPressed(window, KEY_D));
+		camera.position.y += 0.1333 * (IsKeyPressed(window, KEY_SPACE)	- IsKeyPressed(window, KEY_LEFT_SHIFT));
+		camera.position.z += 0.1333 * (IsKeyPressed(window, KEY_W)		- IsKeyPressed(window, KEY_S));
+
 		// Renderering
 		ClearScreen(Vector3(0, 1, 1));
 
