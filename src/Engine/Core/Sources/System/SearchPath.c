@@ -42,7 +42,6 @@ const char* ReadFile(const char* pFile)
 	{
 		printf("ERROR : FAILED TO OPEN [ %s ]!\n", pFile);
 
-		fclose(reader);
 		return NULL;
 	}
 
@@ -68,8 +67,46 @@ const char* ReadFile(const char* pFile)
 	}
 
 	result[currentFileSize] = '\0';
-	
+
 	fclose(reader);
+
+	return result;
+}
+
+void* ReadBinary(const char* pFile, size_t* oSize)
+{
+	FILE* reader;
+
+	for (uint8_t i = 0; i < SearchPathIndex; i++)
+	{
+		char path[512];
+		sprintf(path, "%s/%s", SearchPathes[i], pFile);
+
+		reader = fopen(path, "rb");
+
+		if (reader)
+		{
+			break;
+		}
+	}
+
+	if (!reader)
+	{
+		printf("ERROR : FAILED TO OPEN [ %s ]!\n", pFile);
+
+		return NULL;
+	}
+
+	fseek(reader, 0, SEEK_END);
+	size_t fileSize = ftell(reader);
+	rewind(reader);
+
+	void* result = malloc(fileSize);
+	fread(result, 1, fileSize, reader);
+
+	fclose(reader);
+
+	if (oSize) *oSize = fileSize;
 
 	return result;
 }

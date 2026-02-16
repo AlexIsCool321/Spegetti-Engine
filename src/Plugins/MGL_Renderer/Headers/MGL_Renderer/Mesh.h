@@ -10,6 +10,8 @@ typedef struct
 	unsigned int m_EBO;
 
 	unsigned int m_shader;
+
+	unsigned int m_IndicesSize;
 } MGL_Mesh;
 
 void* PLUGIN_CreateMesh(void** pArgs);

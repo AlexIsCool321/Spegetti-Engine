@@ -1,6 +1,7 @@
 #ifndef SYSTEM_SEARCHPATH_H
 #define SYSTEM_SEARCHPATH_H
 
+#include <stdio.h>
 #include <stdint.h>
 
 #define MAX_SEARCHPATHES 16
@@ -12,6 +13,7 @@ extern uint8_t SearchPathIndex;
 void AddSearchPath(const char* pPath);
 
 const char* ReadFile(const char* pFile);
+void* ReadBinary(const char* pFile, size_t* oSize);
 
 void ClearSearchPathes();
 

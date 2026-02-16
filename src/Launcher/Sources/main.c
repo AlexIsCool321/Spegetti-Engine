@@ -21,34 +21,9 @@ int main(int argc, char** argv)
 	void* address = GetWindowProcedureAddress(window);
 	InitRenderer(address);
 
-	Model* model;
+	Model* model = LoadModel("cube", "glb");
 
 	Camera camera = CreateCamera(Vector3(0, 0, -2), Vector3(0, 0, 0), 90.0f);
-
-	{
-		unsigned int shader = LoadShader("pbr");
-
-		Vertex vertices[3] =
-		{
-			CreateVertex(Vector3(	-0.5,	-0.5,	 0.0	)),
-			CreateVertex(Vector3(	 0.0,	 0.5,	 0.0	)),
-			CreateVertex(Vector3(	 0.5,	-0.5,	 0.0	))
-		};
-
-		unsigned int indices[3] =
-		{
-			0, 1, 2
-		};
-
-		Mesh* mesh = CreateMesh(vertices, sizeof(vertices)/sizeof(Vertex), indices, sizeof(indices)/sizeof(unsigned int), shader);
-
-		Mesh* meshes[1] =
-		{
-			mesh
-		};
-
-		model = CreateModel(meshes, 1);
-	}
 
 	for(;;)
 	{

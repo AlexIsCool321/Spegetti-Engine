@@ -44,6 +44,7 @@ void* PLUGIN_CreateMesh(void** pArgs)
 
 	MGL_Mesh* result = (MGL_Mesh*)malloc(sizeof(MGL_Mesh));
 
+	result->m_IndicesSize = pIndicesSize;
 	result->m_shader = pShader;
 
 	glGenBuffers(1, &result->m_VBO);
@@ -96,7 +97,8 @@ void PLUGIN_DrawMesh(void** pArgs)
 	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uProjection"), 1, GL_FALSE, pCamera->m_projection.m_values);
 
 	glBindVertexArray(pMesh->m_VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, pMesh->m_IndicesSize, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }
 
 void PLUGIN_DestroyMesh(void** pArgs)
