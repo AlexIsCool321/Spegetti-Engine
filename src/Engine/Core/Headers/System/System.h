@@ -3,6 +3,8 @@
 
 #include <System/Init.h>
 
+#include <System/SearchPath.h>
+
 #include <System/IWindow.h>
 #include <System/Contex.h>
 

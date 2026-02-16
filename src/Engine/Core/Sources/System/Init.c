@@ -18,5 +18,7 @@ void InitSystem()
 
 void TerminateSystem()
 {
+	ClearSearchPathes();
+	
 	CallPlugInFunction("PLUGIN_TerminateSystem", NULL);
 }

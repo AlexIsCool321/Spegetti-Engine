@@ -10,6 +10,8 @@ int main(int argc, char** argv)
 
 	InitSystem();
 
+	AddSearchPath("engine");
+
 	Surface* surface = CreateSurface();
 	Instance* instance = CreateInstance();
 
@@ -22,6 +24,8 @@ int main(int argc, char** argv)
 	Model* model;
 
 	Camera camera = CreateCamera(Vector3(0, 0, -3), Vector3(0, 0, 0), 90.0f);
+
+	ReadFile("test.txt");
 
 	{
 		unsigned int shader;

@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #define MAX_SEARCHPATHES 16
+#define MAX_FILESIZE 4098
 
 extern const char* SearchPathes[MAX_SEARCHPATHES];
 extern uint8_t SearchPathIndex;
