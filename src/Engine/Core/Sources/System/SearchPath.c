@@ -46,19 +46,30 @@ const char* ReadFile(const char* pFile)
 		return "";
 	}
 
+	char* result = (char*)malloc(MAX_FILESIZE);
+	size_t currentFileSize = 0;
+
 	char buffer[512];
 
-	char file[MAX_FILESIZE] = "";
-
-	while(fgets(buffer, sizeof(buffer), reader))
+	while (fgets(buffer, sizeof(buffer), reader))
 	{
-		sprintf(file, "%s%s", file, buffer);
+		size_t bufferSize = strlen(buffer);
+
+		if (currentFileSize + bufferSize >= MAX_FILESIZE - 1)
+		{
+			printf("ERROR : FILE IS EXEDED MAX SIZE OF [ %i ]!\n", MAX_FILESIZE);
+			
+			free(result);
+			fclose(reader);
+			return "";
+		}
+		memcpy(result + currentFileSize, buffer, bufferSize);
+		currentFileSize += bufferSize;
 	}
 
+	result[currentFileSize] = '\0';
+	
 	fclose(reader);
-
-	char* result = (char*)malloc(sizeof(file));
-	result = file;
 
 	return result;
 }

@@ -23,36 +23,16 @@ int main(int argc, char** argv)
 
 	Model* model;
 
-	Camera camera = CreateCamera(Vector3(0, 0, -3), Vector3(0, 0, 0), 90.0f);
-
-	ReadFile("test.txt");
+	Camera camera = CreateCamera(Vector3(0, 0, -2), Vector3(0, 0, 0), 90.0f);
 
 	{
-		unsigned int shader;
+		const char* vertex		= ReadFile("shaders/pbr.vs");
+		printf("\n\n%s\n\n", vertex);
 
-		{
-			const char* vertexShaderSource =
-				"#version 330 core\n"
-				"layout (location = 0) in vec3 aPos;\n"
+		const char* fragment	= ReadFile("shaders/pbr.fs");
+		printf("\n\n%s\n\n", fragment);
 
-				"uniform mat4 uView;"
-				"uniform mat4 uProjection;"
-
-				"void main()\n"
-				"{\n"
-				"   gl_Position = uProjection * inverse(uView) * vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-				"}\0";
-			
-			const char* fragmentShaderSource =
-				"#version 330 core\n"
-				"out vec4 FragColor;\n"
-				"void main()\n"
-				"{\n"
-				"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-				"}\0";
-
-			shader = CreateShader(vertexShaderSource, fragmentShaderSource);
-		}
+		unsigned int shader = CreateShader(vertex, fragment);
 
 		Vertex vertices[3] =
 		{
