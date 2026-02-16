@@ -12,7 +12,7 @@
 
 typedef struct
 {
-	float* m_values;
+	float m_values[16];
 } Matrix;
 
 Matrix CreateEmptyMatrix();

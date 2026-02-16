@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 
 	Model* model;
 
-	Camera camera = CreateCamera(Vector3(0, 0, 10), Vector3(0, 0, 0), 90.0f);
+	Camera camera = CreateCamera(Vector3(0, 0, -3), Vector3(0, 0, 0), 90.0f);
 
 	{
 		unsigned int shader;
@@ -78,8 +78,11 @@ int main(int argc, char** argv)
 
 		if (!IsWindowOpen(window)) break;
 
-		DrawModel(model, &camera);
+		// Renderering
+		ClearScreen(Vector3(0, 1, 1));
 
+		DrawModel(model, &camera);
+		
 		SwapWindowBuffers(window);
 	}
 

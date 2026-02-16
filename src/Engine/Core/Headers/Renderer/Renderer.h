@@ -6,6 +6,8 @@
 #include <Renderer/Surface.h>
 #include <Renderer/Instance.h>
 
+#include <Renderer/Clear.h>
+
 #include <Renderer/Shader.h>
 #include <Renderer/Vertex.h>
 

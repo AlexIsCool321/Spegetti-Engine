@@ -5,6 +5,8 @@
 
 #include <Math/Tranform.h>
 
+#include <math.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
@@ -81,7 +83,14 @@ void PLUGIN_DrawMesh(void** pArgs)
 
 	glUseProgram(pMesh->m_shader);
 
-	Matrix view = CreateTransform(pCamera->position, pCamera->rotation, Vector3(1, 1, 1));
+	Vec3 front = Vector3
+	(
+		sin(pCamera->rotation.y) * cos(pCamera->rotation.x),
+		sin(pCamera->rotation.x),
+		cos(pCamera->rotation.y) * cos(pCamera->rotation.x)
+	);
+
+	Matrix view = LookAtMatrix(pCamera->position, AddVector3(pCamera->position, front));
 
 	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uView"), 1, GL_FALSE, view.m_values);
 	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uProjection"), 1, GL_FALSE, pCamera->m_projection.m_values);

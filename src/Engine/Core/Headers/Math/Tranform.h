@@ -6,4 +6,6 @@
 
 Matrix CreateTransform(Vec3 pPosition, Vec3 pRotation, Vec3 pScale);
 
+Matrix LookAtMatrix(Vec3 pEye, Vec3 pTarget);
+
 #endif

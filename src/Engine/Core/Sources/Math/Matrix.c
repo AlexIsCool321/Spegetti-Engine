@@ -7,7 +7,7 @@ Matrix CreateEmptyMatrix()
 {
 	Matrix result;
 
-	result.m_values = (float*)malloc(sizeof(float) * 16);
+	//result.m_values = (float*)malloc(sizeof(float) * 16);
 	for (uint8_t i = 0; i < 16; i++)
 	{
 		result.m_values[i] = 0;
