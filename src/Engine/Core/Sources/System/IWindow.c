@@ -69,6 +69,29 @@ uint8_t IsWindowOpen(IWindow* pWindow)
 	return open;
 }
 
+Vec2 GetWindowSize(IWindow* pWindow)
+{
+	{
+		if (!pWindow) printf("ERROR : WINDOW IS NULL!\n");
+
+		if (!pWindow) return Vector2(0, 0);
+	}
+
+	void* args[1] =
+	{
+		pWindow
+	};
+
+	void* result = CallPlugInFunction("PLUGIN_GetWindowSize", args);
+	if (!result)
+	{
+		printf("ERROR : FAILED TO RETRIVE WINDOW SIZE!\n");
+		return Vector2(0, 0);
+	}
+
+	return *(Vec2*)result;
+}
+
 
 void* GetWindowProcedureAddress(IWindow* pWindow)
 {

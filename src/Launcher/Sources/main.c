@@ -55,6 +55,7 @@ int main(int argc, char** argv)
 		UpdateWindow(window);
 
 		if (!IsWindowOpen(window)) break;
+		ResizeScreen(GetWindowSize(window));
 
 		// Renderering
 		ClearScreen(Vector3(0, 1, 1));
