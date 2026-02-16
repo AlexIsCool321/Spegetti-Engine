@@ -89,6 +89,29 @@ void* PLUGIN_IsWindowOpen(void** pArgs)
 	return (void*)(intptr_t)open;
 }
 
+void* PLUGIN_GetWindowSize(void** pArgs)
+{
+	GLFW_Window* window;
+	
+	{
+		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
+
+		if (!pArgs[0]) return 0;
+
+		window = (GLFW_Window*)pArgs[0];
+	}
+
+	int width;
+	int height;
+	glfwGetWindowSize(window->m_window, &width, &height);
+
+	Vec2 size = Vector2(width, height);
+
+	void* result = &size;
+
+	return (void*)(intptr_t)result;
+}
+
 
 void* PLUGIN_GetWindowProcedureAddress(void** pArgs)
 {

@@ -5,6 +5,8 @@
 
 #include <stdint.h>
 
+#define MAX_MESH_COUNT 255
+
 typedef struct
 {
 	Mesh** m_meshes;

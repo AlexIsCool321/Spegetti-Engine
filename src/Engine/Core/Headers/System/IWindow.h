@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include <Math/Vec2.h>
+
 typedef struct
 {
 
@@ -15,6 +17,7 @@ void UpdateWindow(IWindow* pWindow);
 void SwapWindowBuffers(IWindow* pWindow);
 
 uint8_t IsWindowOpen(IWindow* pWindow);
+Vec2 GetWindowSize(IWindow* pWindow);
 
 void* GetWindowProcedureAddress(IWindow* pWindow);
 
