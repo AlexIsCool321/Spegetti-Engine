@@ -40,6 +40,8 @@ void PLUGIN_AttachSurfaceAndInstanceToWindow(void** pArgs)
 		glfwDestroyWindow(window->m_window);
 		window->m_window = GLWindow;
 
+		glfwSetInputMode(window->m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 		glfwMakeContextCurrent(window->m_window);
 	}
 	else

@@ -36,6 +36,8 @@ int main(int argc, char** argv)
 		camera.position.y += 0.1333 * (IsKeyPressed(window, KEY_SPACE)	- IsKeyPressed(window, KEY_LEFT_SHIFT));
 		camera.position.z += 0.1333 * (IsKeyPressed(window, KEY_W)		- IsKeyPressed(window, KEY_S));
 
+		camera.rotation.y += GetMouseMotion(window).x * 0.005;
+
 		// Renderering
 		ClearScreen(Vector3(0, 1, 1));
 

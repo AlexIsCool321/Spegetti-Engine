@@ -5,4 +5,7 @@
 
 void* PLUGIN_IsKeyPressed(void** pArgs);
 
+void* PLUGIN_GetMouseMotion(void** pArgs);
+void* PLUGIN_GetMousePosition(void** pArgs);
+
 #endif
