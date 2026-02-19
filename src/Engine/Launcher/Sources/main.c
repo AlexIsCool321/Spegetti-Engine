@@ -7,8 +7,8 @@
 
 int main(int argc, char** argv)
 {
-	LoadPlugIn("plugins", "GLFW_Window");
-	LoadPlugIn("plugins", "MGL_Renderer");
+	LoadPlugIn("GLFW_Window");
+	LoadPlugIn("MGL_Renderer");
 
 	InitSystem();
 

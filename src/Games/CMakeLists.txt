@@ -1,0 +1,9 @@
+project("Games")
+
+file(GLOB SUBDIRS LIST_DIRECTORIES true RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
+
+foreach(DIR IN LISTS SUBDIRS)
+    if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${DIR} AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${DIR}/CMakeLists.txt)
+        add_subdirectory(${DIR})
+    endif()
+endforeach()

@@ -10,14 +10,14 @@
 
 #include <dlfcn.h>
 
-PlugIn* LINUX_LoadPlugIn(const char* pPath, const char* pName)
+PlugIn* LINUX_LoadPlugIn(const char* pName)
 {
 	PlugIn* result = (PlugIn*)malloc(sizeof(PlugIn));
 
 	result->m_name = pName;
 
 	char newPath[512];
-	snprintf(newPath, sizeof(newPath), "./%s/lib%s.so", pPath, pName);
+	snprintf(newPath, sizeof(newPath), "./plugins/lib%s.so", pName);
 
 	printf("LOG : Loading [ %s ]!\n", newPath);
 

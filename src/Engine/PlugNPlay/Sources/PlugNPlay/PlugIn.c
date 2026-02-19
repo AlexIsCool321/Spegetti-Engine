@@ -13,12 +13,12 @@
 PlugIn* plugins[MAX_PLUGINS];
 uint8_t pluginIndex = 0;
 
-PlugIn* LoadPlugIn(const char* pPath, const char* pName)
+PlugIn* LoadPlugIn(const char* pName)
 {
 	PlugIn* result = NULL;
 
 #ifdef __linux__
-	result = LINUX_LoadPlugIn(pPath, pName);
+	result = LINUX_LoadPlugIn(pName);
 #endif
 
 	if (!result)

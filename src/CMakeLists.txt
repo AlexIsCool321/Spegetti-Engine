@@ -15,4 +15,5 @@ set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 add_subdirectory("Third Party")
 
 add_subdirectory("Engine")
+add_subdirectory("Games")
 add_subdirectory("Plugins")
