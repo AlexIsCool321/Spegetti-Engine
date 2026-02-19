@@ -92,7 +92,6 @@ void processNode(Mesh** pMeshes, uint8_t* pMeshCount, C_STRUCT aiNode* pNode, co
 		C_STRUCT aiMesh* mesh = meshes[nodeMesh];
 
 		Mesh* Rmesh = processMesh(mesh, pScene);
-		printf("MESH");
 		pMeshes[*pMeshCount] = Rmesh;
 		(*pMeshCount)++;
 	}

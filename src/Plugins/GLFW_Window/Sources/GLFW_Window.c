@@ -1,5 +1,7 @@
 #include <GLFW_Window/GLFW_Window.h>
 
+#include <GLFW_Window/Input.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -38,23 +40,27 @@ void* PLUGIN_CreateWindow(void** pArgs)
 	}
 	glfwMakeContextCurrent(result->m_window);
 
+	UpdateMouse(result->m_window);
+
 	return (IWindow*)result;
 }
 
 
 void PLUGIN_UpdateWindow(void** pArgs)
 {
-	GLFW_Window* window;
+	GLFW_Window* pWindow;
 	
 	{
 		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
 
 		if (!pArgs[0]) return;
 
-		window = (GLFW_Window*)pArgs[0];
+		pWindow = (GLFW_Window*)pArgs[0];
 	}
 
 	glfwPollEvents();
+
+	UpdateMouse(pWindow->m_window);
 }
 
 void PLUGIN_SwapWindowBuffers(void** pArgs)

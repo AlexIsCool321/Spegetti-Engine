@@ -8,6 +8,9 @@
 #include <System/IWindow.h>
 #include <System/Contex.h>
 
+#include <System/Input.h>
+#include <System/Key.h>
+
 #include <System/Renderer.h>
 
 #endif
