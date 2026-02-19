@@ -48,6 +48,19 @@ Vec3 CrossVector3(Vec3 pA, Vec3 pB)
 	return result;
 }
 
+
+Vec3 ScaleVector3(Vec3 pVector, float pScale)
+{
+	Vec3 result = pVector;
+
+	result.x *= pScale;
+	result.y *= pScale;
+	result.z *= pScale;
+
+	return result;
+}
+
+
 Vec3 AddVector3(Vec3 pA, Vec3 pB)
 {
 	Vec3 result;

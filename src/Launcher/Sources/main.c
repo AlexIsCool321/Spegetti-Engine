@@ -43,14 +43,34 @@ int main(int argc, char** argv)
 
 
 		// Position
-		camera.position.x += 0.1333 * (IsKeyPressed(window, KEY_D)		- IsKeyPressed(window, KEY_A)) * -cos((camera.rotation.y));
-		camera.position.z += 0.1333 * (IsKeyPressed(window, KEY_D)		- IsKeyPressed(window, KEY_A)) * sin((camera.rotation.y));
+		Vec3 InputDirection = Vector3
+		(
+			IsKeyPressed(window, KEY_D) - IsKeyPressed(window, KEY_A),
+			IsKeyPressed(window, KEY_SPACE) - IsKeyPressed(window, KEY_LEFT_SHIFT),
+			IsKeyPressed(window, KEY_W) - IsKeyPressed(window, KEY_S)
+		);
 
-		camera.position.y += 0.1333 * (IsKeyPressed(window, KEY_SPACE)	- IsKeyPressed(window, KEY_LEFT_SHIFT));
+		Vec3 Forward = Vector3
+		(
+			InputDirection.z * sin(camera.rotation.y),
+			0,
+			InputDirection.z * cos(camera.rotation.y)
+		);
+		Forward = ScaleVector3(Forward, 0.1333);
 
-		camera.position.x += 0.1333 * (IsKeyPressed(window, KEY_W)		- IsKeyPressed(window, KEY_S)) * sin((camera.rotation.y));
-		camera.position.z += 0.1333 * (IsKeyPressed(window, KEY_W)		- IsKeyPressed(window, KEY_S)) * cos((camera.rotation.y));
+		Vec3 Right = Vector3
+		(
+			InputDirection.x * -cos(camera.rotation.y),
+			0,
+			InputDirection.x * sin(camera.rotation.y)
+		);
+		Right = ScaleVector3(Right, 0.1333);
 
+		
+		camera.position = AddVector3(camera.position, Forward);
+		camera.position = AddVector3(camera.position, Right);
+
+		camera.position.y += 0.1333 * InputDirection.y;
 		
 		// Renderering
 		ClearScreen(Vector3(0, 1, 1));
