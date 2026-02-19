@@ -16,4 +16,3 @@ add_subdirectory("Third Party")
 
 add_subdirectory("Engine")
 add_subdirectory("Plugins")
-add_subdirectory("Launcher")

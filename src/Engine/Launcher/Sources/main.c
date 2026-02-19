@@ -45,9 +45,9 @@ int main(int argc, char** argv)
 		// Position
 		Vec3 InputDirection = Vector3
 		(
-			IsKeyPressed(window, KEY_D) - IsKeyPressed(window, KEY_A),
-			IsKeyPressed(window, KEY_SPACE) - IsKeyPressed(window, KEY_LEFT_SHIFT),
-			IsKeyPressed(window, KEY_W) - IsKeyPressed(window, KEY_S)
+			IsKeyPressed(window, KEY_D)		- IsKeyPressed(window, KEY_A),
+			IsKeyPressed(window, KEY_SPACE)	- IsKeyPressed(window, KEY_LEFT_SHIFT),
+			IsKeyPressed(window, KEY_W)		- IsKeyPressed(window, KEY_S)
 		);
 
 		Vec3 Forward = Vector3
