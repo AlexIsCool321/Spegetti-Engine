@@ -1,6 +1,6 @@
 #include <Renderer/Camera.h>
 
-#include <Math/DegRad.h>
+#include <Math/Utils.h>
 
 #include <stdio.h>
 

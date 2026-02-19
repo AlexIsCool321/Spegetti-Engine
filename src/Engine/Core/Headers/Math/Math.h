@@ -1,7 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
-#include <Math/DegRad.h>
+#include <Math/Utils.h>
 
 #include <Math/Vec3.h>
 

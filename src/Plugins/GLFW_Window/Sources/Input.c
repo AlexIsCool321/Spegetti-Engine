@@ -5,6 +5,9 @@
 
 #include <stdio.h>
 
+Vec2 MousePosition;
+Vec2 MouseMotion;
+
 void* PLUGIN_IsKeyPressed(void** pArgs)
 {
 	GLFW_Window* pWindow;
@@ -30,51 +33,29 @@ void* PLUGIN_IsKeyPressed(void** pArgs)
 
 void* PLUGIN_GetMouseMotion(void** pArgs)
 {
-	static double oldX = 0;
-	static double oldY = 0;
-	
-	GLFW_Window* pWindow;
-	
-	{
-		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
-
-		if (!pArgs[0]) return 0;
-
-		pWindow	= (GLFW_Window*)pArgs[0];
-	}
-
-	double x;
-	double y;
-	glfwGetCursorPos(pWindow->m_window, &x, &y);
-
-	Vec2 position = Vector2(oldX - x, oldY - y);
-
-	oldX = x;
-	oldY = y;
-
-	intptr_t result = (intptr_t)&position;
+	intptr_t result = (intptr_t)&MouseMotion;
 	return (void*)result;
 }
 
 void* PLUGIN_GetMousePosition(void** pArgs)
 {
-	GLFW_Window* pWindow;
-	
-	{
-		if (!pArgs[0]) printf("ERROR [PLUGIN] : WINDOW IS NULL!\n");
-
-		if (!pArgs[0]) return 0;
-
-		pWindow	= (GLFW_Window*)pArgs[0];
-	}
-
-	double x;
-	double y;
-	glfwGetCursorPos(pWindow->m_window, &x, &y);
-
-	Vec2 position = Vector2(x, y);
-
-	intptr_t result = (intptr_t)&position;
-
+	intptr_t result = (intptr_t)&MousePosition;
 	return (void*)result;
+}
+
+void UpdateMouse(GLFWwindow* pWindow)
+{
+	static double oldX = 0;
+	static double oldY = 0;
+
+	double X;
+	double Y;
+	glfwGetCursorPos(pWindow, &X, &Y);
+
+	MousePosition = Vector2(X, Y);
+
+	MouseMotion = Vector2(oldX - X, oldY - Y);
+
+	oldX = MousePosition.x;
+	oldY = MousePosition.y;
 }
