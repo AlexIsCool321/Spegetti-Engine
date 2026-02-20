@@ -10,12 +10,12 @@
 
 #define MAX_GAMES 64
 
-Game* games[MAX_GAMES];
+PLUGNPLAY_Game* games[MAX_GAMES];
 uint8_t gameIndex = 0;
 
-Game* LoadGame(const char* pName)
+PLUGNPLAY_Game* PLUGNPLAY_LoadGame(const char* pName)
 {
-	Game* result = NULL;
+	PLUGNPLAY_Game* result = NULL;
 
 #ifdef __linux__
 	result = LINUX_LoadGame(pName);
@@ -33,7 +33,7 @@ Game* LoadGame(const char* pName)
 	return result;
 }
 
-void* CallGameFunction(const char* pName, void** args)
+void* PLUGNPLAY_CallGameFunction(const char* pName, void** args)
 {
 	void* result = NULL;
 	uint8_t successful = 0;
@@ -59,7 +59,7 @@ void* CallGameFunction(const char* pName, void** args)
 	return result;
 }
 
-void UnloadGame(Game* pGame)
+void PLUGNPLAY_UnloadGame(PLUGNPLAY_Game* pGame)
 {
 #ifdef __linux__
 	LINUX_UnloadGame(pGame);
@@ -68,13 +68,13 @@ void UnloadGame(Game* pGame)
 
 
 
-void UnloadAllGames()
+void PLUGNPLAY_UnloadAllGames()
 {
 	printf("LOG : Unloading ALL Games!\n");
 
 	for (uint8_t i = 0; i < gameIndex; i++)
 	{
-		UnloadGame(games[i]);
+		PLUGNPLAY_UnloadGame(games[i]);
 	}
 
 	printf("LOG : Unloaded ALL Games Successfully!\n");

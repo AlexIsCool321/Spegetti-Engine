@@ -2,7 +2,9 @@
 
 #include <stdio.h>
 
-void DemoInit()
+void GameInit()
 {
 	printf("Hello World From Demo!\n");
+
+	Model* model = LoadModel("cube", "obj");
 }

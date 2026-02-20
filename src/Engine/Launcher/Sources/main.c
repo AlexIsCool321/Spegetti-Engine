@@ -24,6 +24,8 @@ int main(int argc, char** argv)
 	void* address = GetWindowProcedureAddress(window);
 	InitRenderer(address);
 
+	LoadGame("Demo");
+
 	Model* model = LoadModel("cube", "obj");
 
 	Camera camera = CreateCamera(Vector3(0, 0, -2), Vector3(0, 0, 0), 90.0f);

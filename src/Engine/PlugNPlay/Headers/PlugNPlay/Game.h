@@ -6,16 +6,16 @@ typedef struct
 	void* m_handle;
 	
 	const char* m_name;
-} Game;
+} PLUGNPLAY_Game;
 
-extern Game* games[64];
+extern PLUGNPLAY_Game* games[64];
 
-Game* LoadGame(const char* pName);
+PLUGNPLAY_Game* PLUGNPLAY_LoadGame(const char* pName);
 
-void* CallGameFunction(const char* pName, void** args);
+void* PLUGNPLAY_CallGameFunction(const char* pName, void** args);
 
-void UnloadGame(Game* pGame);
+void PLUGNPLAY_UnloadGame(PLUGNPLAY_Game* pGame);
 
-void UnloadAllGames();
+void PLUGNPLAY_UnloadAllGames();
 
 #endif

@@ -1,6 +1,9 @@
 #ifndef DEMO_H
 #define DEMO_H
 
-void DemoInit();
+#include <Renderer/Renderer.h>
+#include <System/System.h>
+
+void GameInit();
 
 #endif
