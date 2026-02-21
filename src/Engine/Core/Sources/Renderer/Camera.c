@@ -6,6 +6,8 @@
 
 #include <math.h>
 
+Camera* CurrentCamera;
+
 Matrix CreateProjectionMatrix(float pFov, double pAspectRatio, float pNear)
 {
 	Matrix result = CreateEmptyMatrix();
@@ -51,4 +53,15 @@ Camera CreateCamera(Vec3 pPosition, Vec3 pRotation, float pFov)
 	result.m_projection = CreateProjectionMatrix(pFov, 4/3, 0.001f);
 
 	return result;
+}
+
+
+void SetCurrentCamera(Camera* pCamera)
+{
+	CurrentCamera = pCamera;
+}
+
+Camera* GetCurrentCamera()
+{
+	return CurrentCamera;
 }

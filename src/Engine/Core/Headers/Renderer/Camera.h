@@ -18,4 +18,7 @@ Matrix CreateProjectionMatrix(float pFov, double pAspectRatio, float pNear);
 
 Camera CreateCamera(Vec3 pPosition, Vec3 pRotation, float pFov);
 
+void SetCurrentCamera(Camera* pCamera);
+Camera* GetCurrentCamera();
+
 #endif
