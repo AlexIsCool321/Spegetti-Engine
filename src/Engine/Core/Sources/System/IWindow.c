@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+IWindow* CurrentWindow;
+
 IWindow* CreateWindow(unsigned int pWidth, unsigned int pHeight, const char* pTitle)
 {
 	void* args[3] =
@@ -13,6 +15,25 @@ IWindow* CreateWindow(unsigned int pWidth, unsigned int pHeight, const char* pTi
 	};
 
 	return (IWindow*)CallPlugInFunction("PLUGIN_CreateWindow", args);
+}
+
+
+void SetCurrentWindow(IWindow* pWindow)
+{
+	if (!pWindow)
+	{
+		printf("ERROR : WINDOW IS NULL!\n");
+		return;
+	}
+
+	CurrentWindow = pWindow;
+}
+
+IWindow* GetCurrentWindow()
+{
+	if (!CurrentWindow) printf("WARN : CurrentWindow is NULL, please use [ SetCurrentWindow ].\n");
+
+	return CurrentWindow;
 }
 
 
