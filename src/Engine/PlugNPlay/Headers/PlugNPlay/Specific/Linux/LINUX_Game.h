@@ -6,11 +6,11 @@
 #include <PlugNPlay/Game.h>
 #include <stdint.h>
 
-Game* LINUX_LoadGame(const char* pName);
+PLUGNPLAY_Game* LINUX_LoadGame(const char* pName);
 
-uint8_t LINUX_CallGameFunction(Game* pGame, void** result, const char* pName, void** args);
+uint8_t LINUX_CallGameFunction(PLUGNPLAY_Game* pGame, void** result, const char* pName, void** args);
 
-void LINUX_UnloadGame(Game* pGame);
+void LINUX_UnloadGame(PLUGNPLAY_Game* pGame);
 
 #endif
 

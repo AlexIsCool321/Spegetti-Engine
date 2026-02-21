@@ -3,4 +3,6 @@
 
 #include <PlugNPlay/PlugIn.h>
 
+#include <PlugNPlay/Game.h>
+
 #endif

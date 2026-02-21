@@ -10,9 +10,9 @@
 
 #include <dlfcn.h>
 
-Game* LINUX_LoadGame(const char* pName)
+PLUGNPLAY_Game* LINUX_LoadGame(const char* pName)
 {
-	Game* result = (Game*)malloc(sizeof(Game));
+	PLUGNPLAY_Game* result = (PLUGNPLAY_Game*)malloc(sizeof(PLUGNPLAY_Game));
 
 	result->m_name = pName;
 
@@ -39,7 +39,7 @@ Game* LINUX_LoadGame(const char* pName)
 }
 
 
-uint8_t LINUX_CallGameFunction(Game* pGame, void** result, const char* pName, void** args)
+uint8_t LINUX_CallGameFunction(PLUGNPLAY_Game* pGame, void** result, const char* pName, void** args)
 {
 	void* addr = dlsym(pGame->m_handle, pName);
 	if (!addr) return 0;
@@ -52,7 +52,7 @@ uint8_t LINUX_CallGameFunction(Game* pGame, void** result, const char* pName, vo
 }
 
 
-void LINUX_UnloadGame(Game* pGame)
+void LINUX_UnloadGame(PLUGNPLAY_Game* pGame)
 {
 	if (!pGame)
 	{

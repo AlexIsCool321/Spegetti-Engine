@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-void DemoInit()
+void GameInit()
 {
 	printf("Hello World From Demo!\n");
 }
