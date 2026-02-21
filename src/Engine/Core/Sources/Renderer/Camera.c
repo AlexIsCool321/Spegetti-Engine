@@ -58,10 +58,18 @@ Camera CreateCamera(Vec3 pPosition, Vec3 pRotation, float pFov)
 
 void SetCurrentCamera(Camera* pCamera)
 {
+	if (!pCamera)
+	{
+		printf("ERROR : CAMERA IS NULL!\n");
+		return;
+	}
+
 	CurrentCamera = pCamera;
 }
 
 Camera* GetCurrentCamera()
 {
+	if (!CurrentCamera) printf("WARN : CurrentCamera is NULL, please set it using [ SetCurrentCamera ] function.\n");
+
 	return CurrentCamera;
 }

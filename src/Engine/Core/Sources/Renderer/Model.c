@@ -24,6 +24,8 @@ Model* CreateModel(Mesh** pMeshes, uint8_t pMeshCount)
 
 void DrawModel(Model* pModel)
 {
+	if (!GetCurrentCamera()) return;
+	
 	{
 		if (!pModel) printf("ERROR : MODEL IS NULL!\n");
 

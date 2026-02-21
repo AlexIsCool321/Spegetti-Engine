@@ -30,6 +30,8 @@ Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pInd
 
 void DrawMesh(Mesh* pMesh)
 {
+	if (!GetCurrentCamera()) return;
+	
 	{
 		if (!pMesh) printf("ERROR : MESH IS NULL!\n");
 

@@ -26,6 +26,7 @@ int main(int argc, char** argv)
 	Model* model = LoadModel("cube", "obj");
 
 	Camera camera = CreateCamera(Vector3(0, 0, -2), Vector3(0, 0, 0), 90.0f);
+	SetCurrentCamera(&camera);
 
 	for(;;)
 	{
@@ -75,7 +76,7 @@ int main(int argc, char** argv)
 		// Renderering
 		ClearScreen(Vector3(0, 1, 1));
 
-		DrawModel(model, &camera);
+		DrawModel(model);
 		
 		SwapWindowBuffers(window);
 	}
