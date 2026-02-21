@@ -1,8 +1,6 @@
 #include <Core/Core.h>
 #include <PlugNPlay/PlugNPlay.h>
 
-#include <math.h>
-
 #include <stdio.h>
 
 int main(int argc, char** argv)
@@ -30,9 +28,6 @@ int main(int argc, char** argv)
 
 	Model* model = LoadModel("cube", "obj");
 
-	Camera camera = CreateCamera(Vector3(0, 0, -2), Vector3(0, 0, 0), 90.0f);
-	SetCurrentCamera(&camera);
-
 	for(;;)
 	{
 		UpdateWindow(window);
@@ -41,43 +36,6 @@ int main(int argc, char** argv)
 		ResizeScreen(GetWindowSize(window));
 
 		UpdateEntity(freecam);
-		// FreeCam
-		// Rotation
-		camera.rotation.y += GetMouseMotion().x * 0.005;
-		camera.rotation.x += GetMouseMotion().y * 0.005;
-
-		camera.rotation.x = ClampFloat(camera.rotation.x, DegToRad(-89.9), DegToRad(89.9));
-
-
-		// Position
-		Vec3 InputDirection = Vector3
-		(
-			IsKeyPressed(KEY_D)		- IsKeyPressed(KEY_A),
-			IsKeyPressed(KEY_SPACE)	- IsKeyPressed(KEY_LEFT_SHIFT),
-			IsKeyPressed(KEY_W)		- IsKeyPressed(KEY_S)
-		);
-
-		Vec3 Forward = Vector3
-		(
-			InputDirection.z * sin(camera.rotation.y),
-			0,
-			InputDirection.z * cos(camera.rotation.y)
-		);
-		Forward = ScaleVector3(Forward, 0.1333);
-
-		Vec3 Right = Vector3
-		(
-			InputDirection.x * -cos(camera.rotation.y),
-			0,
-			InputDirection.x * sin(camera.rotation.y)
-		);
-		Right = ScaleVector3(Right, 0.1333);
-
-		
-		camera.position = AddVector3(camera.position, Forward);
-		camera.position = AddVector3(camera.position, Right);
-
-		camera.position.y += 0.1333 * InputDirection.y;
 		
 		// Renderering
 		ClearScreen(Vector3(0, 1, 1));
