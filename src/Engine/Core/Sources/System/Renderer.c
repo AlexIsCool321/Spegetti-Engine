@@ -115,6 +115,12 @@ Mesh* processMesh(C_STRUCT aiMesh* pMesh, const C_STRUCT aiScene* pScene)
 		vertex->position.x = pMesh->mVertices[i].x;
 		vertex->position.y = pMesh->mVertices[i].y;
 		vertex->position.z = pMesh->mVertices[i].z;
+
+		if(pMesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
+		{
+			vertex->uv.x = pMesh->mTextureCoords[0][i].x; 
+			vertex->uv.y = pMesh->mTextureCoords[0][i].y;
+		}
 	}
 	
 	for (unsigned int i = 0; i < pMesh->mNumFaces; i++)

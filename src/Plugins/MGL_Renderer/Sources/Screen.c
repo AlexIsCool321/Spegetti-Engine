@@ -18,7 +18,7 @@ void PLUGIN_ClearScreen(void** pArgs)
 	}
 
 	glClearColor(pColor.x, pColor.y, pColor.z, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void PLUGIN_ResizeScreen(void** pArgs)
