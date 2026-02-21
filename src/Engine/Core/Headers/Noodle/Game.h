@@ -1,11 +1,13 @@
 #ifndef NOODLE_GAME_H
 #define NOODLE_GAME_H
 
-#include <PlugNPlay/Game.h>
+#include <stdint.h>
+
+#define MAX_GAMES 64
 
 typedef struct
 {
-	PLUGNPLAY_Game* m_game;
+	void* m_game;
 } Game;
 
 Game* LoadGame(const char* pName);

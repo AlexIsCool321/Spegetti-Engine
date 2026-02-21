@@ -26,6 +26,8 @@ int main(int argc, char** argv)
 
 	LoadGame("Demo");
 
+	Entity* freecam = CreateEntity("FreeCam", "FreeCam");
+
 	Model* model = LoadModel("cube", "obj");
 
 	Camera camera = CreateCamera(Vector3(0, 0, -2), Vector3(0, 0, 0), 90.0f);
@@ -38,6 +40,7 @@ int main(int argc, char** argv)
 		if (!IsWindowOpen(window)) break;
 		ResizeScreen(GetWindowSize(window));
 
+		UpdateEntity(freecam);
 		// FreeCam
 		// Rotation
 		camera.rotation.y += GetMouseMotion().x * 0.005;
@@ -85,6 +88,8 @@ int main(int argc, char** argv)
 	}
 
 	DestroyWindow(window);
+
+	DestroyEntity(freecam);
 
 	DestroyModel(model);
 

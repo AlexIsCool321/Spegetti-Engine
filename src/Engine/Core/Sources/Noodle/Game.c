@@ -1,5 +1,7 @@
 #include <Noodle/Game.h>
 
+#include <PlugNPlay/PlugNPlay.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -27,7 +29,7 @@ void UnloadGame(Game* pGame)
 		printf("ERROR : GAME IS NULL!\n");
 		return;
 	}
-
+	
 	PLUGNPLAY_UnloadGame(pGame->m_game);
 	free(pGame);
 }

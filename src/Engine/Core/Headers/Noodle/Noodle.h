@@ -3,4 +3,6 @@
 
 #include <Noodle/Game.h>
 
+#include <Noodle/Entity.h>
+
 #endif

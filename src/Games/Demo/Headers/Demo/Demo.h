@@ -1,8 +1,7 @@
 #ifndef DEMO_H
 #define DEMO_H
 
-#include <Renderer/Renderer.h>
-#include <System/System.h>
+#include <Core/Core.h>
 
 void GameInit();
 

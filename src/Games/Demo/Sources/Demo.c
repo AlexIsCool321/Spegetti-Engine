@@ -5,6 +5,4 @@
 void GameInit()
 {
 	printf("Hello World From Demo!\n");
-
-	Model* model = LoadModel("cube", "obj");
 }
