@@ -13,6 +13,9 @@ typedef struct
 
 IWindow* CreateWindow(unsigned int pWidth, unsigned int pHeight, const char* pTitle);
 
+void SetCurrentWindow(IWindow* pWindow);
+IWindow* GetCurrentWindow();
+
 void UpdateWindow(IWindow* pWindow);
 void SwapWindowBuffers(IWindow* pWindow);
 

@@ -8,9 +8,9 @@
 
 #include <stdint.h>
 
-uint8_t IsKeyPressed(IWindow* pWindow, KEY pKey);
+uint8_t IsKeyPressed(KEY pKey);
 
-Vec2 GetMouseMotion(IWindow* pWindow);
-Vec2 GetMousePosition(IWindow* pWindow);
+Vec2 GetMouseMotion();
+Vec2 GetMousePosition();
 
 #endif

@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 	Instance* instance = CreateInstance();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
+	SetCurrentWindow(window);
 	AttachSurfaceAndInstanceToWindow(window, surface, instance);
 
 	void* address = GetWindowProcedureAddress(window);
@@ -37,8 +38,8 @@ int main(int argc, char** argv)
 
 		// FreeCam
 		// Rotation
-		camera.rotation.y += GetMouseMotion(window).x * 0.005;
-		camera.rotation.x += GetMouseMotion(window).y * 0.005;
+		camera.rotation.y += GetMouseMotion().x * 0.005;
+		camera.rotation.x += GetMouseMotion().y * 0.005;
 
 		camera.rotation.x = ClampFloat(camera.rotation.x, DegToRad(-89.9), DegToRad(89.9));
 
@@ -46,9 +47,9 @@ int main(int argc, char** argv)
 		// Position
 		Vec3 InputDirection = Vector3
 		(
-			IsKeyPressed(window, KEY_D)		- IsKeyPressed(window, KEY_A),
-			IsKeyPressed(window, KEY_SPACE)	- IsKeyPressed(window, KEY_LEFT_SHIFT),
-			IsKeyPressed(window, KEY_W)		- IsKeyPressed(window, KEY_S)
+			IsKeyPressed(KEY_D)		- IsKeyPressed(KEY_A),
+			IsKeyPressed(KEY_SPACE)	- IsKeyPressed(KEY_LEFT_SHIFT),
+			IsKeyPressed(KEY_W)		- IsKeyPressed(KEY_S)
 		);
 
 		Vec3 Forward = Vector3
