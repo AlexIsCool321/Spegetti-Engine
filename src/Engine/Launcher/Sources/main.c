@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 	Instance* instance = CreateInstance();
 
 	IWindow* window = CreateWindow(800, 600, "Window");
+	SetCurrentWindow(window);
 	AttachSurfaceAndInstanceToWindow(window, surface, instance);
 
 	void* address = GetWindowProcedureAddress(window);
