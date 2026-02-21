@@ -11,7 +11,7 @@ typedef struct
 
 Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pIndices, unsigned int pIndicesSize, unsigned int pShader);
 
-void DrawMesh(Mesh* pMesh, Camera* pCamera);
+void DrawMesh(Mesh* pMesh);
 
 void DestroyMesh(Mesh* pMesh);
 

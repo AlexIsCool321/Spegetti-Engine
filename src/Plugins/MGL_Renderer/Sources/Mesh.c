@@ -70,31 +70,28 @@ void* PLUGIN_CreateMesh(void** pArgs)
 void PLUGIN_DrawMesh(void** pArgs)
 {
 	MGL_Mesh* pMesh;
-	Camera* pCamera;
 
 	{
 		if (!pArgs[0]) printf("ERROR [PLUGIN] : MESH IS NULL!\n");
-		if (!pArgs[1]) printf("ERROR [PLUGIN] : CAMERA IS NULL!\n");
 	
-		if (!pArgs[0] || !pArgs[1]) return;
+		if (!pArgs[0]) return;
 
 		pMesh = (MGL_Mesh*)pArgs[0];
-		pCamera = (Camera*)pArgs[1];
 	}
 
 	glUseProgram(pMesh->m_shader);
 
 	Vec3 front = Vector3
 	(
-		sin(pCamera->rotation.y) * cos(pCamera->rotation.x),
-		sin(pCamera->rotation.x),
-		cos(pCamera->rotation.y) * cos(pCamera->rotation.x)
+		sin(GetCurrentCamera()->rotation.y) * cos(GetCurrentCamera()->rotation.x),
+		sin(GetCurrentCamera()->rotation.x),
+		cos(GetCurrentCamera()->rotation.y) * cos(GetCurrentCamera()->rotation.x)
 	);
 
-	Matrix view = LookAtMatrix(pCamera->position, AddVector3(pCamera->position, front));
+	Matrix view = LookAtMatrix(GetCurrentCamera()->position, AddVector3(GetCurrentCamera()->position, front));
 
 	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uView"), 1, GL_FALSE, view.m_values);
-	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uProjection"), 1, GL_FALSE, pCamera->m_projection.m_values);
+	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uProjection"), 1, GL_FALSE, GetCurrentCamera()->m_projection.m_values);
 
 	glBindVertexArray(pMesh->m_VAO);
     glDrawElements(GL_TRIANGLES, pMesh->m_IndicesSize, GL_UNSIGNED_INT, 0);
