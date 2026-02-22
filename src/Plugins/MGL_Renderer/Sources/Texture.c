@@ -56,7 +56,12 @@ void* PLUGIN_CreateTexture(void** pArgs)
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	}
 
-	MGL_Texture texture;
+	MGL_Texture* texture = (MGL_Texture*)malloc(sizeof(MGL_Texture));
+	if (!texture)
+	{
+		printf("ERROR : FAIELD TO ALLOCATE MEMORY FOR TEXTURE!");
+		return NULL;
+	}
 
 	GLint minFilter;
 	GLint magFilter;
@@ -126,17 +131,15 @@ void* PLUGIN_CreateTexture(void** pArgs)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 
 
-	glGenTextures(1, &texture.id);
-	glBindTexture(GL_TEXTURE_2D, texture.id);
+	glGenTextures(1, &texture->id);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, colorRange, pWidth, pHeight, 0, colorRange, GL_UNSIGNED_BYTE, pData);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	void* result = &texture;
-
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 0);
 
-	return result;
+	return texture;
 }
 
 

@@ -2,14 +2,14 @@
 #define RENDERER_MESH_H
 
 #include <Renderer/Vertex.h>
-#include <Renderer/Camera.h>
+#include <Renderer/Shader.h>
 
 typedef struct
 {
 
 } Mesh;
 
-Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pIndices, unsigned int pIndicesSize, unsigned int pShader);
+Mesh* CreateMesh(Vertex* pVertices, unsigned int pVertexSize, unsigned int* pIndices, unsigned int pIndicesSize, Shader* pShader);
 
 void DrawMesh(Mesh* pMesh);
 

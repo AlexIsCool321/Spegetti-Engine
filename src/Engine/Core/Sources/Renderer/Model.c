@@ -1,4 +1,5 @@
 #include <Renderer/Model.h>
+#include <Renderer/Camera.h>
 
 #include <PlugNPlay/PlugNPlay.h>
 
@@ -19,7 +20,14 @@ Model* CreateModel(Mesh** pMeshes, uint8_t pMeshCount)
 		&pMeshCount
 	};
 
-	return (Model*)CallPlugInFunction("PLUGIN_CreateModel", args);
+	Model* result = (Model*)CallPlugInFunction("PLUGIN_CreateModel", args);
+	if (!result)
+	{
+		printf("ERROR : [ PLUGIN_CreateModel ] RETURNED NULL!\n");
+		return NULL;
+	}
+
+	return result;
 }
 
 void DrawModel(Model* pModel)

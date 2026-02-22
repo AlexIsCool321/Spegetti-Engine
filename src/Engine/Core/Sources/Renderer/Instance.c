@@ -7,7 +7,12 @@
 
 Instance* CreateInstance()
 {
-	void* result = CallPlugInFunction("PLUGIN_CreateInstance", NULL);
+	Instance* result = (Instance*)CallPlugInFunction("PLUGIN_CreateInstance", NULL);
+	if (!result)
+	{
+		printf("ERROR : [ PLUGIN_CreateInstance ] RETURNED NULL!\n");
+		return NULL;
+	}
 
-	return (Instance*)result;
+	return result;
 }

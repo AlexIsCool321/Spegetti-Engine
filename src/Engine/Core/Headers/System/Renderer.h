@@ -2,8 +2,9 @@
 #define SYSTEM_RENDERER_H
 
 #include <Renderer/Model.h>
+#include <Renderer/Shader.h>
 
-unsigned int LoadShader(const char* pType);
+Shader* LoadShader(const char* pType);
 
 Model* LoadModel(const char* pName, const char* pFormat);
 

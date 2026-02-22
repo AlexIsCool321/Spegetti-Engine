@@ -5,8 +5,13 @@
 
 #include <stdint.h>
 
-unsigned int CreateShader(const char* pVertex, const char* pFragment);
+typedef struct
+{
 
-void SetTextureUniform(unsigned int pShader, const char* pName, Texture* pTexture);
+} Shader;
+
+Shader* CreateShader(const char* pVertex, const char* pFragment);
+
+void SetTextureUniform(Shader* pShader, const char* pName, Texture* pTexture);
 
 #endif

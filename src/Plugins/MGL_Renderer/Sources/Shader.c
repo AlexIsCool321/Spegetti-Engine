@@ -19,7 +19,7 @@ void* PLUGIN_CreateShader(void** pArgs)
 
 		if (!pArgs[0] || !pArgs[1]) return NULL;
 
-		pVertexShaderSource	= *(const char**)pArgs[0];
+		pVertexShaderSource		= *(const char**)pArgs[0];
 		pFragmentShaderSource	= *(const char**)pArgs[1];
 	}
 
@@ -59,32 +59,41 @@ void* PLUGIN_CreateShader(void** pArgs)
 
 
 	// Parent Shader
-	unsigned int result = glCreateProgram();
+	unsigned int shader = glCreateProgram();
 
-	glAttachShader(result, vertexShader);
-	glAttachShader(result, fragmentShader);
-	glLinkProgram(result);
+	glAttachShader(shader, vertexShader);
+	glAttachShader(shader, fragmentShader);
+	glLinkProgram(shader);
 
-	glGetProgramiv(result, GL_LINK_STATUS, &success);
+	glGetProgramiv(shader, GL_LINK_STATUS, &success);
 	if(!success)
 	{
-		glGetProgramInfoLog(result, sizeof(errorLog), NULL, errorLog);
+		glGetProgramInfoLog(shader, sizeof(errorLog), NULL, errorLog);
 		printf("ERROR [PLUGIN] : FAILED TO LINK SHADERS! : [ %s ]\n", errorLog);
 
 		return NULL;
 	}
 
-	glUseProgram(result);
+	glUseProgram(shader);
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	return (void*)(intptr_t)result;
+	MGL_Shader* result = (MGL_Shader*)malloc(sizeof(MGL_Shader));
+	if (!result)
+	{
+		printf("ERROR : FAILED TO ALLOCATE MEMORY FOR SHADER!\n");
+		return NULL;
+	}
+
+	result->id = shader;
+
+	return (void*)result;
 }
 
 void PLUGIN_SetTextureUniform(void** pArgs)
 {
-	unsigned int pShader;
+	MGL_Shader* pShader;
 	const char* pName;
 	MGL_Texture* pTexture;
 
@@ -95,10 +104,10 @@ void PLUGIN_SetTextureUniform(void** pArgs)
 
 		if (!pArgs[0] || !pArgs[1]) return;
 
-		pShader		=	*(unsigned int*)	pArgs[0];
-		pName		=	*(const char**)		pArgs[1];
-		pTexture	=	 (MGL_Texture*)		pArgs[2];
+		pShader		=	 (MGL_Shader*)	pArgs[0];
+		pName		=	*(const char**)	pArgs[1];
+		pTexture	=	 (MGL_Texture*)	pArgs[2];
 	}
 
-	glUniform1i(glGetUniformLocation(pShader, pName), pTexture->id);
+	glUniform1i(glGetUniformLocation(pShader->id, pName), pTexture->id);
 }

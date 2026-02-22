@@ -1,4 +1,5 @@
 #include <MGL_Renderer/Mesh.h>
+#include <MGL_Renderer/Shader.h>
 
 #include <Renderer/Mesh.h>
 #include <Renderer/Camera.h>
@@ -19,7 +20,7 @@ void* PLUGIN_CreateMesh(void** pArgs)
 	unsigned int pVertexSize;
 	unsigned int* pIndices;
 	unsigned int pIndicesSize;
-	unsigned int pShader;
+	MGL_Shader* pShader;
 
 	{
 		if (!pArgs[0]) printf("ERROR [PLUGIN] : VERTICES IS NULL!\n");
@@ -39,7 +40,7 @@ void* PLUGIN_CreateMesh(void** pArgs)
 		pIndices		=	 (unsigned int*)pArgs[2];
 		pIndicesSize	=	*(unsigned int*)pArgs[3];
 
-		pShader = *(unsigned int*)pArgs[4];
+		pShader = (MGL_Shader*)pArgs[4];
 	}
 
 	MGL_Mesh* result = (MGL_Mesh*)malloc(sizeof(MGL_Mesh));
@@ -84,7 +85,7 @@ void PLUGIN_DrawMesh(void** pArgs)
 		pMesh = (MGL_Mesh*)pArgs[0];
 	}
 
-	glUseProgram(pMesh->m_shader);
+	glUseProgram(pMesh->m_shader->id);
 
 	Vec3 front = Vector3
 	(
@@ -95,8 +96,8 @@ void PLUGIN_DrawMesh(void** pArgs)
 
 	Matrix view = LookAtMatrix(GetCurrentCamera()->position, AddVector3(GetCurrentCamera()->position, front));
 
-	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uView"), 1, GL_FALSE, view.m_values);
-	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader, "uProjection"), 1, GL_FALSE, GetCurrentCamera()->m_projection.m_values);
+	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader->id, "uView"), 1, GL_FALSE, view.m_values);
+	glUniformMatrix4fv(glGetUniformLocation(pMesh->m_shader->id, "uProjection"), 1, GL_FALSE, GetCurrentCamera()->m_projection.m_values);
 
 	glBindVertexArray(pMesh->m_VAO);
     glDrawElements(GL_TRIANGLES, pMesh->m_IndicesSize, GL_UNSIGNED_INT, 0);
