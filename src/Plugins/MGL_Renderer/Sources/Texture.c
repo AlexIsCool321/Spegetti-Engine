@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define MISSING_WIDTH	64
-#define MISSING_HEIGHT	64
-
 void* PLUGIN_CreateTexture(void** pArgs)
 {
 	unsigned int pWidth;
@@ -39,23 +36,24 @@ void* PLUGIN_CreateTexture(void** pArgs)
 	{
 		printf("ERROR : TEXTURE DATA IS NULL!\n");
 		
-		pWidth = MISSING_WIDTH;
-		pHeight = MISSING_HEIGHT;
-		pData = (unsigned char*)malloc(MISSING_HEIGHT * MISSING_WIDTH * 3);
+		pWidth	= 2;
+		pHeight	= 2;
+
+		unsigned char newData[12] =
+		{
+			200,	20,	150,
+			0,		0,	0,
+			0,		0,	0,
+			200,	20,	150
+		};
+
+		pData = newData;
+
 		pFilterMode = NEAREST;
 		pRepeatMode = REPEAT;
 		pColorRange = RGB;
 
-		for (unsigned int y = 0; y < MISSING_HEIGHT; y++)
-		{
-			for (unsigned int x = 0; x < MISSING_WIDTH; x++)
-			{
-				int index = ((y * MISSING_WIDTH) + x) * 3;
-				pData[index]		= (x % 255);	// R
-				pData[index + 1]	= (y % 255);	// G
-				pData[index + 2]	= 128;			// B
-			}
-		}
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	}
 
 	MGL_Texture texture;
@@ -135,6 +133,9 @@ void* PLUGIN_CreateTexture(void** pArgs)
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	void* result = &texture;
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 0);
+
 	return result;
 }
 

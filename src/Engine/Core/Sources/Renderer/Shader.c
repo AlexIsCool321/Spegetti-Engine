@@ -23,16 +23,19 @@ unsigned int CreateShader(const char* pVertex, const char* pFragment)
 	return (unsigned int)result;
 }
 
-void SetTextureUniform(unsigned int pShader, Texture* pTexture)
+void SetTextureUniform(unsigned int pShader, const char* pName, Texture* pTexture)
 {
 	{
+		if (!pName)		printf("ERROR : NAME IS NULL!\n");
 		if (!pTexture)	printf("ERROR : TEXURE IS NULL!\n");
 
-		if (!pTexture) return;
+		if (!pTexture || !pName) return;
 	}
 
-	void* args[1] =
+	void* args[3] =
 	{
+		&pShader,
+		&pName,
 		pTexture
 	};
 

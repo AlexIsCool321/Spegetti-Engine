@@ -7,6 +7,6 @@
 
 unsigned int CreateShader(const char* pVertex, const char* pFragment);
 
-void SetTextureUniform(unsigned int pShader, Texture* pTexture);
+void SetTextureUniform(unsigned int pShader, const char* pName, Texture* pTexture);
 
 #endif
