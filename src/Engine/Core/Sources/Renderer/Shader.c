@@ -22,3 +22,19 @@ unsigned int CreateShader(const char* pVertex, const char* pFragment)
 	intptr_t result = (intptr_t)CallPlugInFunction("PLUGIN_CreateShader", args);
 	return (unsigned int)result;
 }
+
+void SetTextureUniform(unsigned int pShader, Texture* pTexture)
+{
+	{
+		if (!pTexture)	printf("ERROR : TEXURE IS NULL!\n");
+
+		if (!pTexture) return;
+	}
+
+	void* args[1] =
+	{
+		pTexture
+	};
+
+	CallPlugInFunction("PLUGIN_SetTextureUniform", args);
+}
