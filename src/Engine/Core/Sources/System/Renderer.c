@@ -134,6 +134,11 @@ Mesh* processMesh(C_STRUCT aiMesh* pMesh, const C_STRUCT aiScene* pScene)
 		}
 	}
 
+	Texture texture = CreateTexture(0, 0, NULL, 0, 0, 0);
+	BindTexture(&texture);
+
 	unsigned int shader = LoadShader("pbr");
+	SetTextureUniform(shader, &texture);
+	
 	return CreateMesh(vertices, pMesh->mNumVertices, indices, pMesh->mNumFaces * 3, shader);
 }
