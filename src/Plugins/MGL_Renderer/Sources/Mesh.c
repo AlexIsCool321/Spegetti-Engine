@@ -59,8 +59,13 @@ void* PLUGIN_CreateMesh(void** pArgs)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, result->m_EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, pIndicesSize * sizeof(unsigned int), &pIndices[0], GL_STATIC_DRAW);
 
-	glEnableVertexAttribArray(0);	
+
+	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+
 
 	glBindVertexArray(0);
 

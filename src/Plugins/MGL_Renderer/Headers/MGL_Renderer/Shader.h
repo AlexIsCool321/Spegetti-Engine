@@ -3,4 +3,6 @@
 
 void* PLUGIN_CreateShader(void** pArgs);
 
+void PLUGIN_SetTextureUniform(void** pArgs);
+
 #endif

@@ -1,5 +1,7 @@
 #include <MGL_Renderer/Shader.h>
 
+#include <MGL_Renderer/Texture.h>
+
 #include <glad/gl.h>
 
 #include <stdio.h>
@@ -78,4 +80,25 @@ void* PLUGIN_CreateShader(void** pArgs)
 	glDeleteShader(fragmentShader);
 
 	return (void*)(intptr_t)result;
+}
+
+void PLUGIN_SetTextureUniform(void** pArgs)
+{
+	unsigned int pShader;
+	const char* pName;
+	MGL_Texture* pTexture;
+
+	{
+		if (!pArgs[0]) printf("ERROR [PLUGIN] : SHADER IS NULL!\n");
+		if (!pArgs[1]) printf("ERROR [PLUGIN] : NAME IS NULL!\n");
+		if (!pArgs[2]) printf("ERROR [PLUGIN] : TEXTURE IS NULL!\n");
+
+		if (!pArgs[0] || !pArgs[1]) return;
+
+		pShader		=	*(unsigned int*)	pArgs[0];
+		pName		=	*(const char**)		pArgs[1];
+		pTexture	=	 (MGL_Texture*)		pArgs[2];
+	}
+
+	glUniform1i(glGetUniformLocation(pShader, pName), pTexture->id);
 }

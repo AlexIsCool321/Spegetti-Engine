@@ -25,6 +25,8 @@ void PLUGIN_InitRenderer(void** pArgs)
 		return;
 	}
 
+	glEnable(GL_DEPTH_TEST);
+
 	printf("Initialized OpenGL Successfully!\n");
 }
 
