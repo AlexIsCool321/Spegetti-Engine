@@ -3,6 +3,7 @@
 #include <PlugNPlay/PlugNPlay.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 uint8_t IsKeyPressed(KEY pKey)
 {
@@ -10,30 +11,39 @@ uint8_t IsKeyPressed(KEY pKey)
 	{
 		&pKey
 	};
+	uint8_t* result = (uint8_t*)CallPlugInFunction("PLUGIN_IsKeyPressed", args);
+	if (!result)
+	{
+		printf("ERROR : [ PLUGIN_IsKeyPressed ] RETURN NULL!\n");
+		return 0;
+	}
 
-	return (uint8_t)(intptr_t)CallPlugInFunction("PLUGIN_IsKeyPressed", args);
+	uint8_t pressed = *result;
+	free(result);
+
+	return pressed;
 }
 
 Vec2 GetMouseMotion()
 {
-	void* result = CallPlugInFunction("PLUGIN_GetMouseMotion", NULL);
+	Vec2* result = (Vec2*)CallPlugInFunction("PLUGIN_GetMouseMotion", NULL);
 	if (!result)
 	{
-		printf("ERROR : MOUSE MOTION IS NULL!\n");
+		printf("ERROR : [ PLUGIN_GetMouseMotion ] RETURN NULL!\n");
 		return Vector2(0, 0);
 	}
 
-	return *(Vec2*)result;
+	return *result;
 }
 
 Vec2 GetMousePosition()
 {
-	void* result = CallPlugInFunction("PLUGIN_GetMousePosition", NULL);
+	Vec2* result = (Vec2*)CallPlugInFunction("PLUGIN_GetMousePosition", NULL);
 	if (!result)
 	{
-		printf("ERROR : MOUSE POSITION IS NULL!\n");
+		printf("ERROR : [ PLUGIN_GetMousePosition ] RETURN NULL!\n");
 		return Vector2(0, 0);
 	}
 
-	return *(Vec2*)result;
+	return *result;
 }

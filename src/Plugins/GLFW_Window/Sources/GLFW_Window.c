@@ -40,7 +40,7 @@ void* PLUGIN_CreateWindow(void** pArgs)
 	}
 	glfwMakeContextCurrent(result->m_window);
 
-	UpdateMouse(result->m_window);
+	SetupMouseInput(result->m_window);
 
 	return (IWindow*)result;
 }
@@ -60,7 +60,7 @@ void PLUGIN_UpdateWindow(void** pArgs)
 
 	glfwPollEvents();
 
-	UpdateMouse(pWindow->m_window);
+	UpdateMouseInput(pWindow->m_window);
 }
 
 void PLUGIN_SwapWindowBuffers(void** pArgs)
