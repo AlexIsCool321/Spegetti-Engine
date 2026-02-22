@@ -7,6 +7,8 @@
 
 typedef struct
 {
+	IWindow base;
+	
 	GLFWwindow* m_window;
 } GLFW_Window;
 

@@ -3,13 +3,15 @@
 
 #include <Renderer/Mesh.h>
 
+#include <MGL_Renderer/Shader.h>
+
 typedef struct
 {
 	unsigned int m_VBO;
 	unsigned int m_VAO;
 	unsigned int m_EBO;
 
-	unsigned int m_shader;
+	MGL_Shader* m_shader;
 
 	unsigned int m_IndicesSize;
 } MGL_Mesh;

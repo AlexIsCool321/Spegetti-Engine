@@ -15,7 +15,7 @@
 void processNode(Mesh** pMeshes, uint8_t* pMeshCount, C_STRUCT aiNode *node, const C_STRUCT aiScene *scene);
 Mesh* processMesh(C_STRUCT aiMesh* pMesh, const C_STRUCT aiScene* pScene);
 
-unsigned int LoadShader(const char* pType)
+Shader* LoadShader(const char* pType)
 {
 	const char* vertex;
 	const char* fragment;
@@ -134,11 +134,11 @@ Mesh* processMesh(C_STRUCT aiMesh* pMesh, const C_STRUCT aiScene* pScene)
 		}
 	}
 
-	Texture texture = CreateTexture(0, 0, NULL, 0, 0, 0);
-	BindTexture(&texture);
+	Texture* texture = CreateTexture(0, 0, NULL, 0, 0, 0);
+	BindTexture(texture);
 
-	unsigned int shader = LoadShader("pbr");
-	SetTextureUniform(shader, "color", &texture);
+	Shader* shader = LoadShader("pbr");
+	SetTextureUniform(shader, "color", texture);
 
 	return CreateMesh(vertices, pMesh->mNumVertices, indices, pMesh->mNumFaces * 3, shader);
 }

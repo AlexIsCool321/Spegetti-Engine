@@ -7,7 +7,12 @@
 
 Surface* CreateSurface()
 {
-	void* result = CallPlugInFunction("PLUGIN_CreateSurface", NULL);
+	Surface* result = (Surface*)CallPlugInFunction("PLUGIN_CreateSurface", NULL);
+	if (!result)
+	{
+		printf("ERROR : [ PLUGIN_CreateSurface ] RETURNED NULL!\n");
+		return NULL;
+	}
 
-	return (Surface*)result;
+	return result;
 }

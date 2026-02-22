@@ -7,9 +7,9 @@
 
 void* PLUGIN_CreateWindow(void** pArgs)
 {
-	unsigned int width;
-	unsigned int height;
-	const char* title;
+	unsigned int pWidth;
+	unsigned int pHeight;
+	const char* pTitle;
 
 	{
 		if (!pArgs[0]) printf("ERROR [PLUGIN] : WIDTH IS NULL!\n");
@@ -18,9 +18,9 @@ void* PLUGIN_CreateWindow(void** pArgs)
 
 		if (!pArgs[0] || !pArgs[1] || !pArgs[2]) return NULL;
 
-		width	= *(unsigned int*)	pArgs[0];
-		height	= *(unsigned int*)	pArgs[1];
-		title	= *(const char**)	pArgs[2];
+		pWidth	= *(unsigned int*)	pArgs[0];
+		pHeight	= *(unsigned int*)	pArgs[1];
+		pTitle	= *(const char**)	pArgs[2];
 	}
 
 
@@ -32,7 +32,7 @@ void* PLUGIN_CreateWindow(void** pArgs)
 	}
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	result->m_window = glfwCreateWindow(width, height, title, NULL, NULL);
+	result->m_window = glfwCreateWindow(pWidth, pHeight, pTitle, NULL, NULL);
 	if (!result->m_window)
 	{
 		printf("ERROR [PLUGIN] : FAILED TO CREATE GLFW WINDO!\n");
@@ -40,7 +40,7 @@ void* PLUGIN_CreateWindow(void** pArgs)
 	}
 	glfwMakeContextCurrent(result->m_window);
 
-	UpdateMouse(result->m_window);
+	SetupMouseInput(result->m_window);
 
 	return (IWindow*)result;
 }
@@ -60,7 +60,7 @@ void PLUGIN_UpdateWindow(void** pArgs)
 
 	glfwPollEvents();
 
-	UpdateMouse(pWindow->m_window);
+	UpdateMouseInput(pWindow->m_window);
 }
 
 void PLUGIN_SwapWindowBuffers(void** pArgs)
@@ -91,8 +91,10 @@ void* PLUGIN_IsWindowOpen(void** pArgs)
 		window = (GLFW_Window*)pArgs[0];
 	}
 
-	uint8_t open = !glfwWindowShouldClose(window->m_window);
-	return (void*)(intptr_t)open;
+	uint8_t* result = (uint8_t*)malloc(sizeof(result));
+	*result = !glfwWindowShouldClose(window->m_window);
+
+	return (void*)result;
 }
 
 void* PLUGIN_GetWindowSize(void** pArgs)
@@ -111,11 +113,10 @@ void* PLUGIN_GetWindowSize(void** pArgs)
 	int height;
 	glfwGetWindowSize(window->m_window, &width, &height);
 
-	Vec2 size = Vector2(width, height);
+	Vec2* result = (Vec2*)malloc(sizeof(Vec2));
+	*result = Vector2(width, height);
 
-	void* result = &size;
-
-	return (void*)(intptr_t)result;
+	return (void*)result;
 }
 
 

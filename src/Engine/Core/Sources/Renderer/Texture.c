@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-Texture CreateTexture(unsigned int pWidth, unsigned int pHeight, unsigned char* pData, FILTER_MODE pFilterMode, REPEAT_MODE pRepeatMode, COLOR_RANGE pColorRange)
+Texture* CreateTexture(unsigned int pWidth, unsigned int pHeight, unsigned char* pData, FILTER_MODE pFilterMode, REPEAT_MODE pRepeatMode, COLOR_RANGE pColorRange)
 {
 	void* args[6] =
 	{
@@ -18,8 +18,14 @@ Texture CreateTexture(unsigned int pWidth, unsigned int pHeight, unsigned char* 
 		&pColorRange
 	};
 
-	intptr_t result = (intptr_t)CallPlugInFunction("PLUGIN_CreateTexture", args);
-	return *(Texture*)result;
+	Texture* result = (Texture*)CallPlugInFunction("PLUGIN_CreateTexture", args);
+	if (!result)
+	{
+		printf("ERROR : [ PLUGIN_CreateTexture ] RETURNED NULL!\n");
+		return NULL;
+	}
+
+	return result;
 }
 
 

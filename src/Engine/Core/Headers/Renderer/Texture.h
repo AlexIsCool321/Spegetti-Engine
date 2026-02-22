@@ -32,7 +32,7 @@ typedef enum
 } COLOR_RANGE;
 
 
-Texture CreateTexture(unsigned int pWidth, unsigned int pHeight, unsigned char* pData, FILTER_MODE pFilterMode, REPEAT_MODE pRepeatMode, COLOR_RANGE pColorRange);
+Texture* CreateTexture(unsigned int pWidth, unsigned int pHeight, unsigned char* pData, FILTER_MODE pFilterMode, REPEAT_MODE pRepeatMode, COLOR_RANGE pColorRange);
 
 void BindTexture(Texture* pTexture);
 void UnbindTexture(Texture* pTexture);

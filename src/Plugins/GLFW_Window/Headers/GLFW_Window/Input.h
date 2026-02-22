@@ -5,7 +5,8 @@
 
 #include <GLFW/glfw3.h>
 
-void UpdateMouse(GLFWwindow* pWindow);
+void SetupMouseInput(GLFWwindow* pWindow);
+void UpdateMouseInput(GLFWwindow* pWindow);
 
 void* PLUGIN_IsKeyPressed(void** pArgs);
 

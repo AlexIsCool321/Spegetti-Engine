@@ -14,7 +14,14 @@ IWindow* CreateWindow(unsigned int pWidth, unsigned int pHeight, const char* pTi
 		&pWidth, &pHeight, &pTitle
 	};
 
-	return (IWindow*)CallPlugInFunction("PLUGIN_CreateWindow", args);
+	IWindow* result = (IWindow*)CallPlugInFunction("PLUGIN_CreateWindow", args);
+	if (!result)
+	{
+		printf("ERROR : [ PLUGIN_CreateWindow ] RETURNED NULL!\n");
+		return NULL;
+	}
+
+	return result;
 }
 
 
@@ -83,9 +90,15 @@ uint8_t IsWindowOpen(IWindow* pWindow)
 		pWindow
 	};
 
-	intptr_t result = (intptr_t)CallPlugInFunction("PLUGIN_IsWindowOpen", args);
+	uint8_t* result = (uint8_t*)CallPlugInFunction("PLUGIN_IsWindowOpen", args);
+	if (!result)
+	{
+		printf("ERROR : [ PLUGIN_IsWindowOpen ] RETURNED NULL!\n");
+		return 0;
+	}
 
-	uint8_t open = (uint8_t)result;
+	uint8_t open = *result;
+	free(result);
 	
 	return open;
 }
@@ -103,14 +116,17 @@ Vec2 GetWindowSize(IWindow* pWindow)
 		pWindow
 	};
 
-	void* result = CallPlugInFunction("PLUGIN_GetWindowSize", args);
+	Vec2* result = (Vec2*)CallPlugInFunction("PLUGIN_GetWindowSize", args);
 	if (!result)
 	{
-		printf("ERROR : FAILED TO RETRIVE WINDOW SIZE!\n");
+		printf("ERROR : [ PLUGIN_GetWindowSize ] RETURNED NULL!\n");
 		return Vector2(0, 0);
 	}
 
-	return *(Vec2*)result;
+	Vec2 size = *result;
+	free(result);
+
+	return size;
 }
 
 
@@ -145,4 +161,6 @@ void DestroyWindow(IWindow* pWindow)
 	};
 
 	CallPlugInFunction("PLUGIN_DestroyWindow", args);
+
+	if (pWindow) free(pWindow);
 }
