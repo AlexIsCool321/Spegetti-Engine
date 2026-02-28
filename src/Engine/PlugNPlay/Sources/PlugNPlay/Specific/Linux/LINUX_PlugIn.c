@@ -21,7 +21,7 @@ PlugIn* LINUX_LoadPlugIn(const char* pName)
 
 	printf("LOG : Loading [ %s ]!\n", newPath);
 
-	result->m_handle = dlopen(newPath, RTLD_NOW | RTLD_LOCAL);   
+	result->m_handle = dlopen(newPath, RTLD_LAZY | RTLD_GLOBAL);   
 	if (!result->m_handle)
 	{
 		printf("ERROR : FAILED TO LOAD [ %s ]! : [ %s ]\n", newPath, dlerror());

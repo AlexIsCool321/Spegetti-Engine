@@ -6,6 +6,7 @@
 int main(int argc, char** argv)
 {
 	LoadPlugIn("GLFW_Window");
+	LoadPlugIn("File_Loading");
 	LoadPlugIn("MGL_Renderer");
 
 	InitSystem();
@@ -26,7 +27,7 @@ int main(int argc, char** argv)
 
 	Entity* freecam = CreateEntity("FreeCam", "FreeCam");
 
-	Model* model = LoadModel("cube", "obj");
+	Model* model = LoadModel("Monkey", "glb");
 
 	for(;;)
 	{
@@ -38,7 +39,7 @@ int main(int argc, char** argv)
 		UpdateEntity(freecam);
 		
 		// Renderering
-		ClearScreen(Vector3(0, 1, 1));
+		ClearScreen(Vector3(0, 0, 0));
 
 		DrawModel(model);
 		

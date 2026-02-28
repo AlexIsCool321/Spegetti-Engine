@@ -1,8 +1,7 @@
 #ifndef SYSTEM_RENDERER_H
 #define SYSTEM_RENDERER_H
 
-#include <Renderer/Model.h>
-#include <Renderer/Shader.h>
+#include <Renderer/Renderer.h>
 
 Shader* LoadShader(const char* pType);
 
